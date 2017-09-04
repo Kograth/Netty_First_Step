@@ -12,7 +12,7 @@ package ru.cse.proxysorter.Message;
 public class Responce12 {
       
     private byte Command = 0x00;  
-
+    //*********************************************Alarm
     /**
      * @return the Command
      */
