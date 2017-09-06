@@ -24,9 +24,7 @@ public class ProxySorterBuilder extends RouteBuilder {
             .process(new Processor() {
               @Override
              public void process(Exchange exchange) throws Exception {
-                //ByteBuffer b = ByteBuffer.wrap("Hello!!\n".getBytes());
-                //exchange.getOut().setBody(b);
-                
+               
                 exchange.getOut().setBody( exchange.getIn().getBody()) ;
              }
                })            
