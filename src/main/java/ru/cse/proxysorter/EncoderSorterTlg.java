@@ -17,8 +17,12 @@ public class EncoderSorterTlg extends MessageToByteEncoder<Object> {
 static final int MAX_PACKET_LENGHT=1024;
 static final int IN_BYTE_TYPE_MSG=2;
     @Override
-    protected void encode(ChannelHandlerContext chc, Object i, ByteBuf bb) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
+        String str = new String("Answer good");
+        byte[] arraybyte = str.getBytes();
+
+        out.writeBytes(arraybyte);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

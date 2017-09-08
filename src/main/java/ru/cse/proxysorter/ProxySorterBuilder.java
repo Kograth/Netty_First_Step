@@ -20,7 +20,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 //                .maximumRedeliveries(3)
 //                .backOffMultiplier(4)
 //                .retryAttemptedLogLevel(LoggingLevel.WARN));
-       from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&sync=true")
+       from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
             .process(new Processor() {
               @Override
              public void process(Exchange exchange) throws Exception {
