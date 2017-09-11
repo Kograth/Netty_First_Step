@@ -28,7 +28,7 @@ public class EncoderSorterTlg extends MessageToMessageEncoder<Object> {
         
             ByteBuf buf = ByteBufAllocator.DEFAULT.buffer(RE.length);
             buf.writeBytes(RE);        
-       list.add(buf);
+            list.add(buf);
         //bb.writeBytes(RE,IN_BYTE_TYPE_MSG, IN_BYTE_TYPE_MSG);
         
     }

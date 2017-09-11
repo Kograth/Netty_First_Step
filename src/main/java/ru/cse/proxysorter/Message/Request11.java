@@ -11,7 +11,7 @@ package ru.cse.proxysorter.Message;
  */
 public class Request11 {
     
-    private byte Command = 0x00;
+    private byte Command = 0x11;
     private byte[] codePLK = new byte[4];
     private short weight = 0;
     private short StateWeight = 0;   
