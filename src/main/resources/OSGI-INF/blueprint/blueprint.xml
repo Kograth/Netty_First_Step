@@ -11,7 +11,7 @@
              http://cxf.apache.org/blueprint/jaxws http://cxf.apache.org/schemas/blueprint/jaxws.xsd
              http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
   
-    <bean id="ProxySorterBuilder" class="ru.cse.proxysorter.ProxySorterBuilder"/>
+   <bean id="ProxySorterBuilder" class="ru.cse.proxysorter.ProxySorterBuilder"/>
    <bean id="length-DecoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createDecoderSorterTlg"/>
    <bean id="length-EncoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createEncoderSorterTlg"/>
     <camelContext xmlns="http://camel.apache.org/schema/blueprint">
