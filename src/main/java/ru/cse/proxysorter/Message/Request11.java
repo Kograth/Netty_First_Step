@@ -5,6 +5,10 @@
  */
 package ru.cse.proxysorter.Message;
 
+import io.netty.buffer.ByteBuf;
+
+import java.util.List;
+
 /**
  *
  * @author Oleynik
@@ -20,7 +24,29 @@ public class Request11 {
     private short height = 0;
     private short stateSize  = 0;     
     private String barcode;     
-    
+
+
+    public  List ReadMessage(ByteBuf msg, List<Object> out) {
+
+        for (int i = 0; i < msg.capacity(); i ++) {
+            if (msg.readableBytes() < 4) {
+                return out;
+            }
+
+            msg.markReaderIndex();
+//            int length = msg.readInt();
+//
+//            if (msg.readableBytes() < length) {
+//                msg.resetReaderIndex();
+//                return out;
+//            }
+
+            out.add(msg.readBytes(length));
+
+        }
+        return out;
+    }
+
     /**
      * @return the Comand
      */

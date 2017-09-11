@@ -8,8 +8,8 @@
     <groupId>ru.cse</groupId>
     <artifactId>ProxySorter</artifactId>
     <packaging>bundle</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>Прокси сервер для сортировочной машины</name>
+    <version>1.0.1.2T</version>
+    <name>ProxyServerBySort</name>
     
     <properties>
        <camel.version>2.16.5</camel.version>
@@ -37,6 +37,11 @@
             <artifactId>hamcrest-core</artifactId>
             <version>1.3</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>4.3.1</version>
         </dependency>
     </dependencies>
 
@@ -75,6 +80,5 @@
             </plugin>
         </plugins>
     </build>
-    <description>Прокси сервер для сортировочной машины.
-будет работь как TCP сервер</description>
+    <description>Proxy server for sorting machine TCP</description>
 </project>
