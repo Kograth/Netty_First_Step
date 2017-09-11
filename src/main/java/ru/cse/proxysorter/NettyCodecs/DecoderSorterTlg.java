@@ -8,7 +8,6 @@ package ru.cse.proxysorter.NettyCodecs;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import java.util.List;
 import ru.cse.proxysorter.Message.Request11;
