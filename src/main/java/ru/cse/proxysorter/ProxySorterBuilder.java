@@ -25,10 +25,11 @@ public class ProxySorterBuilder extends RouteBuilder {
               @Override
              public void process(Exchange exchange) throws Exception {
                
-                exchange.getOut().setBody( exchange.getIn().getBody()) ;
+                exchange.getOut().setBody(exchange.getIn().getBody()) ;
              }
                })            
-           .to("mock:Result");
+           .to("cxfbean:itemRestService");
+            //.convertBodyTo();//.to("mock:Result");
 
   
     }
