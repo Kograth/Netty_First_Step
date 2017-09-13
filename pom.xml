@@ -26,6 +26,7 @@
             <artifactId>camel-netty4</artifactId>
             <version>${camel.version}</version>
         </dependency>
+      
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

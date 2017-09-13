@@ -13,10 +13,14 @@ import java.util.List;
  *
  * @author Oleynik
  */
-public class Request11 {
-    
-    private byte Command = 0x11;
-    private byte[] codePLK = new byte[4];
+public class Request11 extends Request4All {
+    //Общие данные класса для правильного декодирования
+        public static final byte MESSAGE_CODE=11;
+        public static final int MESSAGE_LENGHT=179;
+        
+    private short smlSTX = 0x02;        
+    private short COMMAND = 0x11;
+    private int codePLK = 0;
     private short weight = 0;
     private short StateWeight = 0;   
     private short length = 0;
@@ -24,54 +28,48 @@ public class Request11 {
     private short height = 0;
     private short stateSize  = 0;     
     private String barcode;     
+    private short smlETX = 0x03;
 
-
-    public  List ReadMessage(ByteBuf msg, List<Object> out) {
-
-        for (int i = 0; i < msg.capacity(); i ++) {
-            if (msg.readableBytes() < 4) {
-                return out;
-            }
-
-            msg.markReaderIndex();
-//            int length = msg.readInt();
 //
-//            if (msg.readableBytes() < length) {
-//                msg.resetReaderIndex();
+//    public  List ReadMessage(ByteBuf msg, List<Object> out) {
+//
+//        for (int i = 0; i < msg.capacity(); i ++) {
+//            if (msg.readableBytes() < 4) {
 //                return out;
 //            }
-
-            out.add(msg.readBytes(length));
-
-        }
-        return out;
-    }
+//
+//            msg.markReaderIndex();
+////            int length = msg.readInt();
+////
+////            if (msg.readableBytes() < length) {
+////                msg.resetReaderIndex();
+////                return out;
+////            }
+//
+//            out.add(msg.readBytes(length));
+//
+//        }
+//        return out;
+//    }
 
     /**
      * @return the Comand
      */
-    public byte getCommand() {
-        return Command;
-    }
-
-    /**
-     * @param Comand the Comand to set
-     */
-    public void setCommand(byte Comand) {
-        this.Command = Comand;
+    public short getCommand() {
+        return COMMAND;
     }
 
     /**
      * @return the codePLK
      */
-    public byte[] getCodePLK() {
+    public int getCodePLK() {
         return codePLK;
     }
 
     /**
      * @param codePLK the codePLK to set
      */
-    public void setCodePLK(byte[] codePLK) {
+    public void setCodePLK(int codePLK) {
         this.codePLK = codePLK;
     }
 
@@ -120,7 +118,7 @@ public class Request11 {
     /**
      * @return the width
      */
-    public short getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -171,6 +169,31 @@ public class Request11 {
      */
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    @Override
+    public ByteBuf ToByte() {
+        
+        return null;
+    }
+
+    @Override
+    public void FromByte(ByteBuf msg) {
+        //short smlSTX;
+        //short smlETX;
+        //short smlCMD;
+
+        smlSTX = msg.readUnsignedByte(); // <STX>
+        COMMAND = msg.readUnsignedByte(); // <Команда должна быть равна 11>
+        codePLK     = msg.readInt();     // код продукта ПЛК
+        weight      = msg.readShort();   // вес
+        StateWeight = msg.readShort();   // статус веса
+        length      = msg.readShort();   // длина
+        width       = msg.readShort();   // ширина
+        height      = msg.readShort();   // высота
+        stateSize   = msg.readShort();   // статус размера
+        barcode     = new String(msg.readBytes(160).array()); //Штрих коды разделенные знаком TAB
+        smlETX      = msg.readUnsignedByte(); //<ETX>
     }
 
 
