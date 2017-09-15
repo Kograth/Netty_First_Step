@@ -18,9 +18,13 @@
 
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.WebServicesNewCSEPortType"
-                          address="http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE">
+                          address="http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE" 
+                          serviceName="ws:WebServicesNewCSE"
+                          endpointName="ws:WebServicesNewCSESoap12"
+                          xmlns:ws="http://www.cse-cargo.ru/client" 
+                          loggingFeatureEnabled="true">
         <camelcxf:properties>
-            <entry key="dataFormat" value="POJO"/>
+            <entry key="dataFormat" value="PAYLOAD"/>
         </camelcxf:properties>        
     </camelcxf:cxfEndpoint> 
         

@@ -15,7 +15,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.SoapJaxbDataFormat;
 import org.apache.camel.dataformat.soap.name.ServiceInterfaceStrategy;
 import org.apache.camel.component.cxf.common.message.CxfConstants;
-import ru.cse.APILk.Service1c.Version;
+import ru.cse.APILk.Service1c.Tracking;
 import ru.cse.APILk.Service1c.WebServicesNewCSEPortType;
 
 /**
@@ -25,7 +25,7 @@ import ru.cse.APILk.Service1c.WebServicesNewCSEPortType;
 public class ProxySorterBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
-        //Version ok = new Version();
+        Tracking ok = new Tracking();
         //SoapJaxbDataFormat soap = new SoapJaxbDataFormat("ru.cse.APILk.Service1c", new ServiceInterfaceStrategy(WebServicesNewCSEPortType.class,true));
         //soap.setVersion("1.2");
 //      errorHandler(defaultErrorHandler()
@@ -36,24 +36,25 @@ public class ProxySorterBuilder extends RouteBuilder {
             .process(new Processor() {
               @Override
              public void process(Exchange exchange) throws Exception {
-               
-                  List oList = new ArrayList();
-                  oList.add("RU");
-                  oList.add("login");
-                  oList.add("pasword");
-                  oList.add("Waybil");
-                  oList.add("12345678");
-//                exchange.getOut().setBody(exchange.getIn().getBody()) ;
+               ok.setLanguage("Ru");
+               ok.setLogin("AnyDocumentTrackingClient");
+               ok.setPassword("AnyDocumentTrackingClient");
+               ok.setDocuments("1234567");
+               ok.setType("waybill");
                   Message Out = exchange.getOut();
-                  Out.setBody(oList) ;
+                  Out.setBody(ok);
                   Out.setHeader(CxfConstants.OPERATION_NAME, "Tracking");
-                  Out.setHeader(CxfConstants.OPERATION_NAMESPACE,"http://www.cse-cargo.ru/client");
+                  Out.setHeader(CxfConstants.OPERATION_NAMESPACE,"http://www.cse-cargo.ru/client"); 
              }
                })
-            //.transform(constant(ok))
-               //.marshal(soap)
-              //.setHeader(CxfConstants.OPERATION_NAME, constant("Version"))
            .to("cxf:bean:reportIncident")
+               .process(new Processor() {
+              @Override
+             public void process(Exchange exchange) throws Exception {
+                 
+                  System.out.println(".process()");
+             }
+               })               
             //.convertBodyTo();//
             .to("mock:Result");
     }
