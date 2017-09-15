@@ -11,28 +11,39 @@
              http://cxf.apache.org/blueprint/jaxws http://cxf.apache.org/schemas/blueprint/jaxws.xsd
              http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
   
-   <bean id="ProxySorterBuilder" class="ru.cse.proxysorter.ProxySorterBuilder"/>
-    <bean id="itemRestService" class="ru.cse.proxysorter.ItemRestService" />
+    <bean id="ProxySorterBuilder" class="ru.cse.proxysorter.ProxySorterBuilder"/>
     <bean id="length-DecoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createDecoderSorterTlg"/>
-    <!--<bean id="client" class="demo.spring.service.HelloWorld" factory-bean="clientFactory" factory-method="create"/> -->
-
-    <bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-        <property name="serviceClass" value="ru.cse.proxysorter.ItemRestService"/>
-        <property name="address" value="http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE?wsdl"/>
-    </bean>
-
-    <cxf:cxfEndpoint id="reportIncident"
-                          address="http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE"
-                          endpointName="s:ReportIncidentEndpoint"
-                          serviceName="s:Version"
-                          wsdlURL="http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE?wsdl"
-                          serviceClass="ru.cse.proxysorter.ItemRestService"/>
-
-    <!-- xmlns:s="http://reportincident.example.camel.apache.org"/> -->
-
     <bean id="length-EncoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createEncoderSorterTlg"/>
+
+
+    <camelcxf:cxfEndpoint id="reportIncident"
+                          serviceClass="ru.cse.APILk.Service1c.WebServicesNewCSEPortType"
+                          address="http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE">
+        <camelcxf:properties>
+            <entry key="dataFormat" value="POJO"/>
+        </camelcxf:properties>        
+    </camelcxf:cxfEndpoint> 
+        
+  <!--   <bean id="itemRestService" class="ru.cse.proxysorter.ItemRestService" />    
+   <camelcxf:cxfEndpoint id="reportIncident"
+                          serviceClass="ru.cse.APILk.Service1c.WebServicesNewCSEPortType"
+                          address="http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE"
+                          wsdlURL="http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE?wsdl">
+        <camelcxf:properties>
+            <entry key="dataFormat" value="MESSAGE"/>
+        </camelcxf:properties>        
+    </camelcxf:cxfEndpoint>
+    
+    <bean id="myNameStrategy" class="org.apache.camel.dataformat.soap.name.ServiceInterfaceStrategy">
+        <argument value="ru.cse.APILk.Service1c.WebServicesNewCSEPortType"/>
+        <argument value="true"/>
+    </bean>
+              
+    -->
+
+    
     <camelContext xmlns="http://camel.apache.org/schema/blueprint">
-        <!-- Defining a ServiceInterfaceStrategy for retrieving the element name when marshalling -->
+
         <routeBuilder ref="ProxySorterBuilder"/>
 
     </camelContext>
