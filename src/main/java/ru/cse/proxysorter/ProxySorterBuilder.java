@@ -4,19 +4,12 @@
  * and open the template in the editor.
  */
 package ru.cse.proxysorter;
-
-
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.dataformat.SoapJaxbDataFormat;
-import org.apache.camel.dataformat.soap.name.ServiceInterfaceStrategy;
 import org.apache.camel.component.cxf.common.message.CxfConstants;
 import ru.cse.APILk.Service1c.Tracking;
-import ru.cse.APILk.Service1c.WebServicesNewCSEPortType;
 
 /**
  *
