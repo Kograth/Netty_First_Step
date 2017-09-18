@@ -9,7 +9,10 @@ import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.cxf.common.message.CxfConstants;
-import ru.cse.APILk.Service1c.Tracking;
+import ru.cse.APILk.Service1c.GetDataPushExit;
+import ru.cse.APILk.Service1c.GetDataPushExitResponse;
+import ru.cse.proxysorter.Message.Request11;
+import ru.cse.proxysorter.Message.Responce12;
 
 /**
  *
@@ -18,7 +21,7 @@ import ru.cse.APILk.Service1c.Tracking;
 public class ProxySorterBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
-        Tracking ok = new Tracking();
+        GetDataPushExit ok = new GetDataPushExit();
         //SoapJaxbDataFormat soap = new SoapJaxbDataFormat("ru.cse.APILk.Service1c", new ServiceInterfaceStrategy(WebServicesNewCSEPortType.class,true));
         //soap.setVersion("1.2");
 //      errorHandler(defaultErrorHandler()
@@ -29,14 +32,15 @@ public class ProxySorterBuilder extends RouteBuilder {
             .process(new Processor() {
               @Override
              public void process(Exchange exchange) throws Exception {
-               ok.setLanguage("Ru");
-               ok.setLogin("AnyDocumentTrackingClient");
-               ok.setPassword("AnyDocumentTrackingClient");
-               ok.setDocuments("1234567");
-               ok.setType("waybill");
+               Request11 Req = exchange.getIn().getBody(Request11.class);
+               //ok.setLanguage("Ru");
+               //ok.setLogin("AnyDocumentTrackingClient");
+               //ok.setPassword("AnyDocumentTrackingClient");
+               //ok.setDocuments(Req.getBarcode());
+               //ok.setType("waybill");
                   Message Out = exchange.getOut();
                   Out.setBody(ok);
-                  Out.setHeader(CxfConstants.OPERATION_NAME, "Tracking");
+                  Out.setHeader(CxfConstants.OPERATION_NAME, "GetDataPushExit");
                   Out.setHeader(CxfConstants.OPERATION_NAMESPACE,"http://www.cse-cargo.ru/client"); 
              }
                })
@@ -45,7 +49,11 @@ public class ProxySorterBuilder extends RouteBuilder {
               @Override
              public void process(Exchange exchange) throws Exception {
                  
-                  System.out.println(".process()");
+                  Message In = exchange.getIn();
+                  GetDataPushExitResponse TrR = In.getBody(GetDataPushExitResponse.class);
+                  //Responce12 ret = new Responce12();
+                  //ret.setCommand();
+                  System.out.println(TrR.getReturn());
              }
                })               
             //.convertBodyTo();//
