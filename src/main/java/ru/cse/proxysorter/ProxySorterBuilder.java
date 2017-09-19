@@ -9,7 +9,11 @@ import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.cxf.common.message.CxfConstants;
-import ru.cse.APILk.Service1c.Tracking;
+import ru.cse.APILk.Service1c.GetDataPushExit;
+import ru.cse.APILk.Service1c.GetDataPushExitResponse;
+;
+import ru.cse.proxysorter.Message.Request11;
+import ru.cse.proxysorter.Message.Responce12;
 
 /**
  *
@@ -18,37 +22,40 @@ import ru.cse.APILk.Service1c.Tracking;
 public class ProxySorterBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
-        Tracking ok = new Tracking();
-        //SoapJaxbDataFormat soap = new SoapJaxbDataFormat("ru.cse.APILk.Service1c", new ServiceInterfaceStrategy(WebServicesNewCSEPortType.class,true));
-        //soap.setVersion("1.2");
-//      errorHandler(defaultErrorHandler()
-//                .maximumRedeliveries(3)
-//                .backOffMultiplier(4)
-//                .retryAttemptedLogLevel(LoggingLevel.WARN));
+
+        GetDataPushExit ParametersOUT = new GetDataPushExit();
+
        from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
             .process(new Processor() {
               @Override
              public void process(Exchange exchange) throws Exception {
-               ok.setLanguage("Ru");
-               ok.setLogin("AnyDocumentTrackingClient");
-               ok.setPassword("AnyDocumentTrackingClient");
-               ok.setDocuments("1234567");
-               ok.setType("waybill");
+                  Request11 Req = exchange.getIn().getBody(Request11.class);
+
                   Message Out = exchange.getOut();
-                  Out.setBody(ok);
-                  Out.setHeader(CxfConstants.OPERATION_NAME, "Tracking");
-                  Out.setHeader(CxfConstants.OPERATION_NAMESPACE,"http://www.cse-cargo.ru/client"); 
+                  Out.setBody(ParametersOUT);
+                  Out.setHeader(CxfConstants.OPERATION_NAME, "GetDataPushExit");
+                  Out.setHeader(CxfConstants.OPERATION_NAMESPACE,"http://www.cse-cargo.ru/client");
              }
                })
            .to("cxf:bean:reportIncident")
                .process(new Processor() {
               @Override
              public void process(Exchange exchange) throws Exception {
-                 
-                  System.out.println(".process()");
+
+
+                  Message In = exchange.getIn();
+                  GetDataPushExitResponse TrR = In.getBody(GetDataPushExitResponse.class);
+                  String Answer = TrR.getOutParametrs();
+                  Responce12 ret = new Responce12();
+                  //byte[] MasAnswer = Answer.getBytes();
+                  //ret.setCommand(MasAnswer[0]);
+                  ret.ToByte();
+                  Message Out = exchange.getOut();
+                  Out.setBody(ret);
+
              }
-               })               
+               });
             //.convertBodyTo();//
-            .to("mock:Result");
+            //.to("mock:Result");
     }
 }

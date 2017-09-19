@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Netty_First_Step" />
+        <module name="ProxySorter" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Netty_First_Step" target="1.8" />
+      <module name="ProxySorter" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

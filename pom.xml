@@ -87,14 +87,24 @@
                                 <autoNameResolution>true</autoNameResolution>
                             </defaultOptions>
                             <wsdlOptions>
-                                <wsdlOption>
-                                    <!--<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> -->
+                             <!--   <wsdlOption>
+                                    &lt;!&ndash;<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> &ndash;&gt;
                                     <wsdl>http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE?wsdl</wsdl>
-                                   <!-- <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>-->
+                                   &lt;!&ndash; <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>&ndash;&gt;
                                     <extraargs>
                                         <extraarg>-impl</extraarg>
                                         <extraarg>-p</extraarg>
                                         <extraarg>ru.cse.APILk.Service1c</extraarg>                                        
+                                    </extraargs>
+                                </wsdlOption>-->
+                                <wsdlOption>
+                                    <!--<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> -->
+                                    <wsdl>http://web.cse.ru/cse82_AlexSt/ws/SorterExchange?wsdl</wsdl>
+                                    <!-- <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>-->
+                                    <extraargs>
+                                        <extraarg>-impl</extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>ru.cse.APILk.Service1c</extraarg>
                                     </extraargs>
                                 </wsdlOption>
                             </wsdlOptions>

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Netty_First_Step.iml" filepath="$PROJECT_DIR$/.idea/Netty_First_Step.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProxySorter.iml" filepath="$PROJECT_DIR$/ProxySorter.iml" />
     </modules>
   </component>
 </project>

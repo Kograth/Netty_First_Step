@@ -7,7 +7,6 @@ package ru.cse.proxysorter.Message;
 
 import io.netty.buffer.ByteBuf;
 
-import java.util.List;
 
 /**
  *
@@ -30,27 +29,6 @@ public class Request11 extends Request4All {
     private String barcode;     
     private short smlETX = 0x03;
 
-//
-//    public  List ReadMessage(ByteBuf msg, List<Object> out) {
-//
-//        for (int i = 0; i < msg.capacity(); i ++) {
-//            if (msg.readableBytes() < 4) {
-//                return out;
-//            }
-//
-//            msg.markReaderIndex();
-////            int length = msg.readInt();
-////
-////            if (msg.readableBytes() < length) {
-////                msg.resetReaderIndex();
-////                return out;
-////            }
-//
-//            out.add(msg.readBytes(length));
-//
-//        }
-//        return out;
-//    }
 
     /**
      * @return the Comand
@@ -174,6 +152,7 @@ public class Request11 extends Request4All {
     @Override
     public ByteBuf ToByte() {
         
+
         return null;
     }
 
