@@ -18,8 +18,8 @@ public class Responce12 extends Request4All {
     private byte Command    = 0x12;
     public byte msgSTX      = 0x02;
     public byte msgETX      = 0x03;
-    private short codeProduct =1000;
-    private byte ExitNumber   = 0x00;
+    private int codeProduct = 1000;
+    private byte ExitNumber = 0x04;
 
 
     public byte getCommand() {
@@ -36,14 +36,14 @@ public class Responce12 extends Request4All {
     /**
      * @return the codeProduct
      */
-    public short getCodeProduct() {
+    public int getCodeProduct() {
         return codeProduct;
     }
 
     /**
      * @param codeProduct the codeProduct to set
      */
-    public void setCodeProduct(short codeProduct) {
+    public void setCodeProduct(int codeProduct) {
         this.codeProduct = codeProduct;
     }
 
@@ -64,15 +64,19 @@ public class Responce12 extends Request4All {
     @Override
     public ByteBuf ToByte() {
 
-        byte[] answer = new byte[]{0x02,0x12,0x43,0x66,0x28,0x03};
-        msgSTX  = 0x02;
-        setCommand((byte) 0x12);
-        setCodeProduct((short) 9999);
-        setExitNumber((byte) 40);
-        msgETX      = 0x03;
+//        byte[] answer = new byte[]{0x02,0x12,0x43,0x66,0x28,0x03};
+//        msgSTX  = 0x02;
+//        setCommand((byte) 0x12);
+//        setCodeProduct((short) 9999);
+//        setExitNumber((byte) 40);
+//        msgETX      = 0x03;
 
-        ByteBuf buf = Unpooled.buffer();
-        buf.writeBytes(answer);
+        ByteBuf buf = Unpooled.buffer(8);
+        buf.writeByte(msgSTX);
+        buf.writeInt(codeProduct);
+        buf.writeByte(ExitNumber);
+        buf.writeByte(msgETX);
+        
 
         return  buf;
     }
