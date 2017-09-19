@@ -14,8 +14,11 @@ import io.netty.buffer.Unpooled;
  */
 public class Responce12 extends Request4All {
 
+    public static final byte MESSAGE_CODE=12;
+    public static final int MESSAGE_LENGHT=8;
+
     
-    private byte Command    = 0x12;
+    private byte Command    = MESSAGE_CODE;
     public byte msgSTX      = 0x02;
     public byte msgETX      = 0x03;
     private int codeProduct = 1000;
@@ -71,8 +74,9 @@ public class Responce12 extends Request4All {
 //        setExitNumber((byte) 40);
 //        msgETX      = 0x03;
 
-        ByteBuf buf = Unpooled.buffer(8);
+        ByteBuf buf = Unpooled.buffer(MESSAGE_LENGHT);
         buf.writeByte(msgSTX);
+        buf.writeByte(MESSAGE_CODE);
         buf.writeInt(codeProduct);
         buf.writeByte(ExitNumber);
         buf.writeByte(msgETX);
