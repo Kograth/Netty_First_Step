@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="InParametrs" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="InputStruc" type="{http://v8.1c.ru/8.1/data/core}Array"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -29,13 +30,16 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "inParametrs"
+    "inParametrs",
+    "inputStruc"
 })
-@XmlRootElement(name = "GetDataPushExit")
+@XmlRootElement(name = "GetDataPushExit", namespace = "http://www.cse-cargo.ru/client")
 public class GetDataPushExit {
 
-    @XmlElement(name = "InParametrs", required = true, nillable = true)
+    @XmlElement(name = "InParametrs", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
     protected String inParametrs;
+    @XmlElement(name = "InputStruc", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
+    protected Array inputStruc;
 
     /**
      * Gets the value of the inParametrs property.
@@ -59,6 +63,30 @@ public class GetDataPushExit {
      */
     public void setInParametrs(String value) {
         this.inParametrs = value;
+    }
+
+    /**
+     * Gets the value of the inputStruc property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Array }
+     *     
+     */
+    public Array getInputStruc() {
+        return inputStruc;
+    }
+
+    /**
+     * Sets the value of the inputStruc property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Array }
+     *     
+     */
+    public void setInputStruc(Array value) {
+        this.inputStruc = value;
     }
 
 }

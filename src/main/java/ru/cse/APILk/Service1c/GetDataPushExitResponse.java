@@ -33,12 +33,12 @@ import javax.xml.bind.annotation.XmlType;
     "_return",
     "outParametrs"
 })
-@XmlRootElement(name = "GetDataPushExitResponse")
+@XmlRootElement(name = "GetDataPushExitResponse", namespace = "http://www.cse-cargo.ru/client")
 public class GetDataPushExitResponse {
 
-    @XmlElement(name = "return", required = true)
+    @XmlElement(name = "return", namespace = "http://www.cse-cargo.ru/client", required = true)
     protected String _return;
-    @XmlElement(name = "OutParametrs", required = true, nillable = true)
+    @XmlElement(name = "OutParametrs", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
     protected String outParametrs;
 
     /**
