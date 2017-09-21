@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="OutParametrs" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="SendExitNumber" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -31,15 +31,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "_return",
-    "outParametrs"
+    "sendExitNumber"
 })
 @XmlRootElement(name = "GetDataPushExitResponse", namespace = "http://www.cse-cargo.ru/client")
 public class GetDataPushExitResponse {
 
     @XmlElement(name = "return", namespace = "http://www.cse-cargo.ru/client", required = true)
     protected String _return;
-    @XmlElement(name = "OutParametrs", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
-    protected String outParametrs;
+    @XmlElement(name = "SendExitNumber", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
+    protected String sendExitNumber;
 
     /**
      * Gets the value of the return property.
@@ -66,27 +66,27 @@ public class GetDataPushExitResponse {
     }
 
     /**
-     * Gets the value of the outParametrs property.
+     * Gets the value of the sendExitNumber property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getOutParametrs() {
-        return outParametrs;
+    public String getSendExitNumber() {
+        return sendExitNumber;
     }
 
     /**
-     * Sets the value of the outParametrs property.
+     * Sets the value of the sendExitNumber property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setOutParametrs(String value) {
-        this.outParametrs = value;
+    public void setSendExitNumber(String value) {
+        this.sendExitNumber = value;
     }
 
 }

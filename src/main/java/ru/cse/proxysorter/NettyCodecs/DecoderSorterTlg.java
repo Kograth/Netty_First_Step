@@ -10,10 +10,8 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import java.util.List;
-import ru.cse.proxysorter.Message.Request11;
-import ru.cse.proxysorter.Message.Request13;
-import ru.cse.proxysorter.Message.Request4All;
-import ru.cse.proxysorter.Message.Telegram;
+
+import ru.cse.proxysorter.Message.*;
 
 /**
  *
@@ -45,6 +43,11 @@ static final int IN_BYTE_TYPE_MSG=1;
             }
             if (Request13.MESSAGE_CODE==msgType & lenghtMsg>=Request13.MESSAGE_LENGHT) {
                 newPacket = (Request13) new Request13();
+                newPacket.FromByte(msg);
+                list.add(newPacket);
+            }
+            if (Request15.MESSAGE_CODE==msgType & lenghtMsg>=Request15.MESSAGE_LENGHT) {
+                newPacket = (Request15) new Request15();
                 newPacket.FromByte(msg);
                 list.add(newPacket);
             }
