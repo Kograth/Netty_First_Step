@@ -12,6 +12,10 @@ public class Request15 extends Request4All {
     private short NumberManualPack     = 0x00;
     private short smlETX            = 0x03;
 
+    public short getCommand() {
+        return Command;
+    }
+
     @Override
     public ByteBuf ToByte() {
         return null;

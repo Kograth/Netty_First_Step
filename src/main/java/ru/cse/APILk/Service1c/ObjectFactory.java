@@ -270,6 +270,54 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ProductDelivery }
+     * 
+     */
+    public ProductDelivery createProductDelivery() {
+        return new ProductDelivery();
+    }
+
+    /**
+     * Create an instance of {@link ProductDeliveryResponse }
+     * 
+     */
+    public ProductDeliveryResponse createProductDeliveryResponse() {
+        return new ProductDeliveryResponse();
+    }
+
+    /**
+     * Create an instance of {@link ProductPurposeManualLoading }
+     * 
+     */
+    public ProductPurposeManualLoading createProductPurposeManualLoading() {
+        return new ProductPurposeManualLoading();
+    }
+
+    /**
+     * Create an instance of {@link ProductPurposeManualLoadingResponse }
+     * 
+     */
+    public ProductPurposeManualLoadingResponse createProductPurposeManualLoadingResponse() {
+        return new ProductPurposeManualLoadingResponse();
+    }
+
+    /**
+     * Create an instance of {@link ReplacingTheBag }
+     * 
+     */
+    public ReplacingTheBag createReplacingTheBag() {
+        return new ReplacingTheBag();
+    }
+
+    /**
+     * Create an instance of {@link ReplacingTheBagResponse }
+     * 
+     */
+    public ReplacingTheBagResponse createReplacingTheBagResponse() {
+        return new ReplacingTheBagResponse();
+    }
+
+    /**
      * Create an instance of {@link Structure.Property }
      * 
      */

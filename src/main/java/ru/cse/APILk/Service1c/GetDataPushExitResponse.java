@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence&gt;
  *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="SendExitNumber" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="SendBarcode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -31,7 +32,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "_return",
-    "sendExitNumber"
+    "sendExitNumber",
+    "sendBarcode"
 })
 @XmlRootElement(name = "GetDataPushExitResponse", namespace = "http://www.cse-cargo.ru/client")
 public class GetDataPushExitResponse {
@@ -40,6 +42,8 @@ public class GetDataPushExitResponse {
     protected String _return;
     @XmlElement(name = "SendExitNumber", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
     protected String sendExitNumber;
+    @XmlElement(name = "SendBarcode", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
+    protected String sendBarcode;
 
     /**
      * Gets the value of the return property.
@@ -87,6 +91,30 @@ public class GetDataPushExitResponse {
      */
     public void setSendExitNumber(String value) {
         this.sendExitNumber = value;
+    }
+
+    /**
+     * Gets the value of the sendBarcode property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSendBarcode() {
+        return sendBarcode;
+    }
+
+    /**
+     * Sets the value of the sendBarcode property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSendBarcode(String value) {
+        this.sendBarcode = value;
     }
 
 }
