@@ -28,22 +28,7 @@
         </camelcxf:properties>        
     </camelcxf:cxfEndpoint> 
         
-  <!--   <bean id="itemRestService" class="ru.cse.proxysorter.ItemRestService" />    
-   <camelcxf:cxfEndpoint id="reportIncident"
-                          serviceClass="ru.cse.APILk.Service1c.WebServicesNewCSEPortType"
-                          address="http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE"
-                          wsdlURL="http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE?wsdl">
-        <camelcxf:properties>
-            <entry key="dataFormat" value="MESSAGE"/>
-        </camelcxf:properties>        
-    </camelcxf:cxfEndpoint>
-    
-    <bean id="myNameStrategy" class="org.apache.camel.dataformat.soap.name.ServiceInterfaceStrategy">
-        <argument value="ru.cse.APILk.Service1c.WebServicesNewCSEPortType"/>
-        <argument value="true"/>
-    </bean>
-              
-    -->
+
 
     
     <camelContext xmlns="http://camel.apache.org/schema/blueprint">

@@ -25,7 +25,6 @@ public class ProxySorterBuilder extends RouteBuilder {
 
     public int ProductCode = 0;
     public short CommandCode = 0x11;
-    Map <Short, String> hashmap = new HashMap<>();
 
     @Override
     public void configure() throws Exception {
@@ -60,6 +59,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 
                       ProductCode = Req13.getCodeProduct();
                       CommandCode = Req13.getCommand();
+
                       String ExitNumber = new String(String.valueOf(Req13.getExitNumber()));
 
                       ParametersOUT14.setInParametrs(ExitNumber);
@@ -67,7 +67,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                       Out.setBody(ParametersOUT14);
                       Out.setHeader(CxfConstants.OPERATION_NAME, "ProductDelivery");
                       Out.setHeader(CxfConstants.OPERATION_NAMESPACE,"http://www.cse-cargo.ru/client");
-
+                      exchange.setProperty("SourceSort",Req13.getSource());
                   }
                   if (!(Req15 == null)) {
                         //Режим работы команды не согласован
@@ -102,14 +102,14 @@ public class ProxySorterBuilder extends RouteBuilder {
                   }
                   if (CommandCode == Request13.MESSAGE_CODE){
                         Response14 returnAnswer = new Response14();
-                        returnAnswer.SetSource((short) 0x02);
+                        returnAnswer.SetSource((Short) exchange.getProperty("SourceSort"));
                         returnAnswer.SetCodeProduct(ProductCode);
                         returnAnswer.ToByte();
                         Message Out = exchange.getOut();
                         Out.setBody(returnAnswer);
                   }
                   if (CommandCode == Request15.MESSAGE_CODE) {
-
+                        //режим работы команды не согласован
                   }
 
 
