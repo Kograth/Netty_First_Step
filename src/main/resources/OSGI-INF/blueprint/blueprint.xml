@@ -16,6 +16,22 @@
     <bean id="length-EncoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createEncoderSorterTlg"/>
 
 
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="brokerURL" value="tcp://localhost:61616"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--set up camel context-->
+    <camelContext id="camelContext" trace="true" xmlns="http://camel.apache.org/schema/spring">
+        <route>
+            <from uri="direct:in"/>
+            <to uri="activemq:queue:test-queue"/>
+        </route>
+    </camelContext>
+
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
                           address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"
