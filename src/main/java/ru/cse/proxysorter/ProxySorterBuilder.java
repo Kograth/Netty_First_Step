@@ -31,7 +31,6 @@ public class ProxySorterBuilder extends RouteBuilder {
 
         GetDataPushExit ParametersOUT = new GetDataPushExit();
         ProductDelivery ParametersOUT14 = new ProductDelivery();
-        CamelServiceJavaDSL service = new CamelServiceJavaDSL();
 
        from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
             .process(new Processor() {
@@ -49,8 +48,6 @@ public class ProxySorterBuilder extends RouteBuilder {
 
                       //Установим параметр 1С
                       ParametersOUT.setInParametrs(Req11.getBarcode());
-                      // Отправка Веса, габаритов в виде строки в ActiveMQ
-                      service.send("Zombie attack, kill everobody");
 
                       //Отправляем ответ в 1с
                       Message Out = exchange.getOut();
@@ -80,7 +77,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 
              }
                })
-
+            .wireTap("direct:incoming")
            .to("cxf:bean:reportIncident")
                .process(new Processor() {
               @Override
@@ -119,7 +116,12 @@ public class ProxySorterBuilder extends RouteBuilder {
 
              }
                });
+       from("direct:incoming").to("activemq:queue:test-queue");
+
+
+
             //.convertBodyTo();//
-            //.to("mock:Result");
+            //.to("activemq:queue:test-queue");
+
     }
 }
