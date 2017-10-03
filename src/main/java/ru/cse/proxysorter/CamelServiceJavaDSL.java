@@ -29,7 +29,7 @@ public final class CamelServiceJavaDSL implements  CamelService{
         });
 
         //Добавим компонент для работы с ActiveMQ
-        context.addComponent("activemq", activeMQComponent("tcp://localhost:61616"));
+        context.addComponent("activemq", activeMQComponent("tcp://localhost:8181"));
 
 
         producer = context.createProducerTemplate();
