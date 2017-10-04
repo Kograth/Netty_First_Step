@@ -31,6 +31,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 
         GetDataPushExit ParametersOUT = new GetDataPushExit();
         ProductDelivery ParametersOUT14 = new ProductDelivery();
+        ReplacingTheBag ParametersOUT18 = new ReplacingTheBag();
 
        from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
             .process(new Processor() {
@@ -39,6 +40,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                   Request11 Req11  = exchange.getIn().getBody(Request11.class);
                   Request13 Req13 = exchange.getIn().getBody(Request13.class);
                   Request15 Req15 = exchange.getIn().getBody(Request15.class);
+                  Request17 Req17 = exchange.getIn().getBody(Request17.class);
 
 
                   if (!(Req11 == null)) {
@@ -71,6 +73,23 @@ public class ProxySorterBuilder extends RouteBuilder {
                   }
                   if (!(Req15 == null)) {
                         //Режим работы команды не согласован
+                  }
+
+                  //Событие отправленное ТСД
+                  if (!(Req17 == null)) {
+
+                      String ExitNumber = new String(String.valueOf(Req17.getExitNumber()));
+                      String BagBarCode = new String(String.valueOf(Req17.getBagBarCode()));
+
+                      ParametersOUT18.setBagCode(BagBarCode);
+                      ParametersOUT18.setExitNumber(ExitNumber);
+                      Message Out = exchange.getOut();
+                      Out.setBody(ParametersOUT18);
+                      Out.setHeader(CxfConstants.OPERATION_NAME, "ReplacingTheBag");
+                      Out.setHeader(CxfConstants.OPERATION_NAMESPACE,"http://www.cse-cargo.ru/client");
+                      exchange.setProperty("ExitForNewBag",ExitNumber);
+
+
                   }
 
 
@@ -110,8 +129,18 @@ public class ProxySorterBuilder extends RouteBuilder {
                         Out.setBody(returnAnswer);
                   }
                   if (CommandCode == Request15.MESSAGE_CODE) {
-                        //режим работы команды не согласован
+                        //Режим работы команды не согласован
                   }
+                  //Отправим событие ТСД в поток сортировщика
+                  if (CommandCode == Request17.MESSAGE_CODE) {
+                      Response18 returnAnswer = new Response18();
+                      returnAnswer.setExitNumber((byte) exchange.getProperty("ExitForNewBag"));
+                      returnAnswer.ToByte();
+                      Message Out = exchange.getOut();
+                      Out.setBody(returnAnswer);
+
+                  }
+
 
 
              }
