@@ -51,6 +51,12 @@ static final int IN_BYTE_TYPE_MSG=1;
                 newPacket.FromByte(msg);
                 list.add(newPacket);
             }
+            if (Request17.MESSAGE_CODE==msgType & lenghtMsg>=Request17.MESSAGE_LENGHT) {
+                newPacket = (Request15) new Request15();
+                newPacket.FromByte(msg);
+                list.add(newPacket);
+            }
+
             else
             {            
                 msg.resetReaderIndex();

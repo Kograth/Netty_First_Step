@@ -171,7 +171,9 @@ public class Request11 extends Request4All {
         width       = msg.readShort();   // ширина
         height      = msg.readShort();   // высота
         stateSize   = msg.readShort();   // статус размера
-        barcode     = new String(msg.readBytes(160).array()); //Штрих коды разделенные знаком TAB
+        byte[] Array = new byte[160];
+        msg.readBytes(Array);
+        barcode     = new String(Array); //new String(msg.readBytes(160).array()); //Штрих коды разделенные знаком TAB
         smlETX      = msg.readUnsignedByte(); //<ETX>
     }
 

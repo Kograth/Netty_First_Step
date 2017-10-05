@@ -16,13 +16,16 @@
     <bean id="length-EncoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createEncoderSorterTlg"/>
 
 
-    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+    <!--<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
         <property name="connectionFactory">
             <bean class="org.apache.activemq.ActiveMQConnectionFactory">
                 <property name="brokerURL" value="tcp://localhost:8181"/>
             </bean>
         </property>
-    </bean>
+    </bean> -->
+
+
+
 
 
 
@@ -45,8 +48,17 @@
 
         <routeBuilder ref="ProxySorterBuilder"/>
 
+        <!--<route>
+            <from uri="timer://myTimer?fixedRate=true&amp;period=2000" />
+            <bean ref="myTransform" method="transform"/>
+            <to uri="activemq:queue:test-queue" />
+        </route> -->
+
     </camelContext>
 
+    <bean id="myTransform" class="ru.cse.proxysorter.MyTransform">
+
+    </bean>
     <!--set up camel context
     <camelContext id="camelContext"  xmlns="http://camel.apache.org/schema/blueprint">
        <route>
