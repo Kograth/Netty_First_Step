@@ -29,11 +29,8 @@ public class ProxySorterBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        //GetDataPushExit ParametersOUT = new GetDataPushExit();
-        //ProductDelivery ParametersOUT14 = new ProductDelivery();
-        ReplacingTheBag ParametersOUT18 = new ReplacingTheBag();
 
-       from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1
+       from("netty4:tcp://te1:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1
             .process(new Processor() {
               @Override
              public void process(Exchange exchange) throws Exception {
@@ -96,15 +93,11 @@ public class ProxySorterBuilder extends RouteBuilder {
                       Out.setHeader(CxfConstants.OPERATION_NAME, "ReplacingTheBag");
                       Out.setHeader(CxfConstants.OPERATION_NAMESPACE,"http://www.cse-cargo.ru/client");
                       exchange.setProperty("ExitForNewBag",ExitNumber);
-
-
                   }
-
-
 
              }
                })
-            .wireTap("direct:incoming")
+            //.wireTap("direct:incoming")
            .to("cxf:bean:reportIncident")
                .process(new Processor() {
               @Override
@@ -158,7 +151,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 
              }
                });
-       from("direct:incoming").to("activemq:queue:test-queue");
+      // from("direct:incoming").to("activemq:queue:test-queue");
 
 
 
