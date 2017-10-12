@@ -23,17 +23,17 @@ import java.util.Map;
  */
 public class ProxySorterBuilder extends RouteBuilder {
 
-    public int ProductCode = 0;
+    public int ProductCode = 5555;
     public short CommandCode = 0x11;
 
     @Override
     public void configure() throws Exception {
 
-        GetDataPushExit ParametersOUT = new GetDataPushExit();
-        ProductDelivery ParametersOUT14 = new ProductDelivery();
+        //GetDataPushExit ParametersOUT = new GetDataPushExit();
+        //ProductDelivery ParametersOUT14 = new ProductDelivery();
         ReplacingTheBag ParametersOUT18 = new ReplacingTheBag();
 
-       from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
+       from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1
             .process(new Processor() {
               @Override
              public void process(Exchange exchange) throws Exception {
@@ -45,6 +45,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 
                   if (!(Req11 == null)) {
 
+                      GetDataPushExit ParametersOUT = new GetDataPushExit();
                       ProductCode = Req11.getCodePLK();
                       CommandCode = Req11.getCommand();
 
@@ -64,6 +65,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 
                       String ExitNumber = new String(String.valueOf(Req13.getExitNumber()));
 
+                      ProductDelivery ParametersOUT14 = new ProductDelivery();
                       ParametersOUT14.setInParametrs(ExitNumber);
                       Message Out = exchange.getOut();
                       Out.setBody(ParametersOUT14);
@@ -76,13 +78,19 @@ public class ProxySorterBuilder extends RouteBuilder {
                   }
 
                   //Событие отправленное ТСД
+                  //Код события 111
                   if (!(Req17 == null)) {
+
+                      CommandCode = Req17.getCommand();
 
                       String ExitNumber = new String(String.valueOf(Req17.getExitNumber()));
                       String BagBarCode = new String(String.valueOf(Req17.getBagBarCode()));
 
+                      ReplacingTheBag ParametersOUT18 = new ReplacingTheBag();
+
                       ParametersOUT18.setBagCode(BagBarCode);
                       ParametersOUT18.setExitNumber(ExitNumber);
+                      ParametersOUT18.setInParametrs("From 111");
                       Message Out = exchange.getOut();
                       Out.setBody(ParametersOUT18);
                       Out.setHeader(CxfConstants.OPERATION_NAME, "ReplacingTheBag");
@@ -103,9 +111,10 @@ public class ProxySorterBuilder extends RouteBuilder {
              public void process(Exchange exchange) throws Exception {
 
                   Message In = exchange.getIn();
-                  GetDataPushExitResponse TrR = In.getBody(GetDataPushExitResponse.class);
+
                   //Взависимости от входящей команды выберим как будем отвечать
                   if (CommandCode == Request11.MESSAGE_CODE) {
+                      GetDataPushExitResponse TrR = In.getBody(GetDataPushExitResponse.class);
                       //Получим ответные параметры из 1с
                       String ExitNumber = TrR.getSendExitNumber();
                       String OutBarcode = TrR.getSendBarcode();
@@ -132,9 +141,13 @@ public class ProxySorterBuilder extends RouteBuilder {
                         //Режим работы команды не согласован
                   }
                   //Отправим событие ТСД в поток сортировщика
+                  //Код события 111
                   if (CommandCode == Request17.MESSAGE_CODE) {
+                      //ReplacingTheBag AnswerFrom1C = In.getBody(ReplacingTheBag.class);
                       Response18 returnAnswer = new Response18();
-                      returnAnswer.setExitNumber((byte) exchange.getProperty("ExitForNewBag"));
+                      //String PropertyExit = new String(exchange.getProperty("ExitForNewBag"));
+                      byte exit = 91;
+                      returnAnswer.setExitNumber(exit);
                       returnAnswer.ToByte();
                       Message Out = exchange.getOut();
                       Out.setBody(returnAnswer);

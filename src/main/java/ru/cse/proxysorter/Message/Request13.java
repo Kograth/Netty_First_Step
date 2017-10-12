@@ -10,7 +10,7 @@ public class Request13  extends Request4All{
     private short Command           = 0x13;
     private int codeProduct         = 0;
     private byte ExitNumber         = 0x31;
-    private short SourceSort     = 0x00;
+    private short SourceSort        = 0x00;
     private short smlETX            = 0x03;
 
 

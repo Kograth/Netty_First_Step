@@ -27,10 +27,6 @@ public class GetArraysByte {
 
         outStream11.write(STXs);
         outStream11.write(CommandCode);
-        outStream11.write(0);
-        outStream11.write(0);
-        outStream11.write(0);
-        outStream11.write(ProductCode);
         outStream11.write(0x51);
         outStream11.write(weight);
         outStream11.write(0x51);
@@ -56,10 +52,10 @@ public class GetArraysByte {
         ByteArrayOutputStream outStream13 = new ByteArrayOutputStream();
         outStream13.write(STXs);
         outStream13.write(CommandCode);
-        outStream13.write(0);
-        outStream13.write(0);
-        outStream13.write(0);
         outStream13.write(ProductCode);
+        outStream13.write(0);
+        outStream13.write(0);
+        outStream13.write(0x33);
         outStream13.write(ETXs);
 
         byte[] mass13 = outStream13.toByteArray();
