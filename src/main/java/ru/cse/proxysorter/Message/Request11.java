@@ -158,9 +158,6 @@ public class Request11 extends Request4All {
 
     @Override
     public void FromByte(ByteBuf msg) {
-        //short smlSTX;
-        //short smlETX;
-        //short smlCMD;
 
         smlSTX = msg.readUnsignedByte(); // <STX>
         COMMAND = msg.readUnsignedByte(); // <Команда должна быть равна 11>
@@ -173,7 +170,7 @@ public class Request11 extends Request4All {
         stateSize   = msg.readShort();   // статус размера
         byte[] Array = new byte[160];
         msg.readBytes(Array);
-        barcode     = new String(Array); //new String(msg.readBytes(160).array()); //Штрих коды разделенные знаком TAB
+        barcode     = new String(Array).trim(); //new String(msg.readBytes(160).array()); //Штрих коды разделенные знаком TAB
         smlETX      = msg.readUnsignedByte(); //<ETX>
     }
 

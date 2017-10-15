@@ -31,8 +31,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "inParametrs"
 })
-@XmlRootElement(name = "GetDataPushExit", namespace = "http://www.cse-cargo.ru/client")
-public class GetDataPushExit {
+@XmlRootElement(name = "ProductDelivery", namespace = "http://www.cse-cargo.ru/client")
+public class ProductDelivery {
 
     @XmlElement(name = "InParametrs", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
     protected String inParametrs;

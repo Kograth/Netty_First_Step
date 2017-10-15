@@ -4,21 +4,21 @@ package ru.cse.APILk.Service1c;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for DateQualifiers complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType&gt;
+ * &lt;complexType name="DateQualifiers"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="InParametrs" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="DateFractions" type="{http://v8.1c.ru/8.1/data/core}DateFractions"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -28,37 +28,37 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "inParametrs"
+@XmlType(name = "DateQualifiers", propOrder = {
+    "dateFractions"
 })
-@XmlRootElement(name = "GetDataPushExit", namespace = "http://www.cse-cargo.ru/client")
-public class GetDataPushExit {
+public class DateQualifiers {
 
-    @XmlElement(name = "InParametrs", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
-    protected String inParametrs;
+    @XmlElement(name = "DateFractions", required = true)
+    @XmlSchemaType(name = "string")
+    protected DateFractions dateFractions;
 
     /**
-     * Gets the value of the inParametrs property.
+     * Gets the value of the dateFractions property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link DateFractions }
      *     
      */
-    public String getInParametrs() {
-        return inParametrs;
+    public DateFractions getDateFractions() {
+        return dateFractions;
     }
 
     /**
-     * Sets the value of the inParametrs property.
+     * Sets the value of the dateFractions property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link DateFractions }
      *     
      */
-    public void setInParametrs(String value) {
-        this.inParametrs = value;
+    public void setDateFractions(DateFractions value) {
+        this.dateFractions = value;
     }
 
 }

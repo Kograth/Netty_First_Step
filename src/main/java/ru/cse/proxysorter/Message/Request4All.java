@@ -7,8 +7,6 @@ package ru.cse.proxysorter.Message;
 
 import io.netty.buffer.ByteBuf;
 
-import java.util.List;
-
 /**
  *
  * @author Oleynik

@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="InParametrs" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -29,36 +29,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "inParametrs"
+    "_return"
 })
-@XmlRootElement(name = "GetDataPushExit", namespace = "http://www.cse-cargo.ru/client")
-public class GetDataPushExit {
+@XmlRootElement(name = "ProductPurposeManualLoadingResponse", namespace = "http://www.cse-cargo.ru/client")
+public class ProductPurposeManualLoadingResponse {
 
-    @XmlElement(name = "InParametrs", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
-    protected String inParametrs;
+    @XmlElement(name = "return", namespace = "http://www.cse-cargo.ru/client", required = true)
+    protected String _return;
 
     /**
-     * Gets the value of the inParametrs property.
+     * Gets the value of the return property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getInParametrs() {
-        return inParametrs;
+    public String getReturn() {
+        return _return;
     }
 
     /**
-     * Sets the value of the inParametrs property.
+     * Sets the value of the return property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setInParametrs(String value) {
-        this.inParametrs = value;
+    public void setReturn(String value) {
+        this._return = value;
     }
 
 }

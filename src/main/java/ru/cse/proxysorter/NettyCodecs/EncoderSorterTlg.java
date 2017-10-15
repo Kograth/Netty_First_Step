@@ -5,13 +5,9 @@
  */
 package ru.cse.proxysorter.NettyCodecs;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.handler.codec.MessageToMessageEncoder;
-import ru.cse.proxysorter.Message.Request11;
 import ru.cse.proxysorter.Message.Request4All;
 
 import java.util.List;
