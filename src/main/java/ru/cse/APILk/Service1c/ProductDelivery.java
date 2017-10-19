@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="InParametrs" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="ProductCode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -29,13 +30,16 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "inParametrs"
+    "inParametrs",
+    "productCode"
 })
 @XmlRootElement(name = "ProductDelivery", namespace = "http://www.cse-cargo.ru/client")
 public class ProductDelivery {
 
     @XmlElement(name = "InParametrs", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
     protected String inParametrs;
+    @XmlElement(name = "ProductCode", namespace = "http://www.cse-cargo.ru/client", required = true)
+    protected String productCode;
 
     /**
      * Gets the value of the inParametrs property.
@@ -59,6 +63,30 @@ public class ProductDelivery {
      */
     public void setInParametrs(String value) {
         this.inParametrs = value;
+    }
+
+    /**
+     * Gets the value of the productCode property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getProductCode() {
+        return productCode;
+    }
+
+    /**
+     * Sets the value of the productCode property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setProductCode(String value) {
+        this.productCode = value;
     }
 
 }

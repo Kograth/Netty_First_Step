@@ -17,7 +17,7 @@
 
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://web.cse.ru/cse8_bsp/ws/SorterExchange"
+                          address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client" 

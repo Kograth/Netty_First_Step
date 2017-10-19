@@ -28,6 +28,7 @@ public class ProcessorRequestSorter implements Processor {
         Request13 Req13 = exchange.getIn().getBody(Request13.class);
         Request15 Req15 = exchange.getIn().getBody(Request15.class);
         Request17 Req17 = exchange.getIn().getBody(Request17.class);
+        Request18 Req18 = exchange.getIn().getBody(Request18.class);
 
         if (!(Req11 == null)) {
 
@@ -55,6 +56,7 @@ public class ProcessorRequestSorter implements Processor {
 
             ProductDelivery ParametersOUT14 = new ProductDelivery();
             ParametersOUT14.setInParametrs(ExitNumber);
+            ParametersOUT14.setProductCode(String.valueOf(ProductCode));
             Message Out = exchange.getOut();
             Out.setBody(ParametersOUT14);
             Out.setHeader(CxfConstants.OPERATION_NAME, "ProductDelivery");
@@ -66,6 +68,18 @@ public class ProcessorRequestSorter implements Processor {
         }
         if (!(Req15 == null)) {
             //Режим работы команды не согласован
+        }
+
+        //Установка мешка отправляем сообщение Сортировщику
+        if (!(Req18 == null)) {
+
+            Request18 returnAnswer = new Request18();
+
+            returnAnswer.setExitNumber(returnAnswer.getExitNumber());
+            returnAnswer.ToByte();
+            Message Out = exchange.getOut();
+            Out.setBody(returnAnswer);
+
         }
 
         //Событие отправленное ТСД
