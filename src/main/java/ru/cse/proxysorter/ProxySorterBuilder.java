@@ -33,7 +33,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                //.wireTap("direct:incoming")
            .to("cxf:bean:reportIncident")
                .process(new ProcessorRequest1C())
-               .wireTap("direct:SaveToRepoSorter")
+              // .wireTap("direct:SaveToRepoSorter")
                ;
        
        //from("direct:SaveToRepoSorter").to(endpoint)
