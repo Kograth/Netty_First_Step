@@ -5,7 +5,7 @@ import io.netty.buffer.Unpooled;
 
 public class Response14 extends Request4All {
 
-    public static final byte MESSAGE_CODE=14;
+    public static final byte MESSAGE_CODE=0x14;
     public static final int MESSAGE_LENGHT=8;
 
 

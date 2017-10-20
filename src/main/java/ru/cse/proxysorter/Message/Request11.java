@@ -14,7 +14,7 @@ import io.netty.buffer.ByteBuf;
  */
 public class Request11 extends Request4All {
     //Общие данные класса для правильного декодирования
-        public static final byte MESSAGE_CODE=11;
+        public static final byte MESSAGE_CODE=0x11;
         public static final int MESSAGE_LENGHT=179;
         
     private short smlSTX = 0x02;        

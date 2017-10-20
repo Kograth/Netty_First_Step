@@ -10,14 +10,14 @@ package ru.cse.proxysorter.Message;
  * @author Oleynik
  */
 public class Telegram {
-    public static final byte TELEGA11=11;
-    public static final byte TELEGA12=12;
-    public static final byte TELEGA13=13;
-    public static final byte TELEGA14=14;
-    public static final byte TELEGA15=15;
-    public static final byte TELEGA16=16;
-    public static final byte TELEGA17=17;
-    public static final byte TELEGA18=18;
+    public static final byte TELEGA11=0x11;
+    public static final byte TELEGA12=0x12;
+    public static final byte TELEGA13=0x13;
+    public static final byte TELEGA14=0x14;
+    public static final byte TELEGA15=0x15;
+    public static final byte TELEGA16=0x16;
+    public static final byte TELEGA17=0x17;
+    public static final byte TELEGA18=0x18;
 
     
 }
