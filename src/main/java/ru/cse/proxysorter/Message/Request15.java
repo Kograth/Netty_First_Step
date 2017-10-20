@@ -3,7 +3,7 @@ package ru.cse.proxysorter.Message;
 import io.netty.buffer.ByteBuf;
 
 public class Request15 extends Request4All {
-    public static final byte MESSAGE_CODE=0x15;
+    public static final byte MESSAGE_CODE=Telegram.TELEGA15;
     public static final int MESSAGE_LENGHT=9;
 
     private short smlSTX            = 0x02;
