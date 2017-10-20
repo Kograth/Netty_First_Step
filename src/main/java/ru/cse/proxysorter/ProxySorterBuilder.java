@@ -4,12 +4,11 @@
  * and open the template in the editor.
  */
 package ru.cse.proxysorter;
-import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 
 import java.lang.Exception;
-
 import org.apache.camel.component.leveldb.LevelDBAggregationRepository;
+
 import ru.cse.proxysorter.Processors.ProcessorRequest1C;
 import ru.cse.proxysorter.Processors.ProcessorRequestSorter;
 
@@ -25,14 +24,19 @@ public class ProxySorterBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        //LevelDBAggregationRepository repo = new LevelDBAggregationRepository("repo1", "target/data/leveldb.dat");
+        LevelDBAggregationRepository RepoSorter;
+        RepoSorter = new LevelDBAggregationRepository("sorterdb", "target/data/sorterdb.dat");
 
-       from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1
+       from("netty4:tcp://te1:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1 //185.65.22.28
             .process(new ProcessorRequestSorter())
            // .wireTap("direct:start")
                //.wireTap("direct:incoming")
            .to("cxf:bean:reportIncident")
-               .process(new ProcessorRequest1C());
+               .process(new ProcessorRequest1C())
+               .wireTap("direct:SaveToRepoSorter")
+               ;
+       
+       //from("direct:SaveToRepoSorter").to(endpoint)
       //Отправка в activeMQ
         //from("direct:incoming").process()
            //.to("activemq:queue:test-queue");
