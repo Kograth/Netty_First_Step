@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 
 public class Request13  extends Request4All{
     public static final byte MESSAGE_CODE=Telegram.TELEGA13;
-    public static final int MESSAGE_LENGHT=8;
+    public static final int MESSAGE_LENGHT=9;
 
     private short smlSTX            = 0x02;
     private short Command           = 0x13;

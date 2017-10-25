@@ -41,7 +41,7 @@ public class ProcessorRequest1C implements Processor {
             String OutBarcode = TrR.getSendBarcode();
             Byte byteExitNumber = Byte.valueOf(ExitNumber);
             //Запишем свойство в сообщение
-            exchange.setProperty(OutBarcode, ProductCode);
+            exchange.setProperty("Barcode", OutBarcode);
             //
             Responce12 returnAnswer = new Responce12();
             returnAnswer.setExitNumber(byteExitNumber);

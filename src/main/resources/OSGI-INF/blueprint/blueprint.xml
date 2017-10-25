@@ -14,10 +14,13 @@
     <bean id="ProxySorterBuilder" class="ru.cse.proxysorter.ProxySorterBuilder"/>
     <bean id="length-DecoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createDecoderSorterTlg"/>
     <bean id="length-EncoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createEncoderSorterTlg"/>
-
+ <!-- This is the persistent repository to store aggregated messages 
+  <bean id="myRepoCache" class="org.apache.camel.component.cache.CacheComponent">
+    <property name="configurationFile" value="classpath:ehcache-repo.xml"/>
+  </bean>-->
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"
+                          address="http://web.cse.ru/cse8_bsp/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client" 
@@ -30,7 +33,7 @@
                           <!--address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"-->
 
     
-    <camelContext xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="Sorter" xmlns="http://camel.apache.org/schema/blueprint">
 
         <routeBuilder ref="ProxySorterBuilder"/>
 
