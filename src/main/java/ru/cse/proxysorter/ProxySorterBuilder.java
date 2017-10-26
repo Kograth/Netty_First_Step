@@ -9,6 +9,7 @@ import org.apache.camel.builder.RouteBuilder;
 
 import java.lang.Exception;
 import org.apache.camel.Exchange;
+import org.apache.camel.ExchangePattern;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
@@ -39,7 +40,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 //        
 //        RepoSorter = new LevelDBAggregationRepository("sorterdb", "data/SorterDb");
 
-        from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1 //185.65.22.28
+        from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg") //te1 //185.65.22.28 &sync=true
                 .choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11") 
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request13'")).to("direct:Request13")
@@ -50,13 +51,17 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .process(new ProcessorRequestSorter())
                 .to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
-                .multicast().to("seda:SaveToRepoSorter","mock:result").end()
+                .to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")
+                .to(ExchangePattern.InOnly,"seda:SaveToRepoSorter")
+                //.multicast().to("seda:SaveToRepoSorter=InOnly","activemq:queue:Sorter.Meashure?exchangePattern=InOnly",)
+                //.multicast().to("seda:SaveToRepoSorter=InOnly","activemq:queue:Sorter.Meashure?exchangePattern=InOnly").end()
                 ;
 
 //Получили исходные данные, надо отправить запрос в 1с, предварительно сконвертировав PLU в Штрихкод
         from("direct:Request13")
                 .process(new ProcessorRequestSorter())
                 .multicast().to("cxf:bean:reportIncident","mock:result").end()
+                
                 .process(new ProcessorRequest1C())
                 ;
 //Все остальные операции, смена мешка и т.д.

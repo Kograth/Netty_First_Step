@@ -24,12 +24,12 @@
             <artifactId>camel-core</artifactId>
             <version>${camel.version}</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-leveldb</artifactId>
             <version>${camel.version}</version>
         </dependency>
-
+-->
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-camel</artifactId>
@@ -148,6 +148,51 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>3.1.7</version>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+
+                        <configuration>
+                            <!--<sourceRoot>${project.build.directory}/generated/src/main/java</sourceRoot>-->
+                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
+                            <defaultOptions>
+                                <autoNameResolution>true</autoNameResolution>
+                            </defaultOptions>
+                            <wsdlOptions>
+                             <!--   <wsdlOption>
+                                    &lt;!&ndash;<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> &ndash;&gt;
+                                    <wsdl>http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE?wsdl</wsdl>
+                                   &lt;!&ndash; <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>&ndash;&gt;
+                                    <extraargs>
+                                        <extraarg>-impl</extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>ru.cse.APILk.Service1c</extraarg>                                        
+                                    </extraargs>
+                                </wsdlOption>-->
+                                <wsdlOption>
+                                    <!--<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> -->
+                                    <wsdl>http://web.cse.ru/cse8_bsp/ws/MeasurerCargo?wsdl</wsdl>
+                                    <!-- <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>-->
+                                    <extraargs>
+                                        <extraarg>-impl</extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>ru.cse.Meashuring.Service1c</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>

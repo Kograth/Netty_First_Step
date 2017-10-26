@@ -38,5 +38,15 @@
         <routeBuilder ref="ProxySorterBuilder"/>
 
     </camelContext>
+    
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="brokerURL" value="tcp://localhost:61616"/>
+                <property name="userName" value="smx" />
+                <property name="password" value="smx" />
+            </bean>
+        </property>
+    </bean>   
    
 </blueprint>

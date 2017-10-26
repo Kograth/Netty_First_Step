@@ -6,12 +6,13 @@
 package ru.cse.proxysorter.Message;
 
 import io.netty.buffer.ByteBuf;
+import java.io.Serializable;
 
 /**
  *
  * @author Oleynik
  */
-public abstract class Request4All {
+public abstract class Request4All implements Serializable {
     public abstract ByteBuf ToByte();
     public abstract void  FromByte(ByteBuf msg);
 }
