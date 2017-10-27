@@ -12,11 +12,12 @@ import ru.cse.APILk.Service1c.GetDataPushExitResponse;
 import ru.cse.proxysorter.Message.Request11;
 import ru.cse.proxysorter.Message.Request13;
 import ru.cse.proxysorter.Message.Request15;
-import ru.cse.proxysorter.Message.Request17;
 import ru.cse.proxysorter.Message.Responce12;
 import ru.cse.proxysorter.Message.Response14;
 import ru.cse.proxysorter.Message.Response18;
 import java.lang.Exception;
+import ru.cse.proxysorter.ConstantsSorter;
+import ru.cse.proxysorter.Message.Request111;
 
 /**
  *
@@ -30,8 +31,8 @@ public class ProcessorRequest1C implements Processor {
     public void process(Exchange exchange) throws Exception {
 
         Message In = exchange.getIn();
-        CommandCode = (short) exchange.getProperty("CommandCode");
-        ProductCode = (int) exchange.getProperty("ProductCode");
+        CommandCode = (short) exchange.getProperty(ConstantsSorter.PROPERTY_COMANDCODE);
+        ProductCode = (int) exchange.getProperty(ConstantsSorter.PROPERTY_PLK);
 
         //Взависимости от входящей команды выберим как будем отвечать
         if (CommandCode == Request11.MESSAGE_CODE) {
@@ -41,7 +42,7 @@ public class ProcessorRequest1C implements Processor {
             String OutBarcode = TrR.getSendBarcode();
             Byte byteExitNumber = Byte.valueOf(ExitNumber);
             //Запишем свойство в сообщение
-            exchange.setProperty("Barcode", OutBarcode);
+            exchange.setProperty(ConstantsSorter.PROPERTY_BARCODE, OutBarcode);
             //
             Responce12 returnAnswer = new Responce12();
             returnAnswer.setExitNumber(byteExitNumber);
@@ -63,7 +64,7 @@ public class ProcessorRequest1C implements Processor {
         }
         //Отправим событие ТСД в поток сортировщика
         //Код события 111
-        if (CommandCode == Request17.MESSAGE_CODE) {
+        if (CommandCode == Request111.MESSAGE_CODE) {
             //ReplacingTheBag AnswerFrom1C = In.getBody(ReplacingTheBag.class);
             Response18 returnAnswer = new Response18();
             //String PropertyExit = new String(exchange.getProperty("ExitForNewBag"));

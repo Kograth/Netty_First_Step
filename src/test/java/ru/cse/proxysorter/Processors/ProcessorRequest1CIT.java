@@ -5,10 +5,12 @@
  */
 package ru.cse.proxysorter.Processors;
 import org.apache.camel.EndpointInject;
+import org.apache.camel.Exchange;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.apache.camel.impl.DefaultExchange;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -77,7 +79,7 @@ public class ProcessorRequest1CIT extends CamelTestSupport {
         Msg11.setStateWeight((short) 0x1);
         Msg11.setStateSize((short) 0x1);
         
-        
+        //Exchange StoreExchange = new DefaultExchange(exchng.getContext());
         resultEndpoint.expectedMessageCount(0);
         //resultEndpoint.expectedBodiesReceived("44");
         

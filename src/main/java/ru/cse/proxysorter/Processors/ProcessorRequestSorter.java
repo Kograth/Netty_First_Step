@@ -16,18 +16,21 @@ import org.apache.camel.component.cxf.common.message.CxfConstants;
 import ru.cse.APILk.Service1c.*;
 import ru.cse.proxysorter.Message.*;
 import java.lang.Exception;
+import ru.cse.proxysorter.ConstantsSorter;
 
 public class ProcessorRequestSorter implements Processor {
 
-    public int ProductCode = 5555;
-    public short CommandCode = 0x11;
+ 
     
     @Override
     public void process(Exchange exchange) throws Exception {
+        int ProductCode = 5555;
+        short CommandCode = 0x11; 
+        String Barcode;
         Request11 Req11 = exchange.getIn().getBody(Request11.class);
         Request13 Req13 = exchange.getIn().getBody(Request13.class);
         Request15 Req15 = exchange.getIn().getBody(Request15.class);
-        Request17 Req17 = exchange.getIn().getBody(Request17.class);
+        Request111 Req111 = exchange.getIn().getBody(Request111.class);
         Request18 Req18 = exchange.getIn().getBody(Request18.class);
 
         if (!(Req11 == null)) {
@@ -44,16 +47,17 @@ public class ProcessorRequestSorter implements Processor {
             Out.setBody(ParametersOUT);
             Out.setHeader(CxfConstants.OPERATION_NAME, "GetDataPushExit");
             Out.setHeader(CxfConstants.OPERATION_NAMESPACE, "http://www.cse-cargo.ru/client");
-            exchange.setProperty("CommandCode", CommandCode);
-            exchange.setProperty("ProductCode", ProductCode);
+            exchange.setProperty(ConstantsSorter.PROPERTY_COMANDCODE, CommandCode);
+            exchange.setProperty(ConstantsSorter.PROPERTY_PLK, ProductCode);
         }
         if (!(Req13 == null)) {
 
             ProductCode = Req13.getCodeProduct();
             CommandCode = Req13.getCommand();
-
+            
             String ExitNumber = String.valueOf(Req13.getExitNumber());
-
+            //Barcode = 
+                    
             ProductDelivery ParametersOUT14 = new ProductDelivery();
             ParametersOUT14.setInParametrs(ExitNumber);
             ParametersOUT14.setProductCode(String.valueOf(ProductCode));
@@ -62,8 +66,8 @@ public class ProcessorRequestSorter implements Processor {
             Out.setHeader(CxfConstants.OPERATION_NAME, "ProductDelivery");
             Out.setHeader(CxfConstants.OPERATION_NAMESPACE, "http://www.cse-cargo.ru/client");
             exchange.setProperty("SourceSort", Req13.getSource());
-            exchange.setProperty("CommandCode", CommandCode);
-            exchange.setProperty("ProductCode", ProductCode);
+            exchange.setProperty(ConstantsSorter.PROPERTY_COMANDCODE, CommandCode);
+            exchange.setProperty(ConstantsSorter.PROPERTY_PLK, ProductCode);
             
         }
         if (!(Req15 == null)) {
@@ -84,12 +88,12 @@ public class ProcessorRequestSorter implements Processor {
 
         //Событие отправленное ТСД
         //Код события 111
-        if (!(Req17 == null)) {
+        if (!(Req111 == null)) {
 
-            CommandCode = Req17.getCommand();
+            CommandCode = Req111.getCommand();
 
-            String ExitNumber = String.valueOf(Req17.getExitNumber());
-            String BagBarCode = String.valueOf(Req17.getBagBarCode());
+            String ExitNumber = String.valueOf(Req111.getExitNumber());
+            String BagBarCode = String.valueOf(Req111.getBagBarCode());
 
             ReplacingTheBag ParametersOUT18 = new ReplacingTheBag();
 
@@ -101,8 +105,8 @@ public class ProcessorRequestSorter implements Processor {
             Out.setHeader(CxfConstants.OPERATION_NAME, "ReplacingTheBag");
             Out.setHeader(CxfConstants.OPERATION_NAMESPACE, "http://www.cse-cargo.ru/client");
             exchange.setProperty("ExitForNewBag", ExitNumber);
-            exchange.setProperty("CommandCode", CommandCode);
-            exchange.setProperty("ProductCode", ProductCode);
+            exchange.setProperty(ConstantsSorter.PROPERTY_COMANDCODE, CommandCode);
+            exchange.setProperty(ConstantsSorter.PROPERTY_PLK, ProductCode);
         }
 
     }

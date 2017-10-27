@@ -11,12 +11,13 @@ public class Response18 extends Request4All {
     public static final int MESSAGE_LENGHT = 5;
 
 
-    public byte msgSTX      = 0x02;
-    public byte msgETX      = 0x03;
-    public byte Reserve     = 0x31;
-    public byte ExitNumber  = 0x31;
+    public final short msgSTX      = 0x02;
+    public final short msgETX      = 0x03;
+    private final short Command           = MESSAGE_CODE;    
+    public  short Reserve     = 0x31;
+    public  short ExitNumber  = 0x31;
 
-    public void setExitNumber(byte ExitNumber) {
+    public void setExitNumber(short ExitNumber) {
         this.ExitNumber=ExitNumber;
     }
 
