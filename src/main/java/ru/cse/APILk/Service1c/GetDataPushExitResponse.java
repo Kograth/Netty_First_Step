@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="SendExitNumber" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="SendExitNumber" type="{http://www.w3.org/2001/XMLSchema}byte"/&gt;
  *         &lt;element name="SendBarcode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -35,14 +35,14 @@ import javax.xml.bind.annotation.XmlType;
     "sendExitNumber",
     "sendBarcode"
 })
-@XmlRootElement(name = "GetDataPushExitResponse", namespace = "http://www.cse-cargo.ru/client")
+@XmlRootElement(name = "GetDataPushExitResponse")
 public class GetDataPushExitResponse {
 
-    @XmlElement(name = "return", namespace = "http://www.cse-cargo.ru/client", required = true)
+    @XmlElement(name = "return", required = true)
     protected String _return;
-    @XmlElement(name = "SendExitNumber", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
-    protected String sendExitNumber;
-    @XmlElement(name = "SendBarcode", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
+    @XmlElement(name = "SendExitNumber", required = true, type = Byte.class, nillable = true)
+    protected Byte sendExitNumber;
+    @XmlElement(name = "SendBarcode", required = true, nillable = true)
     protected String sendBarcode;
 
     /**
@@ -74,10 +74,10 @@ public class GetDataPushExitResponse {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Byte }
      *     
      */
-    public String getSendExitNumber() {
+    public Byte getSendExitNumber() {
         return sendExitNumber;
     }
 
@@ -86,10 +86,10 @@ public class GetDataPushExitResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Byte }
      *     
      */
-    public void setSendExitNumber(String value) {
+    public void setSendExitNumber(Byte value) {
         this.sendExitNumber = value;
     }
 

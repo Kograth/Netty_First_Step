@@ -13,6 +13,8 @@ import io.netty.buffer.ByteBuf;
  * @author Oleynik
  */
 public class Request11 extends Request4All {
+
+
     //Общие данные класса для правильного декодирования
         public static final byte MESSAGE_CODE=Telegram.TELEGA11;
         public static final int MESSAGE_LENGHT=179;
@@ -29,7 +31,12 @@ public class Request11 extends Request4All {
     private String barcode;     
     private short smlETX = 0x03;
 
-
+    //эти переменные для про
+    private String barcode1С;     
+    //эти переменные для про
+    private short ExitNumber = 0x04;  
+    
+    
     /**
      * @return the Comand
      */
@@ -149,6 +156,34 @@ public class Request11 extends Request4All {
         this.barcode = barcode;
     }
 
+    /**
+     * @return the barcode1С
+     */
+    public String getBarcode1С() {
+        return barcode1С;
+    }
+
+    /**
+     * @param barcode1С the barcode1С to set
+     */
+    public void setBarcode1С(String barcode1С) {
+        this.barcode1С = barcode1С;
+    }    
+
+    /**
+     * @return the ExitNumber
+     */
+    public short getExitNumber() {
+        return ExitNumber;
+    }
+
+    /**
+     * @param ExitNumber the ExitNumber to set
+     */
+    public void setExitNumber(short ExitNumber) {
+        this.ExitNumber = ExitNumber;
+    }
+    
     @Override
     public ByteBuf ToByte() {
         

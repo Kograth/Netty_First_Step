@@ -33,12 +33,12 @@ import javax.xml.bind.annotation.XmlType;
     "inParametrs",
     "productCode"
 })
-@XmlRootElement(name = "ProductDelivery", namespace = "http://www.cse-cargo.ru/client")
+@XmlRootElement(name = "ProductDelivery")
 public class ProductDelivery {
 
-    @XmlElement(name = "InParametrs", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
+    @XmlElement(name = "InParametrs", required = true, nillable = true)
     protected String inParametrs;
-    @XmlElement(name = "ProductCode", namespace = "http://www.cse-cargo.ru/client", required = true)
+    @XmlElement(name = "ProductCode", required = true)
     protected String productCode;
 
     /**

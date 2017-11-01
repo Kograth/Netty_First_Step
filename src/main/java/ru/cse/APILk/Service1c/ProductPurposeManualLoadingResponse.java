@@ -31,10 +31,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "_return"
 })
-@XmlRootElement(name = "ProductPurposeManualLoadingResponse", namespace = "http://www.cse-cargo.ru/client")
+@XmlRootElement(name = "ProductPurposeManualLoadingResponse")
 public class ProductPurposeManualLoadingResponse {
 
-    @XmlElement(name = "return", namespace = "http://www.cse-cargo.ru/client", required = true)
+    @XmlElement(name = "return", required = true)
     protected String _return;
 
     /**

@@ -14,25 +14,25 @@ import io.netty.buffer.Unpooled;
  */
 public class Responce12 extends Request4All {
 
-    public static final byte MESSAGE_CODE=Telegram.TELEGA12;
+    public static final short MESSAGE_CODE=Telegram.TELEGA12;
     public static final int MESSAGE_LENGHT=8;
 
     
-    private byte Command    = MESSAGE_CODE;
-    public byte msgSTX      = 0x02;
-    public byte msgETX      = 0x03;
+    private short Command    = MESSAGE_CODE;
+    public short msgSTX      = 0x02;
+    public short msgETX      = 0x03;
     private int codeProduct = 1000;
-    private byte ExitNumber = 0x04;
+    private short ExitNumber = 0x04;
 
 
-    public byte getCommand() {
+    public short getCommand() {
         return Command;
     }
 
     /**
      * @param Command the Command to set
      */
-    public void setCommand(byte Command) {
+    public void setCommand(short Command) {
         this.Command = Command;
     }
 
@@ -53,14 +53,14 @@ public class Responce12 extends Request4All {
     /**
      * @return the ExitNumber
      */
-    public byte getExitNumber() {
+    public short getExitNumber() {
         return ExitNumber;
     }
 
     /**
      * @param ExitNumber the ExitNumber to set
      */
-    public void setExitNumber(byte ExitNumber) {
+    public void setExitNumber(short ExitNumber) {
         this.ExitNumber = ExitNumber;
     }
       

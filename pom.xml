@@ -13,9 +13,9 @@
 
 
     <properties>
-       <camel.version>2.16.5</camel.version>
-       <activemq.version>5.14.5</activemq.version>
-       <cxf-rt-frontend-jaxws.version>3.1.6</cxf-rt-frontend-jaxws.version>
+        <camel.version>2.16.5</camel.version>
+        <activemq.version>5.14.5</activemq.version>
+        <cxf-rt-frontend-jaxws.version>3.1.6</cxf-rt-frontend-jaxws.version>
     </properties>
 
     <dependencies>
@@ -25,11 +25,11 @@
             <version>${camel.version}</version>
         </dependency>
         <!--<dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-leveldb</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
--->
+                    <groupId>org.apache.camel</groupId>
+                    <artifactId>camel-leveldb</artifactId>
+                    <version>${camel.version}</version>
+                </dependency>
+        -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-camel</artifactId>
@@ -81,24 +81,6 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <scope>test</scope>
-            <version>2.44.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.opera</groupId>
-            <artifactId>operadriver</artifactId>
-            <scope>test</scope>
-            <version>1.5</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-remote-driver</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
     </dependencies>
 
     <build>
@@ -126,6 +108,13 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
                 <version>3.1.7</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                        <version>2.8.1</version>
+                    </dependency>
+                </dependencies>                
                 <executions>
                     <execution>
                         <id>generate-sources</id>
@@ -138,19 +127,9 @@
                                 <autoNameResolution>true</autoNameResolution>
                             </defaultOptions>
                             <wsdlOptions>
-                             <!--   <wsdlOption>
-                                    &lt;!&ndash;<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> &ndash;&gt;
-                                    <wsdl>http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE?wsdl</wsdl>
-                                   &lt;!&ndash; <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>&ndash;&gt;
-                                    <extraargs>
-                                        <extraarg>-impl</extraarg>
-                                        <extraarg>-p</extraarg>
-                                        <extraarg>ru.cse.APILk.Service1c</extraarg>                                        
-                                    </extraargs>
-                                </wsdlOption>-->
                                 <wsdlOption>
                                     <!--<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> -->
-                                    <wsdl>http://web.cse.ru/cse82_AlexSt/ws/SorterExchange?wsdl</wsdl>
+                                    <wsdl>http://web.cse.ru/cse8_bsp/ws/SorterExchange?wsdl</wsdl>
                                     <!-- <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>-->
                                     <extraargs>
                                         <extraarg>-impl</extraarg>
@@ -163,35 +142,15 @@
                         <goals>
                             <goal>wsdl2java</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-codegen-plugin</artifactId>
-                <version>3.1.7</version>
-                <executions>
+                    </execution> 
                     <execution>
-                        <id>generate-sources</id>
+                        <id>generate-Meashure</id>
                         <phase>generate-sources</phase>
 
                         <configuration>
                             <!--<sourceRoot>${project.build.directory}/generated/src/main/java</sourceRoot>-->
                             <sourceRoot>${basedir}/src/main/java</sourceRoot>
-                            <defaultOptions>
-                                <autoNameResolution>true</autoNameResolution>
-                            </defaultOptions>
                             <wsdlOptions>
-                             <!--   <wsdlOption>
-                                    &lt;!&ndash;<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> &ndash;&gt;
-                                    <wsdl>http://web.cse.ru/cse82_reg/ws/WebServicesNewCSE?wsdl</wsdl>
-                                   &lt;!&ndash; <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>&ndash;&gt;
-                                    <extraargs>
-                                        <extraarg>-impl</extraarg>
-                                        <extraarg>-p</extraarg>
-                                        <extraarg>ru.cse.APILk.Service1c</extraarg>                                        
-                                    </extraargs>
-                                </wsdlOption>-->
                                 <wsdlOption>
                                     <!--<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> -->
                                     <wsdl>http://web.cse.ru/cse8_bsp/ws/MeasurerCargo?wsdl</wsdl>
@@ -208,8 +167,9 @@
                             <goal>wsdl2java</goal>
                         </goals>
                     </execution>
-                </executions>
+                </executions>                
             </plugin>
+
             
             <plugin>
                 <groupId>org.apache.felix</groupId>

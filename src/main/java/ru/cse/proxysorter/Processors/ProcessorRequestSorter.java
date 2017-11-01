@@ -24,9 +24,9 @@ public class ProcessorRequestSorter implements Processor {
     
     @Override
     public void process(Exchange exchange) throws Exception {
-        int ProductCode = 5555;
-        short CommandCode = 0x11; 
-        String Barcode;
+        int ProductCode;
+        short CommandCode; 
+
         Request11 Req11 = exchange.getIn().getBody(Request11.class);
         Request13 Req13 = exchange.getIn().getBody(Request13.class);
         Request15 Req15 = exchange.getIn().getBody(Request15.class);
@@ -99,14 +99,14 @@ public class ProcessorRequestSorter implements Processor {
 
             ParametersOUT18.setBagCode(BagBarCode);
             ParametersOUT18.setExitNumber(ExitNumber);
-            ParametersOUT18.setInParametrs("From 111");
+            ParametersOUT18.setInParametrs(BagBarCode);
             Message Out = exchange.getOut();
             Out.setBody(ParametersOUT18);
             Out.setHeader(CxfConstants.OPERATION_NAME, "ReplacingTheBag");
             Out.setHeader(CxfConstants.OPERATION_NAMESPACE, "http://www.cse-cargo.ru/client");
-            exchange.setProperty("ExitForNewBag", ExitNumber);
-            exchange.setProperty(ConstantsSorter.PROPERTY_COMANDCODE, CommandCode);
-            exchange.setProperty(ConstantsSorter.PROPERTY_PLK, ProductCode);
+            //exchange.setProperty("ExitForNewBag", ExitNumber);
+            //exchange.setProperty(ConstantsSorter.PROPERTY_COMANDCODE, CommandCode);
+            //exchange.setProperty(ConstantsSorter.PROP ERTY_PLK, ProductCode);
         }
 
     }

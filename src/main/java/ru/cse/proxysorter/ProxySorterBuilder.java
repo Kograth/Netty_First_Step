@@ -12,8 +12,10 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
+import ru.cse.proxysorter.Processors.Processor13ToMeashure;
 import ru.cse.proxysorter.Processors.ProcessorRequest1C;
 import ru.cse.proxysorter.Processors.ProcessorRequestSorter;
+import ru.cse.proxysorter.Processors.Req11And1CAgregate;
 import ru.cse.proxysorter.Processors.Req13Agregate;
 import ru.cse.proxysorter.Processors.Req17ToResp18;
 
@@ -45,9 +47,7 @@ public class ProxySorterBuilder extends RouteBuilder {
         
    //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод     
         from("direct:Request11")
-                .process(new ProcessorRequestSorter())
-                .to("cxf:bean:reportIncident")
-                .process(new ProcessorRequest1C())
+                .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
                 .to(ExchangePattern.InOnly,"seda:SaveToRepoSorter")
                 .to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")                
                 .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
@@ -72,7 +72,6 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("direct:RequestANY")
                 .process(new ProcessorRequestSorter())
                 .to("cxf:bean:reportIncident")
-                .process(new ProcessorRequest1C())
                 ;
         
 //Прочитаем сопоставление PLU Штрих код
@@ -88,7 +87,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                     @Override
                     public void process(Exchange exchng) throws Exception {
                         //Exchange StoreExchange = new DefaultExchange(exchng.getContext());
-                        Message in = exchng.getIn();                        
+                        Message in = exchng.getIn();
                         in.setBody(exchng.getProperty(ConstantsSorter.PROPERTY_BARCODE));
                         in.setHeader(CacheConstants.CACHE_KEY, exchng.getProperty("ProductCode"));
                         in.setHeader(CacheConstants.CACHE_OPERATION, CacheConstants.CACHE_OPERATION_ADD);
@@ -103,5 +102,23 @@ public class ProxySorterBuilder extends RouteBuilder {
                         +"&diskPersistent=true" 
                         +"&diskExpiryThreadIntervalSeconds=300"
                 );
+        
+// своего рода подзапрос в 1с для получения правильного штрих кода и номера выхода
+       from("direct:RequestFrom1c")
+                .process(new ProcessorRequestSorter())               
+                .to("cxf:bean:reportIncident")
+               .process(new Processor(){
+            @Override
+            public void process(Exchange exchng) throws Exception {
+                Message in = exchng.getIn();
+            }
+        })
+              ;
+        
+ //Отправим весогабариты в 1с
+        from("activemq:queue:Sorter.Meashure")
+                .to("seda:ReadToRepoSorter")
+                .process(new Processor13ToMeashure())
+                .to("cxf:bean:MeashurementIncident");
     }
 }

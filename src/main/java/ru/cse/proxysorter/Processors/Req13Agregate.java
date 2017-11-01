@@ -17,16 +17,8 @@ public class Req13Agregate implements AggregationStrategy{
 
     @Override
     public Exchange aggregate(Exchange original, Exchange resource) {
-        //Object originalBody = original.getIn().getBody();
         String resourceResponse = (String) resource.getIn().getBody();
-        //Object mergeResult = originalBody;
-        //String bsrcode = (String) resource.getProperty(ConstantsSorter.PROPERTY_BARCODE);
         original.setProperty(ConstantsSorter.PROPERTY_BARCODE, resourceResponse);
-//        if (original.getPattern().isOutCapable()) {
-//            original.getOut().setBody(mergeResult);
-//        } else {
-//            original.getIn().setBody(mergeResult);
-//        }
         return original;
     }
     

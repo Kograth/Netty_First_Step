@@ -31,10 +31,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "inParametrs"
 })
-@XmlRootElement(name = "ProductPurposeManualLoading", namespace = "http://www.cse-cargo.ru/client")
+@XmlRootElement(name = "ProductPurposeManualLoading")
 public class ProductPurposeManualLoading {
 
-    @XmlElement(name = "InParametrs", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
+    @XmlElement(name = "InParametrs", required = true, nillable = true)
     protected String inParametrs;
 
     /**

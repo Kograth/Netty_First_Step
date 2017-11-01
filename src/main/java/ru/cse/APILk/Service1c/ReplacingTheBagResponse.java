@@ -33,12 +33,12 @@ import javax.xml.bind.annotation.XmlType;
     "_return",
     "result"
 })
-@XmlRootElement(name = "ReplacingTheBagResponse", namespace = "http://www.cse-cargo.ru/client")
+@XmlRootElement(name = "ReplacingTheBagResponse")
 public class ReplacingTheBagResponse {
 
-    @XmlElement(name = "return", namespace = "http://www.cse-cargo.ru/client", required = true)
+    @XmlElement(name = "return", required = true)
     protected String _return;
-    @XmlElement(name = "Result", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
+    @XmlElement(name = "Result", required = true, nillable = true)
     protected String result;
 
     /**

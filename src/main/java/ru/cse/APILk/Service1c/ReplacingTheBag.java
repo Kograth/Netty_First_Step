@@ -35,14 +35,14 @@ import javax.xml.bind.annotation.XmlType;
     "bagCode",
     "exitNumber"
 })
-@XmlRootElement(name = "ReplacingTheBag", namespace = "http://www.cse-cargo.ru/client")
+@XmlRootElement(name = "ReplacingTheBag")
 public class ReplacingTheBag {
 
-    @XmlElement(name = "InParametrs", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
+    @XmlElement(name = "InParametrs", required = true, nillable = true)
     protected String inParametrs;
-    @XmlElement(name = "BagCode", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
+    @XmlElement(name = "BagCode", required = true, nillable = true)
     protected String bagCode;
-    @XmlElement(name = "ExitNumber", namespace = "http://www.cse-cargo.ru/client", required = true, nillable = true)
+    @XmlElement(name = "ExitNumber", required = true, nillable = true)
     protected String exitNumber;
 
     /**
