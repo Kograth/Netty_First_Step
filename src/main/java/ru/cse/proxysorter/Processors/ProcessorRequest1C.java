@@ -12,7 +12,7 @@ import ru.cse.APILk.Service1c.GetDataPushExitResponse;
 import ru.cse.proxysorter.Message.Request11;
 import ru.cse.proxysorter.Message.Request13;
 import ru.cse.proxysorter.Message.Request15;
-import ru.cse.proxysorter.Message.Responce12;
+import ru.cse.proxysorter.Message.Response12;
 import ru.cse.proxysorter.Message.Response14;
 import ru.cse.proxysorter.Message.Response18;
 import java.lang.Exception;
@@ -44,10 +44,10 @@ public class ProcessorRequest1C implements Processor {
             //Запишем свойство в сообщение
             exchange.setProperty(ConstantsSorter.PROPERTY_BARCODE, OutBarcode);
             //
-            Responce12 returnAnswer = new Responce12();
+            Response12 returnAnswer = new Response12();
             returnAnswer.setExitNumber(byteExitNumber);
             returnAnswer.setCodeProduct(ProductCode);
-            returnAnswer.ToByte();
+            //returnAnswer.ToByte();
             Message Out = exchange.getOut();
             Out.setBody(returnAnswer);
         }
@@ -55,7 +55,7 @@ public class ProcessorRequest1C implements Processor {
             Response14 returnAnswer = new Response14();
             returnAnswer.SetSource((Short) exchange.getProperty("SourceSort"));
             returnAnswer.SetCodeProduct(ProductCode);
-            returnAnswer.ToByte();
+            //returnAnswer.ToByte();
             Message Out = exchange.getOut();
             Out.setBody(returnAnswer);
         }

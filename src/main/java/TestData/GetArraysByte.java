@@ -40,7 +40,7 @@ public class GetArraysByte {
         outStream11.write(0x51);
         outStream11.write(StatusSize);
         outStream11.write(BarCode.getBytes());
-        outStream11.write(ETXs);;
+        outStream11.write(ETXs);
 
         byte[] mass11 = outStream11.toByteArray();
 

@@ -8,6 +8,7 @@ package ru.cse.proxysorter.Processors;
 import org.apache.camel.Exchange;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import ru.cse.proxysorter.ConstantsSorter;
+import ru.cse.proxysorter.Message.Request11;
 
 /**
  *
@@ -17,8 +18,8 @@ public class Req13Agregate implements AggregationStrategy{
 
     @Override
     public Exchange aggregate(Exchange original, Exchange resource) {
-        String resourceResponse = (String) resource.getIn().getBody();
-        original.setProperty(ConstantsSorter.PROPERTY_BARCODE, resourceResponse);
+        Request11 resourceResponse =  resource.getIn().getBody(Request11.class);
+        original.setProperty(ConstantsSorter.PROPERTY_BARCODE, resourceResponse.getBarcode1С());
         return original;
     }
     

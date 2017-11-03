@@ -28,7 +28,7 @@ public class Processor13ToMeashure implements Processor{
             Reqto1C.setLength(Float.valueOf(Req11.getLength()));
             Reqto1C.setWidth(Float.valueOf(Req11.getWidth()));
             Reqto1C.setWeight(Float.valueOf(Req11.getWeight()));
-            Reqto1C.setNumber((String) exchange.getProperty(ConstantsSorter.PROPERTY_BARCODE));
+            Reqto1C.setNumber(Req11.getBarcode1С());
             
             Message Out = exchange.getOut();
             Out.setBody(Reqto1C);

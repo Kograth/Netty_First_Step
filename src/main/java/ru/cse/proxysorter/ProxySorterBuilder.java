@@ -12,10 +12,12 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
+import ru.cse.proxysorter.Message.Request11;
 import ru.cse.proxysorter.Processors.Processor13ToMeashure;
 import ru.cse.proxysorter.Processors.ProcessorRequest1C;
 import ru.cse.proxysorter.Processors.ProcessorRequestSorter;
 import ru.cse.proxysorter.Processors.Req11And1CAgregate;
+import ru.cse.proxysorter.Processors.Req11toResp12;
 import ru.cse.proxysorter.Processors.Req13Agregate;
 import ru.cse.proxysorter.Processors.Req17ToResp18;
 
@@ -39,18 +41,22 @@ public class ProxySorterBuilder extends RouteBuilder {
 
         from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false") //te1 //185.65.22.28 
                 .choice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11") 
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request13'")).to("direct:Request13")
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:Request17")                
-                    .otherwise().to("direct:RequestANY")
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11").endChoice()
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request13'")).to("direct:Request13").endChoice()
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:Request17").endChoice()
+                    .otherwise().to("direct:RequestANY").end()
+                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
                 ;  
         
    //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод     
         from("direct:Request11")
                 .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
-                .to(ExchangePattern.InOnly,"seda:SaveToRepoSorter")
-                .to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")                
-                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
+                .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
+                .to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")
+                .to("log:Request11")
+                .process(new Req11toResp12())
+                .to("log:Request11")
+//                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
                 ;
 
 //Получили исходные данные, надо отправить запрос в 1с, предварительно сконвертировав PLU в Штрихкод
@@ -59,19 +65,21 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to("seda:ReadToRepoSorter")
                 .to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
-                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
+                //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
                 ;
         
 
 //17 код замена мешка, в сортер отправлять ничего не надо, это только для 1с
         from("direct:Request17")
                 .process(new Req17ToResp18())
-                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
+//                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
                 ;        
 //Все остальные операции, смена мешка и т.д.
         from("direct:RequestANY")
                 .process(new ProcessorRequestSorter())
                 .to("cxf:bean:reportIncident")
+                .process(new ProcessorRequest1C())
+                //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end()                
                 ;
         
 //Прочитаем сопоставление PLU Штрих код
@@ -82,14 +90,15 @@ public class ProxySorterBuilder extends RouteBuilder {
 
 
 //Сохраним значение сопоставления PLU - штрих код        
-        from("seda:SaveToRepoSorter")
+        from("direct:SaveToRepoSorter")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchng) throws Exception {
                         //Exchange StoreExchange = new DefaultExchange(exchng.getContext());
                         Message in = exchng.getIn();
-                        in.setBody(exchng.getProperty(ConstantsSorter.PROPERTY_BARCODE));
-                        in.setHeader(CacheConstants.CACHE_KEY, exchng.getProperty("ProductCode"));
+                        Request11 resourceResponse =  in.getBody(Request11.class);
+                        //in.setBody(exchng.getProperty(ConstantsSorter.PROPERTY_BARCODE));
+                        in.setHeader(CacheConstants.CACHE_KEY, resourceResponse.getCodePLK());
                         in.setHeader(CacheConstants.CACHE_OPERATION, CacheConstants.CACHE_OPERATION_ADD);
                     };})
                 .to("cache://SorterPluBarcodeCache"
@@ -107,17 +116,11 @@ public class ProxySorterBuilder extends RouteBuilder {
        from("direct:RequestFrom1c")
                 .process(new ProcessorRequestSorter())               
                 .to("cxf:bean:reportIncident")
-               .process(new Processor(){
-            @Override
-            public void process(Exchange exchng) throws Exception {
-                Message in = exchng.getIn();
-            }
-        })
               ;
         
  //Отправим весогабариты в 1с
         from("activemq:queue:Sorter.Meashure")
-                .to("seda:ReadToRepoSorter")
+                //.to("seda:ReadToRepoSorter")
                 .process(new Processor13ToMeashure())
                 .to("cxf:bean:MeashurementIncident");
     }

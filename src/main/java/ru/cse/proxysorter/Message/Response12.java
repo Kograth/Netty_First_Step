@@ -12,7 +12,7 @@ import io.netty.buffer.Unpooled;
  *
  * @author Oleynik
  */
-public class Responce12 extends Request4All {
+public class Response12 extends Request4All {
 
     public static final short MESSAGE_CODE=Telegram.TELEGA12;
     public static final int MESSAGE_LENGHT=8;
