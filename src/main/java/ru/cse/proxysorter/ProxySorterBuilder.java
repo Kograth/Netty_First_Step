@@ -12,12 +12,7 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
-import ru.cse.proxysorter.Processors.Processor13ToMeashure;
-import ru.cse.proxysorter.Processors.ProcessorRequest1C;
-import ru.cse.proxysorter.Processors.ProcessorRequestSorter;
-import ru.cse.proxysorter.Processors.Req11And1CAgregate;
-import ru.cse.proxysorter.Processors.Req13Agregate;
-import ru.cse.proxysorter.Processors.Req17ToResp18;
+import ru.cse.proxysorter.Processors.*;
 
 /**
  *
@@ -41,7 +36,8 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11") 
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request13'")).to("direct:Request13")
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:Request17")                
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:Request17")
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111")
                     .otherwise().to("direct:RequestANY")
                 ;  
         
@@ -67,7 +63,13 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("direct:Request17")
                 .process(new Req17ToResp18())
                 .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
-                ;        
+                ;
+///111 код снятия мешка с ТСД отправляемый в 1C
+        from("direct:Request111")
+           .process(new Req111To1C())
+           .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end();
+
+
 //Все остальные операции, смена мешка и т.д.
         from("direct:RequestANY")
                 .process(new ProcessorRequestSorter())
