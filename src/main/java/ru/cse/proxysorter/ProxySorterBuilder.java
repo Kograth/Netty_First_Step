@@ -13,13 +13,7 @@ import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
 import ru.cse.proxysorter.Message.Request11;
-import ru.cse.proxysorter.Processors.Processor13ToMeashure;
-import ru.cse.proxysorter.Processors.ProcessorRequest1C;
-import ru.cse.proxysorter.Processors.ProcessorRequestSorter;
-import ru.cse.proxysorter.Processors.Req11And1CAgregate;
-import ru.cse.proxysorter.Processors.Req11toResp12;
-import ru.cse.proxysorter.Processors.Req13Agregate;
-import ru.cse.proxysorter.Processors.Req17ToResp18;
+import ru.cse.proxysorter.Processors.*;
 
 /**
  *
@@ -44,9 +38,12 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request13'")).to("direct:Request13").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:Request17").endChoice()
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111")
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request15'")).to("direct:Request15")
                     .otherwise().to("direct:RequestANY").end()
                 .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
-                ;  
+
+                ;
         
    //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод     
         from("direct:Request11")
@@ -65,19 +62,37 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to("seda:ReadToRepoSorter")
                 .to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
-                //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
+                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
                 ;
         
 
 //17 код замена мешка, в сортер отправлять ничего не надо, это только для 1с
         from("direct:Request17")
                 .process(new Req17ToResp18())
+                .to("netty4:tcp://te1:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
+                ;
+
+//111 код снятия мешка с ТСД отправляемый в 1C
+        from("direct:Request111")
+           .process(new Req111To1C()).end();
+
+
+//15 ручная выкладка ящиков
+        from("direct:Request15")
+        .process(new Req15to1C())
+        .to("direct:RepackMessage15").end();
+
+//Доупаковать ответ от 1С и отправить в сортировщик благую весть.
+        from("direct:RepackMessage15")
+                .process(new Req15to16())
+                .to("netty4:tcp://te1:6789?encoders=#length-EncoderSorterTlg&sync=false").end();
+
 //Все остальные операции, смена мешка и т.д.
         from("direct:RequestANY")
                 .process(new ProcessorRequestSorter())
                 .to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
-                //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end()                
+                //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
                 ;
         
 //Прочитаем сопоставление PLU Штрих код
@@ -114,6 +129,12 @@ public class ProxySorterBuilder extends RouteBuilder {
        from("direct:RequestFrom1c")
                 .process(new ProcessorRequestSorter())               
                 .to("cxf:bean:reportIncident")
+               .process(new Processor(){
+            @Override
+            public void process(Exchange exchng) throws Exception {
+                Message in = exchng.getIn();
+            }
+        })
               ;
         
  //Отправим весогабариты в 1с
@@ -124,4 +145,4 @@ public class ProxySorterBuilder extends RouteBuilder {
     }
 }
 //                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
-                ;        
+                ;

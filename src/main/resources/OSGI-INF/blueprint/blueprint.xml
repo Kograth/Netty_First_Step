@@ -20,7 +20,7 @@
     </bean>-->
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://web.cse.ru/cse8_bsp/ws/SorterExchange"
+                          address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client" 
@@ -44,8 +44,8 @@
         </camelcxf:properties>          
     </camelcxf:cxfEndpoint> 
         
-    <!--address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"-->
-
+    <!-- Мой адресс для теста address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"-->
+    <!-- Не мой адресс для теста address="http://web.cse.ru/cse8_bsp/ws/SorterExchange"-->
     
     <camelContext id="Sorter" xmlns="http://camel.apache.org/schema/blueprint">
 

@@ -11,9 +11,14 @@ public class Request15 extends Request4All {
     private byte ExitNumber         = 0x31;
     private short NumberManualPack  = 0x00;
     private short smlETX            = 0x03;
+    private String Barcode          = "007";
 
     public short getCommand() {
         return Command;
+    }
+
+    public String getBarcode() {
+        return  Barcode;
     }
 
     @Override
