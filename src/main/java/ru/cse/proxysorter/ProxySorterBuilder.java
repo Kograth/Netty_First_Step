@@ -72,8 +72,6 @@ public class ProxySorterBuilder extends RouteBuilder {
 //17 код замена мешка, в сортер отправлять ничего не надо, это только для 1с
         from("direct:Request17")
                 .process(new Req17ToResp18())
-//                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
-                ;        
 //Все остальные операции, смена мешка и т.д.
         from("direct:RequestANY")
                 .process(new ProcessorRequestSorter())
@@ -125,3 +123,5 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to("cxf:bean:MeashurementIncident");
     }
 }
+//                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
+                ;        
