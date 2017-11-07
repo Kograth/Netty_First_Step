@@ -24,7 +24,7 @@
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client" 
-                          loggingFeatureEnabled="true">
+                          loggingFeatureEnabled="false">
         <camelcxf:properties>
             <entry key="dataFormat" value="PAYLOAD"/>
         </camelcxf:properties>        
@@ -36,7 +36,7 @@
                               serviceName="ws:MeasurerCargo"
                               endpointName="ws:MeasurerCargoSoap12"
                               xmlns:ws="http://www.cse-cargo.ru/MeasurerCargo" 
-                              loggingFeatureEnabled="true">
+                              loggingFeatureEnabled="false">
         <camelcxf:properties>
             <entry key="dataFormat" value="PAYLOAD"/>
   <!--          <entry key="username" value="web"/>
