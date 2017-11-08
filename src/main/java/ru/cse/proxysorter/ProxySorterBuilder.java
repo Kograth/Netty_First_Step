@@ -38,8 +38,8 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request13'")).to("direct:Request13").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:Request17").endChoice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111")
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request15'")).to("direct:Request15")
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").endChoice()
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request15'")).to("direct:Request15").endChoice()
                     .otherwise().to("direct:RequestANY").end()
                 .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
 
@@ -62,14 +62,14 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to("seda:ReadToRepoSorter")
                 .to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
-                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
+                //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
                 ;
         
 
 //17 код замена мешка, в сортер отправлять ничего не надо, это только для 1с
         from("direct:Request17")
                 .process(new Req17ToResp18())
-                .to("netty4:tcp://te1:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
+                //.to("netty4:tcp://te1:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
                 ;
 
 //111 код снятия мешка с ТСД отправляемый в 1C
