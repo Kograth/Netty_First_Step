@@ -24,28 +24,31 @@ public class ProxySorterBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-//        LevelDBAggregationRepository RepoSorter;
-//
-//        File file = new File("data/SorterDb");
-//        LevelDBFile levelDBFile = new LevelDBFile();
-//        levelDBFile.setFile(file);
-//        levelDBFile.start();
-//        
-//        RepoSorter = new LevelDBAggregationRepository("sorterdb", "data/SorterDb");
 
-        from("netty4:tcp://localhost:5150?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false") //te1 //185.65.22.28 
-                .choice()
+        from("netty4:tcp://localhost:5111?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false") //te1 //185.65.22.28
+                .to("direct:Request11")
+                /*.choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request13'")).to("direct:Request13").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:Request17").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").endChoice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request15'")).to("direct:Request15").endChoice()
-                    .otherwise().to("direct:RequestANY").end()
+                    .otherwise().to("direct:RequestANY").end()*/
                 .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
-
                 ;
-        
-   //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод     
+
+        from("netty4:tcp://localhost:5113?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
+                .to("direct:Request13")
+                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
+
+        from("netty4:tcp://localhost:5117?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
+                .to("direct:Request17")
+                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
+
+        from("netty4:tcp://localhost:5200?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
+                .to("direct:Request111")
+                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
+
+        //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод
         from("direct:Request11")
                 .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")

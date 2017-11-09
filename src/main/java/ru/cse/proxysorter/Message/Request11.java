@@ -17,7 +17,7 @@ public class Request11 extends Request4All {
 
     //Общие данные класса для правильного декодирования
         public static final byte MESSAGE_CODE=Telegram.TELEGA11;
-        public static final int MESSAGE_LENGHT=179;
+        public static final int MESSAGE_LENGHT=180;
         
     private short smlSTX = 0x02;        
     private short COMMAND = 0x11;
@@ -30,6 +30,7 @@ public class Request11 extends Request4All {
     private short stateSize  = 0;     
     private String barcode;     
     private short smlETX = 0x03;
+    private byte wellspring = 0x30;
 
     //эти переменные для про
     private String barcode1С;     
@@ -44,6 +45,9 @@ public class Request11 extends Request4All {
         return COMMAND;
     }
 
+    public byte getWellspring() {
+        return wellspring;
+    }
     /**
      * @return the codePLK
      */
