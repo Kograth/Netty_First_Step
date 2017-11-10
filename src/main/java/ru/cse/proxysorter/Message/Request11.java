@@ -48,6 +48,10 @@ public class Request11 extends Request4All {
     public byte getWellspring() {
         return wellspring;
     }
+
+    public void setWellspring(byte InWellsping) {
+        this.wellspring = InWellsping;
+    }
     /**
      * @return the codePLK
      */
@@ -201,6 +205,7 @@ public class Request11 extends Request4All {
         smlSTX = msg.readUnsignedByte(); // <STX>
         COMMAND = msg.readUnsignedByte(); // <Команда должна быть равна 11>
         codePLK     = msg.readInt();     // код продукта ПЛК
+        wellspring  = msg.readByte();
         weight      = msg.readShort();   // вес
         StateWeight = msg.readShort();   // статус веса
         length      = msg.readShort();   // длина

@@ -25,7 +25,7 @@ public class ProxySorterBuilder extends RouteBuilder {
     public void configure() throws Exception {
 
 
-        from("netty4:tcp://localhost:5111?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false") //te1 //185.65.22.28
+        from("netty4:tcp://localhost:5111?decoders=#length-DecoderSorterTlg&sync=false") //te1 //185.65.22.28
                 .to("direct:Request11")
                 /*.choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11").endChoice()
@@ -36,17 +36,17 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
                 ;
 
-        from("netty4:tcp://localhost:5113?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
+        from("netty4:tcp://localhost:5113?decoders=#length-DecoderSorterTlg&sync=false") //&encoders=#length-EncoderSorterTlg
                 .to("direct:Request13")
                 .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
 
-        from("netty4:tcp://localhost:5117?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
+        from("netty4:tcp://localhost:5117?decoders=#length-DecoderSorterTlg&sync=false")
                 .to("direct:Request17")
                 .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
 
         from("netty4:tcp://localhost:5200?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
-                .to("direct:Request111")
-                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
+                .to("direct:Request111").end();
+                //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
 
         //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод
         from("direct:Request11")
@@ -69,26 +69,28 @@ public class ProxySorterBuilder extends RouteBuilder {
                 ;
         
 
-//17 код замена мешка, в сортер отправлять ничего не надо, это только для 1с
+//17 команда открытия выхода
         from("direct:Request17")
                 .process(new Req17ToResp18())
                 //.to("netty4:tcp://te1:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
                 ;
+// Ожидается команда закрытия выхода
+
 
 //111 код снятия мешка с ТСД отправляемый в 1C
         from("direct:Request111")
            .process(new Req111To1C()).end();
 
 
-//15 ручная выкладка ящиков
-        from("direct:Request15")
-        .process(new Req15to1C())
-        .to("direct:RepackMessage15").end();
+////15 ручная выкладка ящиков
+//        from("direct:Request15")
+//        .process(new Req15to1C())
+//        .to("direct:RepackMessage15").end();
 
-//Доупаковать ответ от 1С и отправить в сортировщик благую весть.
-        from("direct:RepackMessage15")
-                .process(new Req15to16())
-                .to("netty4:tcp://te1:6789?encoders=#length-EncoderSorterTlg&sync=false").end();
+////Доупаковать ответ от 1С и отправить в сортировщик благую весть.
+//        from("direct:RepackMessage15")
+//                .process(new Req15to16())
+//                .to("netty4:tcp://te1:6789?encoders=#length-EncoderSorterTlg&sync=false").end();
 
 //Все остальные операции, смена мешка и т.д.
         from("direct:RequestANY")

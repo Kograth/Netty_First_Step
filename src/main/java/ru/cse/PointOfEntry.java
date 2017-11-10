@@ -19,7 +19,7 @@ public class PointOfEntry {
         byte[] ArrayToStream = MassToStream.Request11();
 
 
-        Socket clientSocket = new Socket("localhost",5150); //te1
+        Socket clientSocket = new Socket("localhost",5111); //te1
 
 
         Character  TABs = 0x09;

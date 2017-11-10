@@ -4,9 +4,9 @@ import java.io.ByteArrayOutputStream;
 
 public class GetArraysByte {
 
-    Character STXs          = 2;
-    Character ETXs          = 3;
-    Character CommandCode   = 11;
+    byte STXs          = 0x2;
+    byte ETXs          = 0x3;
+    byte CommandCode   = 0x11;
     int ProductCode         = 49;
     short weight            = 52;
     short StatusWeight      = 53;
@@ -27,6 +27,7 @@ public class GetArraysByte {
 
         outStream11.write(STXs);
         outStream11.write(CommandCode);
+        outStream11.write(0x31);
         outStream11.write(0x51);
         outStream11.write(weight);
         outStream11.write(0x51);

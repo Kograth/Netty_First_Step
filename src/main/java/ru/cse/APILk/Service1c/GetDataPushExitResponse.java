@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="SendExitNumber" type="{http://www.w3.org/2001/XMLSchema}byte"/&gt;
  *         &lt;element name="SendBarcode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="SendProductCode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -33,7 +34,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "_return",
     "sendExitNumber",
-    "sendBarcode"
+    "sendBarcode",
+    "sendProductCode"
 })
 @XmlRootElement(name = "GetDataPushExitResponse")
 public class GetDataPushExitResponse {
@@ -44,6 +46,8 @@ public class GetDataPushExitResponse {
     protected Byte sendExitNumber;
     @XmlElement(name = "SendBarcode", required = true, nillable = true)
     protected String sendBarcode;
+    @XmlElement(name = "SendProductCode", required = true, nillable = true)
+    protected String sendProductCode;
 
     /**
      * Gets the value of the return property.
@@ -115,6 +119,30 @@ public class GetDataPushExitResponse {
      */
     public void setSendBarcode(String value) {
         this.sendBarcode = value;
+    }
+
+    /**
+     * Gets the value of the sendProductCode property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSendProductCode() {
+        return sendProductCode;
+    }
+
+    /**
+     * Sets the value of the sendProductCode property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSendProductCode(String value) {
+        this.sendProductCode = value;
     }
 
 }
