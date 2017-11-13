@@ -47,6 +47,9 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("netty4:tcp://localhost:5200?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
                 .to("direct:Request111").end();
                 //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
+       //Закрытие выхода
+        from("netty4:tcp://localhost:5119?decoders=#length-DecoderSorterTlg&sync=false")
+                .to("direct:Request19").end();
 
         //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод
         from("direct:Request11")
@@ -74,7 +77,10 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .process(new Req17ToResp18())
                 //.to("netty4:tcp://te1:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
                 ;
-// Ожидается команда закрытия выхода
+// 19 команда закрытия выхода
+        from("direct:Request19")
+                .process(new Req19ToResp20())
+                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
 
 
 //111 код снятия мешка с ТСД отправляемый в 1C

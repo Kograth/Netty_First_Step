@@ -35,7 +35,7 @@ static final int IN_BYTE_TYPE_MSG=1;
         
         if (lenghtMsg<=MAX_PACKET_LENGHT && lenghtMsg>=IN_BYTE_TYPE_MSG+1) {
             msgType = msg.getByte(IN_BYTE_TYPE_MSG);
-            if (Request11.MESSAGE_CODE == msgType & lenghtMsg>=Request11.MESSAGE_LENGHT) { 
+            if (Request11.MESSAGE_CODE == msgType & lenghtMsg>=Request11.MESSAGE_LENGHT) {
                 //надо вычитать данные
                 newPacket = (Request11) new Request11();
                 newPacket.FromByte(msg);
@@ -59,6 +59,11 @@ static final int IN_BYTE_TYPE_MSG=1;
             }
             if (Request111.MESSAGE_CODE==msgType) {
                 newPacket = (Request111) new Request111();
+                newPacket.FromByte(msg);
+                list.add(newPacket);
+            }
+            if (Request19.MESSAGE_CODE==msgType) {
+                newPacket = (Request19) new Request19();
                 newPacket.FromByte(msg);
                 list.add(newPacket);
             }
