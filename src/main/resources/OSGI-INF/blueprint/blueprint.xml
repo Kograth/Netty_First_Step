@@ -20,9 +20,11 @@
     </bean>-->
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"
+                          address="http://lk-test.cse.ru/cargo3_test/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
+                          username = "web"
+                          password = "web"
                           xmlns:ws="http://www.cse-cargo.ru/client" 
                           loggingFeatureEnabled="false">
         <camelcxf:properties>

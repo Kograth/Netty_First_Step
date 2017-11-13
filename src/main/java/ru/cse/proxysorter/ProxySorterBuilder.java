@@ -25,7 +25,7 @@ public class ProxySorterBuilder extends RouteBuilder {
     public void configure() throws Exception {
 
 
-        from("netty4:tcp://localhost:5111?decoders=#length-DecoderSorterTlg&sync=false") //te1 //185.65.22.28
+        from("netty4:tcp://te1:5111?decoders=#length-DecoderSorterTlg&sync=false") //te1 //185.65.22.28
                 .to("direct:Request11")
                 /*.choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11").endChoice()
@@ -33,22 +33,22 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:Request17").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").endChoice()
                     .otherwise().to("direct:RequestANY").end()*/
-                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
+                .to("netty4:tcp://te1:6711?encoders=#length-EncoderSorterTlg&sync=false")
                 ;
 
-        from("netty4:tcp://localhost:5113?decoders=#length-DecoderSorterTlg&sync=false") //&encoders=#length-EncoderSorterTlg
+        from("netty4:tcp://te1:5113?decoders=#length-DecoderSorterTlg&sync=false") //&encoders=#length-EncoderSorterTlg
                 .to("direct:Request13")
                 .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
 
-        from("netty4:tcp://localhost:5117?decoders=#length-DecoderSorterTlg&sync=false")
+        from("netty4:tcp://te1:5117?decoders=#length-DecoderSorterTlg&sync=false")
                 .to("direct:Request17")
                 .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
 
-        from("netty4:tcp://localhost:5200?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
+        from("netty4:tcp://te1:5200?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
                 .to("direct:Request111").end();
                 //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
        //Закрытие выхода
-        from("netty4:tcp://localhost:5119?decoders=#length-DecoderSorterTlg&sync=false")
+        from("netty4:tcp://te1:5119?decoders=#length-DecoderSorterTlg&sync=false")
                 .to("direct:Request19").end();
 
         //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод
