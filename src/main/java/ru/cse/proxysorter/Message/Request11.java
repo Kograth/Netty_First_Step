@@ -202,6 +202,7 @@ public class Request11 extends Request4All {
     @Override
     public void FromByte(ByteBuf msg) {
 
+
         smlSTX = msg.readUnsignedByte(); // <STX>
         COMMAND = msg.readUnsignedByte(); // <Команда должна быть равна 11>
         codePLK     = msg.readInt();     // код продукта ПЛК

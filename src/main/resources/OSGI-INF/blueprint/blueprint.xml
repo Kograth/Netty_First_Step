@@ -14,18 +14,18 @@
     <bean id="ProxySorterBuilder" class="ru.cse.proxysorter.ProxySorterBuilder"/>
     <bean id="length-DecoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createDecoderSorterTlg"/>
     <bean id="length-EncoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createEncoderSorterTlg"/>
-    <!-- This is the persistent repository to store aggregated messages 
+
+
+    <!-- This is the persistent repository to store aggregated messages
     <bean id="myRepoCache" class="org.apache.camel.component.cache.CacheComponent">
       <property name="configurationFile" value="classpath:ehcache-repo.xml"/>
     </bean>-->
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://lk-test.cse.ru/cargo3_test/ws/SorterExchange"
+                          address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
-                          username = "web"
-                          password = "web"
-                          xmlns:ws="http://www.cse-cargo.ru/client" 
+                          xmlns:ws="http://www.cse-cargo.ru/client"
                           loggingFeatureEnabled="false">
         <camelcxf:properties>
             <entry key="dataFormat" value="PAYLOAD"/>
@@ -46,8 +46,9 @@
         </camelcxf:properties>          
     </camelcxf:cxfEndpoint> 
         
-    <!-- Мой адресс для теста address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"-->
-    <!-- Не мой адресс для теста address="http://web.cse.ru/cse8_bsp/ws/SorterExchange"-->
+    <!-- Мой адресс для теста address = "http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"-->
+    <!-- Не мой адресс для теста address = "http://web.cse.ru/cse8_bsp/ws/SorterExchange"-->
+    <!-- Общая тестовая база = http://lk-test.cse.ru/cargo3_test/ws/SorterExchange -->
     
     <camelContext id="Sorter" xmlns="http://camel.apache.org/schema/blueprint">
 
@@ -68,6 +69,10 @@
                 </property>                
             </bean>
         </property>
-    </bean>   
-   
+    </bean>
+
+    <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer">
+        <property name="logName" value="camelTracer"/>
+    </bean>
+
 </blueprint>
