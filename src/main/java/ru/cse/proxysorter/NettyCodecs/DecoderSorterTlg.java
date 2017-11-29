@@ -22,12 +22,15 @@ public class DecoderSorterTlg extends  MessageToMessageDecoder<ByteBuf>  {
 static final int MAX_PACKET_LENGHT=1024;
 static final int IN_BYTE_TYPE_MSG=1;
 //static final  byte[] Re = {0x02,0x11,0x31,0x32,0x39,0x39};
+
+    public static byte msgType;
+
     @Override
     protected void decode(ChannelHandlerContext chc, ByteBuf msg, List<Object> list) throws Exception {
-        byte msgType;
+        //byte msgType;
         Request4All newPacket;
         int lenghtMsg=msg.readableBytes();
-        
+
         if (lenghtMsg>MAX_PACKET_LENGHT) {
            throw new Exception("Превышен размер пакета данных");
         }
@@ -75,4 +78,7 @@ static final int IN_BYTE_TYPE_MSG=1;
         }
     }
 
+    public static byte getMsgType() {
+        return msgType;
+    }
 }

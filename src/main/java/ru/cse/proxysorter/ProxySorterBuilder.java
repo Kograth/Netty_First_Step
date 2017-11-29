@@ -13,7 +13,10 @@ import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
 import ru.cse.proxysorter.Message.Request11;
+import ru.cse.proxysorter.Message.Response14;
 import ru.cse.proxysorter.Processors.*;
+
+
 
 /**
  *
@@ -25,30 +28,31 @@ public class ProxySorterBuilder extends RouteBuilder {
     public void configure() throws Exception {
 
 
-        from("netty4:tcp://localhost:5111?decoders=#length-DecoderSorterTlg&sync=false") //te1 //185.65.22.28
-
+        from("netty4:tcp://localhost:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1 //185.65.22.28 //10.0.0.137
                 .to("direct:Request11")
+                //.enrich("netty4:tcp://localhost:4991")
                 /*.choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request13'")).to("direct:Request13").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:Request17").endChoice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").endChoice()
                     .otherwise().to("direct:RequestANY").end()*/
-                .to("netty4:tcp://localhost:6712?encoders=#length-EncoderSorterTlg&sync=false")
+                //.to("netty4:tcp://localhost:49541?encoders=#length-EncoderSorterTlg&sync=false")
                 ;
 
-        from("netty4:tcp://localhost:5113?decoders=#length-DecoderSorterTlg&sync=false") //&encoders=#length-EncoderSorterTlg
-                .to("direct:Request13")
-                .to("netty4:tcp://localhost:6714?encoders=#length-EncoderSorterTlg&sync=false");
+        from("netty4:tcp://localhost:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //&encoders=#length-EncoderSorterTlg
+                .to("direct:Request13");
+                //.to("netty4:tcp://localhost:6714?encoders=#length-EncoderSorterTlg&sync=false");
 
         from("netty4:tcp://localhost:5117?decoders=#length-DecoderSorterTlg&sync=false")
                 .to("direct:Request17")
-                .to("netty4:tcp://localhost:6718?encoders=#length-EncoderSorterTlg&sync=false");
+                .to("netty4:tcp://te1:6718?encoders=#length-EncoderSorterTlg&sync=false");
 
         from("netty4:tcp://localhost:5200?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
                 .to("direct:Request111").end();
                 //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
-       //Закрытие выхода
+
+        //Закрытие выхода
         from("netty4:tcp://localhost:5119?decoders=#length-DecoderSorterTlg&sync=false")
                 .to("direct:Request19").end();
 
@@ -60,7 +64,8 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to("log:Request11")
                 .process(new Req11toResp12())
                 .to("log:Request11")
-//                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
+//              ВЕРНУЛИСЬ К ОТПРАВКИ ИЗ ВЕТКИ ВЫЗОВА
+                //.to("netty4:tcp://localhost:14992?encoders=#length-EncoderSorterTlg&sync=false")
                 ;
 
 //Получили исходные данные, надо отправить запрос в 1с, предварительно сконвертировав PLU в Штрихкод
@@ -69,19 +74,19 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to("seda:ReadToRepoSorter")
                 .to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
-                //.to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false")
+                //.to("netty4:tcp://localhost:14994?encoders=#length-EncoderSorterTlg&sync=false")
                 ;
         
 
 //17 команда открытия выхода
         from("direct:Request17")
                 .process(new Req17ToResp18())
-                //.to("netty4:tcp://te1:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
+                .to("netty4:tcp://localhost:14995?encoders=#length-EncoderSorterTlg&sync=false").end()
                 ;
 // 19 команда закрытия выхода
         from("direct:Request19")
                 .process(new Req19ToResp20())
-                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false");
+                .to("netty4:tcp://localhost:14996?encoders=#length-EncoderSorterTlg&sync=false");
 
 
 //111 код снятия мешка с ТСД отправляемый в 1C
@@ -109,9 +114,16 @@ public class ProxySorterBuilder extends RouteBuilder {
         
 //Прочитаем сопоставление PLU Штрих код
         from("seda:ReadToRepoSorter")
-                .setHeader(CacheConstants.CACHE_KEY, exchangeProperty("ProductCode"))
-                .setHeader(CacheConstants.CACHE_OPERATION, constant(CacheConstants.CACHE_OPERATION_GET))
-                .enrich ( "cache://SorterPluBarcodeCache" , new Req13Agregate());
+                .choice().when(exchangeProperty("ProductCode").isNotNull()).to("direct:BadEnrich")
+                    .setHeader(CacheConstants.CACHE_KEY, exchangeProperty("ProductCode"))
+                    .setHeader(CacheConstants.CACHE_OPERATION, constant(CacheConstants.CACHE_OPERATION_GET))
+                    .enrich ( "cache://SorterPluBarcodeCache" , new Req13Agregate())
+                .endChoice();
+
+        from("direct:BadEnrich")
+                .process(new Expression());
+               // .enrich("cache://SorterPluBarcodeCache" , new Req13Agregate());
+
 
 
 //Сохраним значение сопоставления PLU - штрих код        

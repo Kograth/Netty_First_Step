@@ -14,6 +14,11 @@
     <bean id="ProxySorterBuilder" class="ru.cse.proxysorter.ProxySorterBuilder"/>
     <bean id="length-DecoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createDecoderSorterTlg"/>
     <bean id="length-EncoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createEncoderSorterTlg"/>
+    <!--<bean id="nettyHttpBootstrapOptions" claa = "org.apache.camel.component.netty4.NettyServerBootstrapConfiguration">-->
+
+        <!--<property name="connectionTimeout" value="20000"/>-->
+        <!--<property name="remoteAddress" value="49998"/>-->
+    <!--</bean>-->
 
 
     <!-- This is the persistent repository to store aggregated messages
@@ -22,13 +27,15 @@
     </bean>-->
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"
+                          address="http://lk-test.cse.ru/cargo3_test/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client"
                           loggingFeatureEnabled="false">
         <camelcxf:properties>
             <entry key="dataFormat" value="PAYLOAD"/>
+            <entry key="username" value="web"/>
+            <entry key="password" value="web"/>
         </camelcxf:properties>        
     </camelcxf:cxfEndpoint> 
     

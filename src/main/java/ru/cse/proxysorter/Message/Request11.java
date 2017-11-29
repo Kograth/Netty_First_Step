@@ -17,7 +17,7 @@ public class Request11 extends Request4All {
 
     //Общие данные класса для правильного декодирования
         public static final byte MESSAGE_CODE=Telegram.TELEGA11;
-        public static final int MESSAGE_LENGHT=180;
+        public static final int MESSAGE_LENGHT=181;
         
     private short smlSTX = 0x02;        
     private short COMMAND = 0x11;
@@ -31,6 +31,7 @@ public class Request11 extends Request4All {
     private String barcode;     
     private short smlETX = 0x03;
     private byte wellspring = 0x30;
+    private byte reserve = 0x30;
 
     //эти переменные для про
     private String barcode1С;     
@@ -207,6 +208,7 @@ public class Request11 extends Request4All {
         COMMAND = msg.readUnsignedByte(); // <Команда должна быть равна 11>
         codePLK     = msg.readInt();     // код продукта ПЛК
         wellspring  = msg.readByte();
+        reserve     = msg.readByte();
         weight      = msg.readShort();   // вес
         StateWeight = msg.readShort();   // статус веса
         length      = msg.readShort();   // длина
@@ -216,7 +218,8 @@ public class Request11 extends Request4All {
         byte[] Array = new byte[160];
         msg.readBytes(Array);
         barcode     = new String(Array).trim(); //new String(msg.readBytes(160).array()); //Штрих коды разделенные знаком TAB
-        smlETX      = msg.readUnsignedByte(); //<ETX>
+        smlETX      = msg.readUnsignedByte();
+        //<ETX>
     }
 
 

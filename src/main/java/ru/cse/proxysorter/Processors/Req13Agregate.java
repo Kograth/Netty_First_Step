@@ -19,8 +19,15 @@ public class Req13Agregate implements AggregationStrategy{
     @Override
     public Exchange aggregate(Exchange original, Exchange resource) {
         Request11 resourceResponse =  resource.getIn().getBody(Request11.class);
-        original.setProperty(ConstantsSorter.PROPERTY_BARCODE, resourceResponse.getBarcode1С());
+        if (resourceResponse!= null) {
+            original.setProperty(ConstantsSorter.PROPERTY_BARCODE,resourceResponse.getBarcode1С());
+        }
+        else
+        {
+            original.setProperty(ConstantsSorter.PROPERTY_BARCODE,"0000000000000");
+        }
         return original;
     }
+
     
 }
