@@ -15,7 +15,7 @@ public class Response18 extends Request4All {
     public final short msgETX      = 0x03;
     private final short Command           = MESSAGE_CODE;    
     public  short Reserve     = 0x31;
-    public  short ExitNumber  = 0x31;
+    public  short ExitNumber  = 0x32;
 
     public void setExitNumber(short ExitNumber) {
         this.ExitNumber=ExitNumber;
