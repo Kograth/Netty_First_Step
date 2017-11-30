@@ -73,7 +73,8 @@ public class ProxySorterBuilder extends RouteBuilder {
 
 
         from("seda:enrichMessage?multipleConsumers=true")
-                .process(new UpdateOpenGateProcessor());
+                .process(new UpdateOpenGateProcessor())
+                .to("log:Request17");
         //***********************************************************
 
         //Закрытие выхода

@@ -10,11 +10,11 @@ public class Request17 extends Request4All {
     public static final byte MESSAGE_CODE=0x17;
     public static final int MESSAGE_LENGHT=5;
 
-    private final short smlSTX            = 0x02;
-    private final short Command           = MESSAGE_CODE;
-    private byte ExitNumber              = 0x31;
-    private  short Reserv                 = 0;
-    private final short smlETX            = 0x03;
+    private  short smlSTX            = 0x02;
+    private  short Command           = MESSAGE_CODE;
+    private byte ExitNumber               = 0x31;
+    private byte[] Reserv                 = new byte[5];
+    private  short smlETX            = 0x03;
 
     public byte getExitNumber() {
         return ExitNumber;
@@ -40,14 +40,14 @@ public class Request17 extends Request4All {
     /**
      * @return the Reserv
      */
-    public short getReserv() {
+    public byte[] getReserv() {
         return Reserv;
     }
 
     /**
      * @param Reserv the Reserv to set
      */
-    public void setReserv(short Reserv) {
+    public void setReserv(byte[] Reserv) {
         this.Reserv = Reserv;
     }
 
@@ -64,7 +64,7 @@ public class Request17 extends Request4All {
         buf.writeByte(getSmlSTX());
         buf.writeByte(getCommand());
         buf.writeByte(getExitNumber());
-        buf.writeByte(getReserv());
+        buf.writeBytes(getReserv());
         buf.writeByte(getSmlETX());
         return buf;
     }
@@ -72,10 +72,10 @@ public class Request17 extends Request4All {
     @Override
     public void FromByte(ByteBuf msg) {
 
-//        smlSTX          = msg.readUnsignedByte();
-//        Command         = msg.readUnsignedByte();
-//        ExitNumber      = msg.readUnsignedByte();
-//        Reserv          = msg.readUnsignedByte();
-//        smlETX          = msg.readUnsignedByte();
+        smlSTX          = msg.readByte();
+        Command         = msg.readByte();
+        ExitNumber      = msg.readByte();
+        msg.readBytes(Reserv);
+        smlETX          = msg.readUnsignedByte();
     }
 }
