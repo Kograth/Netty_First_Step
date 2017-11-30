@@ -12,11 +12,11 @@ public class Request17 extends Request4All {
 
     private final short smlSTX            = 0x02;
     private final short Command           = MESSAGE_CODE;
-    private short ExitNumber              = 0x31;
+    private byte ExitNumber              = 0x31;
     private  short Reserv                 = 0;
     private final short smlETX            = 0x03;
 
-    public short getExitNumber() {
+    public byte getExitNumber() {
         return ExitNumber;
     }
 
@@ -33,7 +33,7 @@ public class Request17 extends Request4All {
     /**
      * @param ExitNumber the ExitNumber to set
      */
-    public void setExitNumber(short ExitNumber) {
+    public void setExitNumber(byte ExitNumber) {
         this.ExitNumber = ExitNumber;
     }
 

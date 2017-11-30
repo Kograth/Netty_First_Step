@@ -70,6 +70,11 @@ static final int IN_BYTE_TYPE_MSG=1;
                 newPacket.FromByte(msg);
                 list.add(newPacket);
             }
+            if (Response18.MESSAGE_CODE==msgType) {
+                newPacket = (Response18) new Response18();
+                newPacket.FromByte(msg);
+                list.add(newPacket);
+            }
 
             else
             {            

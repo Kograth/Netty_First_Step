@@ -31,7 +31,7 @@ public class ProcessorRequestSorter implements Processor {
         Request13 Req13 = exchange.getIn().getBody(Request13.class);
         Request15 Req15 = exchange.getIn().getBody(Request15.class);
         Request111 Req111 = exchange.getIn().getBody(Request111.class);
-        Request18 Req18 = exchange.getIn().getBody(Request18.class);
+        Response18 Req18 = exchange.getIn().getBody(Response18.class);
 
         if (!(Req11 == null)) {
 
@@ -77,7 +77,7 @@ public class ProcessorRequestSorter implements Processor {
         //Установка мешка отправляем сообщение Сортировщику
         if (!(Req18 == null)) {
 
-            Request18 returnAnswer = new Request18();
+            Response18 returnAnswer = new Response18();
 
             returnAnswer.setExitNumber(returnAnswer.getExitNumber());
             returnAnswer.ToByte();

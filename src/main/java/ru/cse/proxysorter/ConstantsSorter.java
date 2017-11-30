@@ -13,5 +13,5 @@ public class ConstantsSorter {
     public static final String PROPERTY_BARCODE="Barcode";
     public static final String PROPERTY_PLK="ProductCode"; //Код продукта
     public static final String PROPERTY_EXITNUMBER="ExitNumber"; //Номер выхода
-    public static final String PROPERTY_COMANDCODE="Comandcode"; //Номер выхода
+    public static final String PROPERTY_COMANDCODE="Comandcode"; //Код команды
 }

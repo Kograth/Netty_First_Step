@@ -14,6 +14,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import ru.cse.proxysorter.Message.Request11;
+import ru.cse.proxysorter.Message.Request17;
 import ru.cse.proxysorter.Message.Response14;
 import ru.cse.proxysorter.Processors.*;
 
@@ -62,15 +63,16 @@ public class ProxySorterBuilder extends RouteBuilder {
 
         //Открыть выход запрос с ПЛС
         from("netty4:tcp://localhost:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
-                .pollEnrich("direct:enrichMessage",-1,new UpdateOpenGate());
+                .pollEnrich("seda:enrichMessage",-1,new UpdateOpenGate());
 
 
         //Сообщения от ТСД
         from("netty4:tcp://localhost:5117?decoders=#length-DecoderSorterTlg&sync=false")
                 .choice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:enrichMessage");
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("seda:enrichMessage");
 
-        from("direct:enrichMessage")
+
+        from("seda:enrichMessage?multipleConsumers=true")
                 .process(new UpdateOpenGateProcessor());
         //***********************************************************
 
@@ -97,15 +99,15 @@ public class ProxySorterBuilder extends RouteBuilder {
                 ;
         
 
-//17 команда открытия выхода
-        from("direct:Request17")
-                .process(new Req17ToResp18())
-                .to("netty4:tcp://localhost:14995?encoders=#length-EncoderSorterTlg&sync=false").end()
-                ;
-// 19 команда закрытия выхода
-        from("direct:Request19")
-                .process(new Req19ToResp20())
-                .to("netty4:tcp://localhost:14996?encoders=#length-EncoderSorterTlg&sync=false");
+////17 команда открытия выхода
+//        from("direct:Request17")
+//                .process(new Req17ToResp18())
+//                .to("netty4:tcp://localhost:14995?encoders=#length-EncoderSorterTlg&sync=false").end()
+//                ;
+//// 19 команда закрытия выхода
+//        from("direct:Request19")
+//                .process(new Req19ToResp20())
+//                .to("netty4:tcp://localhost:14996?encoders=#length-EncoderSorterTlg&sync=false");
 
 
 //111 код снятия мешка с ТСД отправляемый в 1C
