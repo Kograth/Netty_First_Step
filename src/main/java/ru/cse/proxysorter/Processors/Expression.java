@@ -15,6 +15,7 @@ public class Expression implements Processor{
 
     @Override
     public void process(Exchange exchange) throws Exception {
+
         Message newMSG = exchange.getIn();
         Map<String, Object> STR= exchange.getProperties();
         //exchangeProperty("ProductCode");

@@ -11,8 +11,8 @@ public class Response14 extends Request4All {
 
     public byte msgSTX      = 0x02;
     public byte msgETX      = 0x03;
-    public short Source     = 0x00;
-    private int codeProduct = 0;
+    public short Source     = 0x31;
+    private int codeProduct = 41;
 
 
     public void SetSource(short Source) {

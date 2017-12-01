@@ -32,7 +32,7 @@ public class ProxySorterBuilder extends RouteBuilder {
         //********************************************************
         // Секция команды 11
 
-        from("netty4:tcp://localhost:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1 //185.65.22.28 //10.0.0.137
+        from("netty4:tcp://te1:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1 //185.65.22.28 //10.0.0.137
                 .to("direct:Request11")
                 ;
                 //.enrich("netty4:tcp://localhost:4991")
@@ -45,42 +45,25 @@ public class ProxySorterBuilder extends RouteBuilder {
                 //.to("netty4:tcp://localhost:49541?encoders=#length-EncoderSorterTlg&sync=false")
 
         //********************************************************
-
-
-        //********************************************************
         // Секция команды 13
 
-        from("netty4:tcp://localhost:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //&encoders=#length-EncoderSorterTlg
+        from("netty4:tcp://te1:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //&encoders=#length-EncoderSorterTlg
                 .to("direct:Request13");
 
-        //********************************************************
-
-        from("netty4:tcp://localhost:5200?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=false")
-                .to("direct:Request111").end();
-
-        //********************************************************
-        // Секция открытия выхода
-
-        //Открыть выход запрос с ПЛС
-        from("netty4:tcp://localhost:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
-                .pollEnrich("seda:enrichMessage",-1,new UpdateOpenGate());
-
-
-        //Сообщения от ТСД
-        from("netty4:tcp://localhost:5117?decoders=#length-DecoderSorterTlg&sync=false")
-                .choice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("seda:enrichMessage");
-
-
-        from("seda:enrichMessage?multipleConsumers=true")
-                .process(new UpdateOpenGateProcessor())
-                .to("log:Request17");
+        // Секция открытия\закрытия\снятия выхода\мешка (Принцип ActiveMQ)
         //***********************************************************
 
-        //Закрытие выхода
-        from("netty4:tcp://localhost:5119?decoders=#length-DecoderSorterTlg&sync=false")
-                .to("direct:Request19").end();
 
+        from("netty4:tcp://te1:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
+                .pollEnrich("activemq:queue:Sorter.enrichMsg",-1,new UpdateOpenGate());
+
+        //Сообщения от ТСД
+        from("netty4:tcp://te1:5999?decoders=#length-DecoderSorterTlg&sync=false")
+                .choice()
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise().to("activemq:queue:Sorter.enrichMsg");
+
+
+        //***********************************************************
         //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод
         from("direct:Request11")
                 .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
@@ -98,17 +81,6 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
                 ;
-        
-
-////17 команда открытия выхода
-//        from("direct:Request17")
-//                .process(new Req17ToResp18())
-//                .to("netty4:tcp://localhost:14995?encoders=#length-EncoderSorterTlg&sync=false").end()
-//                ;
-//// 19 команда закрытия выхода
-//        from("direct:Request19")
-//                .process(new Req19ToResp20())
-//                .to("netty4:tcp://localhost:14996?encoders=#length-EncoderSorterTlg&sync=false");
 
 
 //111 код снятия мешка с ТСД отправляемый в 1C
@@ -124,11 +96,11 @@ public class ProxySorterBuilder extends RouteBuilder {
         
 //Прочитаем сопоставление PLU Штрих код
         from("seda:ReadToRepoSorter")
-                .choice().when(exchangeProperty("ProductCode").isNotNull()).to("direct:BadEnrich")
-                    .setHeader(CacheConstants.CACHE_KEY, exchangeProperty("ProductCode"))
+               // .choice().when(exchangeProperty(ConstantsSorter.PROPERTY_PLK).isNotNull()).to("direct:BadEnrich")
+                    .setHeader(CacheConstants.CACHE_KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
                     .setHeader(CacheConstants.CACHE_OPERATION, constant(CacheConstants.CACHE_OPERATION_GET))
-                    .enrich ( "cache://SorterPluBarcodeCache" , new Req13Agregate())
-                .endChoice();
+                    .enrich ( "cache://SorterPluBarcodeCache" , new Req13Agregate());
+                //.endChoice();
 
         from("direct:BadEnrich")
                 .process(new Expression());

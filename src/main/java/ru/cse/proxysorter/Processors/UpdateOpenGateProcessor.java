@@ -8,6 +8,7 @@ import ru.cse.proxysorter.Message.Response18;
 public class UpdateOpenGateProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
+
         Message Out = exchange.getOut();
         Out.setBody(new Response18().getClass());
 

@@ -6,11 +6,11 @@ public class Request111 extends Request4All {
 
     //Метод использует ТСД для снятия мешка
     //Передаёт ШК пломбы и ШК выхода
-    public static final byte MESSAGE_CODE=111;
+    public static final byte MESSAGE_CODE=0x6F;
     public static final int MESSAGE_LENGHT=133;
 
     private short smlSTX            = 0x02;
-    private short Command           = 0x13;
+    private short Command           = MESSAGE_CODE;
     private byte ExitNumber         = 0x31;
     private  byte Reserv            = 0x1C;
     private short smlETX            = 0x03;

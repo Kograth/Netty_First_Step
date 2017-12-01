@@ -54,7 +54,7 @@ static final int IN_BYTE_TYPE_MSG=1;
                 newPacket.FromByte(msg);
                 list.add(newPacket);
             }
-            //& lenghtMsg>=Request17.MESSAGE_LENGHT
+
             if (Request17.MESSAGE_CODE==msgType) {
                 newPacket = (Request17) new Request17();
                 newPacket.FromByte(msg);

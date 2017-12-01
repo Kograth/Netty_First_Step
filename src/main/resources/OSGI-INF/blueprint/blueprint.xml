@@ -56,7 +56,8 @@
     <!-- Мой адресс для теста address = "http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"-->
     <!-- Не мой адресс для теста address = "http://web.cse.ru/cse8_bsp/ws/SorterExchange"-->
     <!-- Общая тестовая база = http://lk-test.cse.ru/cargo3_test/ws/SorterExchange -->
-    
+    <!--tcp://localhost:61616 -->
+
     <camelContext id="Sorter" xmlns="http://camel.apache.org/schema/blueprint">
 
         <routeBuilder ref="ProxySorterBuilder"/>
@@ -66,9 +67,9 @@
     <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
         <property name="connectionFactory">
             <bean class="org.apache.activemq.ActiveMQConnectionFactory">
-                <property name="brokerURL" value="tcp://localhost:61616"/>
-                <property name="userName" value="smx" />
-                <property name="password" value="smx" />
+                <property name="brokerURL" value="vm://localhost?broker.persistent=false"/>
+               <!-- <property name="userName" value="smx" />
+                <property name="password" value="smx" /> -->
                 <property name="trustedPackages">
                     <list>
                         <value>ru.cse.proxysorter.Message</value>
