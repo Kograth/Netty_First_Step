@@ -27,21 +27,21 @@
     </bean>-->
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://lk-test.cse.ru/cargo3_test/ws/SorterExchange"
+                          address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client"
                           loggingFeatureEnabled="false">
         <camelcxf:properties>
             <entry key="dataFormat" value="PAYLOAD"/>
-            <entry key="username" value="web"/>
-            <entry key="password" value="web"/>
+            <entry key="username" value="Web"/>
+            <entry key="password" value="Web"/>
         </camelcxf:properties>        
     </camelcxf:cxfEndpoint> 
     
     <camelcxf:cxfEndpoint id="MeashurementIncident"
                               serviceClass="ru.cse.Meashuring.Service1c.MeasurerCargoPortType"
-                              address="http://web.cse.ru/cse8_bsp/ws/MeasurerCargo"
+                              address="http://lk-test.cse.ru/cse8_alexey/ws/MeasurerCargo"
                               serviceName="ws:MeasurerCargo"
                               endpointName="ws:MeasurerCargoSoap12"
                               xmlns:ws="http://www.cse-cargo.ru/MeasurerCargo" 
@@ -67,7 +67,7 @@
     <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
         <property name="connectionFactory">
             <bean class="org.apache.activemq.ActiveMQConnectionFactory">
-                <property name="brokerURL" value="vm://localhost?broker.persistent=false"/>
+                <property name="brokerURL" value="vm://localhostMQ?broker.persistent=false"/>
                <!-- <property name="userName" value="smx" />
                 <property name="password" value="smx" /> -->
                 <property name="trustedPackages">

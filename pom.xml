@@ -141,7 +141,7 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <!--<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> -->
-                                    <wsdl>http://web.cse.ru/cse8_bsp/ws/SorterExchange?wsdl</wsdl>
+                                    <wsdl>http://web.cse.ru/cse82_AlexSt/ws/SorterExchange?wsdl</wsdl>
                                     <!-- <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>-->
                                     <extraargs>
                                         <extraarg>-impl</extraarg>
@@ -150,6 +150,7 @@
                                     </extraargs>
                                 </wsdlOption>
                             </wsdlOptions>
+
                         </configuration>
                         <goals>
                             <goal>wsdl2java</goal>
@@ -165,7 +166,7 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <!--<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> -->
-                                    <wsdl>http://web.cse.ru/cse8_bsp/ws/MeasurerCargo?wsdl</wsdl>
+                                    <wsdl>http://lk-test.cse.ru/cse8_alexey/ws/MeasurerCargo?wsdl</wsdl>
                                     <!-- <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>-->
                                     <extraargs>
                                         <extraarg>-impl</extraarg>
@@ -179,7 +180,7 @@
                             <goal>wsdl2java</goal>
                         </goals>
                     </execution>
-                </executions>                
+                </executions>
             </plugin>
 
             
