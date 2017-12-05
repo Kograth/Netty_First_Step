@@ -141,7 +141,7 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <!--<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> -->
-                                    <wsdl>http://web.cse.ru/cse82_AlexSt/ws/SorterExchange?wsdl</wsdl>
+                                    <wsdl>http://lk-test.cse.ru/cse8_alexey/ws/SorterExchange?wsdl</wsdl>
                                     <!-- <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>-->
                                     <extraargs>
                                         <extraarg>-impl</extraarg>

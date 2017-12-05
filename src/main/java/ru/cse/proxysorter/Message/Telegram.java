@@ -19,6 +19,7 @@ public class Telegram {
     public static final byte TELEGA17=0x17;
     public static final byte TELEGA18=0x18;
     public static final byte TELEGA19=0x19;
+    public static final byte TELEGA20=0x20;
 
     
 }

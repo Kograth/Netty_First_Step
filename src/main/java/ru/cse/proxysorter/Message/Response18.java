@@ -7,14 +7,14 @@ public class Response18 extends Request4All {
 
     //Метод отвечает за отправку информации на сортировщик что в выход
     //загружен новый мешок и выход можно открыт
-    public static final byte MESSAGE_CODE  = 0x018;
-    public static final int MESSAGE_LENGHT = 5;
+    public static final byte MESSAGE_CODE  = 0x18;
+    public static final int MESSAGE_LENGHT = 8;
 
 
     public byte msgSTX      = 0x02;
     public byte msgETX      = 0x03;
     public byte Command     = MESSAGE_CODE;
-    public byte Reserve     = 0x31;
+    public byte[] Reserve     = new byte[4];
     public byte ExitNumber  = 0x32;
 
     public void setExitNumber(byte ExitNumber) {
@@ -31,7 +31,7 @@ public class Response18 extends Request4All {
         buf.writeByte(msgSTX);
         buf.writeByte(MESSAGE_CODE);
         buf.writeByte(ExitNumber);
-        buf.writeByte(Reserve);
+        buf.writeBytes(Reserve);
         buf.writeByte(msgETX);
 
         return buf;
@@ -43,7 +43,9 @@ public class Response18 extends Request4All {
         msgSTX     = msg.readByte();
         Command    = msg.readByte();
         ExitNumber = msg.readByte();
-        Reserve    = msg.readByte();
+        byte[] Array = new byte[4];
+        msg.readBytes(Array);
+        Reserve    = Array;
         msgETX     = msg.readByte();
 
     }

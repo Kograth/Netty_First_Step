@@ -32,7 +32,7 @@ public class ProxySorterBuilder extends RouteBuilder {
         //********************************************************
         // Секция команды 11
 
-        from("netty4:tcp://te1:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1 //185.65.22.28 //10.0.0.137
+        from("netty4:tcp://localhost:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1 //185.65.22.28 //10.0.0.137
                 .to("direct:Request11")
                 ;
                 //.enrich("netty4:tcp://localhost:4991")
@@ -47,18 +47,18 @@ public class ProxySorterBuilder extends RouteBuilder {
         //********************************************************
         // Секция команды 13
 
-        from("netty4:tcp://te1:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //&encoders=#length-EncoderSorterTlg
+        from("netty4:tcp://localhost:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //&encoders=#length-EncoderSorterTlg
                 .to("direct:Request13");
 
         // Секция открытия\закрытия\снятия выхода\мешка (Принцип ActiveMQ)
         //***********************************************************
 
 
-        from("netty4:tcp://te1:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
+        from("netty4:tcp://localhost:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
                 .pollEnrich("activemq:queue:Sorter.enrichMsg",-1,new UpdateOpenGate());
 
         //Сообщения от ТСД
-        from("netty4:tcp://te1:5999?decoders=#length-DecoderSorterTlg&sync=false")
+        from("netty4:tcp://localhost:5999?decoders=#length-DecoderSorterTlg&sync=false")
                 .choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise().to("activemq:queue:Sorter.enrichMsg");
 

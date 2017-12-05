@@ -27,7 +27,7 @@
     </bean>-->
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://web.cse.ru/cse82_AlexSt/ws/SorterExchange"
+                          address="http://lk-test.cse.ru/cse8_alexey/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client"
@@ -67,9 +67,9 @@
     <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
         <property name="connectionFactory">
             <bean class="org.apache.activemq.ActiveMQConnectionFactory">
-                <property name="brokerURL" value="vm://localhostMQ?broker.persistent=false"/>
-               <!-- <property name="userName" value="smx" />
-                <property name="password" value="smx" /> -->
+                <property name="brokerURL" value="vm://localhost?broker.persistent=false"/>
+               <property name="userName" value="smx" />
+                <property name="password" value="smx" />
                 <property name="trustedPackages">
                     <list>
                         <value>ru.cse.proxysorter.Message</value>
