@@ -7,7 +7,7 @@ public class Request17 extends Request4All {
 
 
 
-    public static final byte MESSAGE_CODE=0x17;
+    public static final byte MESSAGE_CODE=Telegram.TELEGA17;
     public static final int MESSAGE_LENGHT=9;
 
     private  short smlSTX            = 0x02;

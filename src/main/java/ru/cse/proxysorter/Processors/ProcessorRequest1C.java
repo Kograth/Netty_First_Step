@@ -38,7 +38,7 @@ public class ProcessorRequest1C implements Processor {
         if (CommandCode == Request11.MESSAGE_CODE) {
             GetDataPushExitResponse TrR = In.getBody(GetDataPushExitResponse.class);
             //Получим ответные параметры из 1с
-            Byte ExitNumber = TrR.getSendExitNumber();
+            String ExitNumber = TrR.getSendExitNumber();
             String OutBarcode = TrR.getSendBarcode();
             Byte byteExitNumber = Byte.valueOf(ExitNumber);
             //Запишем свойство в сообщение

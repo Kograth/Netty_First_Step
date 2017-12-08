@@ -19,19 +19,19 @@ public class Request11 extends Request4All {
         public static final byte MESSAGE_CODE=Telegram.TELEGA11;
         public static final int MESSAGE_LENGHT=181;
         
-    private short smlSTX = 0x02;        
-    private short COMMAND = 0x11;
-    private int codePLK = 0;
-    private short weight = 0;
-    private short StateWeight = 0;   
-    private short length = 0;
-    private short width = 0;
-    private short height = 0;
-    private short stateSize  = 0;     
+    private short smlSTX        = 0x02;
+    private short COMMAND       = 0x11;
+    private int codePLK         = 0;
+    private short weight        = 0;
+    private short StateWeight   = 0;
+    private short length        = 0;
+    private short width         = 0;
+    private short height        = 0;
+    private short stateSize     = 0;
     private String barcode;     
-    private short smlETX = 0x03;
-    private byte wellspring = 0x30;
-    private byte reserve = 0x30;
+    private short smlETX        = 0x03;
+    private byte wellspring     = 0x00;
+    private byte reserve        = 0x30;
 
     //эти переменные для про
     private String barcode1С;     

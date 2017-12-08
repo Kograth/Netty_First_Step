@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="SendExitNumber" type="{http://www.w3.org/2001/XMLSchema}byte"/&gt;
+ *         &lt;element name="SendExitNumber" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="SendBarcode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="SendProductCode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
@@ -42,8 +42,8 @@ public class GetDataPushExitResponse {
 
     @XmlElement(name = "return", required = true)
     protected String _return;
-    @XmlElement(name = "SendExitNumber", required = true, type = Byte.class, nillable = true)
-    protected Byte sendExitNumber;
+    @XmlElement(name = "SendExitNumber", required = true, nillable = true)
+    protected String sendExitNumber;
     @XmlElement(name = "SendBarcode", required = true, nillable = true)
     protected String sendBarcode;
     @XmlElement(name = "SendProductCode", required = true, nillable = true)
@@ -78,10 +78,10 @@ public class GetDataPushExitResponse {
      * 
      * @return
      *     possible object is
-     *     {@link Byte }
+     *     {@link String }
      *     
      */
-    public Byte getSendExitNumber() {
+    public String getSendExitNumber() {
         return sendExitNumber;
     }
 
@@ -90,10 +90,10 @@ public class GetDataPushExitResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link Byte }
+     *     {@link String }
      *     
      */
-    public void setSendExitNumber(Byte value) {
+    public void setSendExitNumber(String value) {
         this.sendExitNumber = value;
     }
 

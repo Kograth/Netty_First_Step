@@ -8,11 +8,11 @@ public class Request19 extends Request4All {
     public static final byte MESSAGE_CODE=Telegram.TELEGA19;
     public static final int MESSAGE_LENGHT=9;
 
-    private byte msgSTX            = 0x02;
-    private byte Command           = MESSAGE_CODE;
+    private short msgSTX            = 0x02;
+    private short Command           = MESSAGE_CODE;
     private byte ExitNumber        = 0x31;
     private byte[] Reserv          = new byte[5];
-    private byte msgETX            = 0x03;
+    private short msgETX           = 0x03;
 
 
     public byte getExitNumber() {
@@ -31,18 +31,18 @@ public class Request19 extends Request4All {
 
     }
 
-    public byte getSmlSTX() {
+    public short getSmlSTX() {
         return msgSTX;
     }
 
-    public byte getCommand() {
+    public short getCommand() {
         return Command;
     }
 
     public byte[] getReserv() {
         return Reserv;
     }
-    public byte getSmlETX() {
+    public short getSmlETX() {
         return msgETX;
     }
 
@@ -52,10 +52,8 @@ public class Request19 extends Request4All {
         msgSTX          = msg.readByte();
         Command         = msg.readByte();
         ExitNumber      = msg.readByte();
-        byte[] Array = new byte[5];
-        msg.readBytes(Array);
-        Reserv          =   Array;
-        msgETX          = msg.readByte();
+        msg.readBytes(Reserv);
+        msgETX          = msg.readUnsignedByte();
 
     }
 }

@@ -12,10 +12,7 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
-import org.apache.camel.processor.aggregate.AggregationStrategy;
 import ru.cse.proxysorter.Message.Request11;
-import ru.cse.proxysorter.Message.Request17;
-import ru.cse.proxysorter.Message.Response14;
 import ru.cse.proxysorter.Processors.*;
 
 
@@ -31,34 +28,27 @@ public class ProxySorterBuilder extends RouteBuilder {
 
         //********************************************************
         // Секция команды 11
+        //INFO SERVER NAME te1; 185.65.22.28; 10.0.0.137
 
-        from("netty4:tcp://localhost:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //te1 //185.65.22.28 //10.0.0.137
+        from("netty4:tcp://10.0.0.137:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
                 .to("direct:Request11")
                 ;
-                //.enrich("netty4:tcp://localhost:4991")
-                /*.choice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request11'")).to("direct:Request11").endChoice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request13'")).to("direct:Request13").endChoice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request17'")).to("direct:Request17").endChoice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").endChoice()
-                    .otherwise().to("direct:RequestANY").end()*/
-                //.to("netty4:tcp://localhost:49541?encoders=#length-EncoderSorterTlg&sync=false")
 
         //********************************************************
         // Секция команды 13
 
-        from("netty4:tcp://localhost:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true") //&encoders=#length-EncoderSorterTlg
+        from("netty4:tcp://10.0.0.137:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
                 .to("direct:Request13");
 
         // Секция открытия\закрытия\снятия выхода\мешка (Принцип ActiveMQ)
         //***********************************************************
 
 
-        from("netty4:tcp://localhost:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
+        from("netty4:tcp://10.0.0.137:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
                 .pollEnrich("activemq:queue:Sorter.enrichMsg",-1,new UpdateOpenGate());
 
         //Сообщения от ТСД
-        from("netty4:tcp://localhost:5999?decoders=#length-DecoderSorterTlg&sync=false")
+        from("netty4:tcp://10.0.0.137:5999?decoders=#length-DecoderSorterTlg&sync=false")
                 .choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise().to("activemq:queue:Sorter.enrichMsg");
 
@@ -68,7 +58,8 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("direct:Request11")
                 .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
-                .to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")
+                .choice()
+                .when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
                 .to("log:Request11")
                 .process(new Req11toResp12())
                 .to("log:Request11")
@@ -96,15 +87,9 @@ public class ProxySorterBuilder extends RouteBuilder {
         
 //Прочитаем сопоставление PLU Штрих код
         from("seda:ReadToRepoSorter")
-               // .choice().when(exchangeProperty(ConstantsSorter.PROPERTY_PLK).isNotNull()).to("direct:BadEnrich")
                     .setHeader(CacheConstants.CACHE_KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
                     .setHeader(CacheConstants.CACHE_OPERATION, constant(CacheConstants.CACHE_OPERATION_GET))
                     .enrich ( "cache://SorterPluBarcodeCache" , new Req13Agregate());
-                //.endChoice();
-
-        from("direct:BadEnrich")
-                .process(new Expression());
-
 
 
 //Сохраним значение сопоставления PLU - штрих код        
@@ -112,12 +97,14 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchng) throws Exception {
-                        //Exchange StoreExchange = new DefaultExchange(exchng.getContext());
+
                         Message in = exchng.getIn();
                         Request11 resourceResponse =  in.getBody(Request11.class);
-                        //in.setBody(exchng.getProperty(ConstantsSorter.PROPERTY_BARCODE));
+
                         in.setHeader(CacheConstants.CACHE_KEY, resourceResponse.getCodePLK());
                         in.setHeader(CacheConstants.CACHE_OPERATION, CacheConstants.CACHE_OPERATION_ADD);
+                        //Если передали габариты то запишим данные в 1С
+                        in.setHeader("ReceivedCSP",resourceResponse.getStateSize());
                     };})
                 .to("cache://SorterPluBarcodeCache"
                         + "?maxElementsInMemory=1000"
@@ -144,10 +131,8 @@ public class ProxySorterBuilder extends RouteBuilder {
         
  //Отправим весогабариты в 1с
         from("activemq:queue:Sorter.Meashure")
-                //.to("seda:ReadToRepoSorter")
                 .process(new Processor13ToMeashure())
                 .to("cxf:bean:MeashurementIncident");
     }
 }
-//                .to("netty4:tcp://localhost:6789?encoders=#length-EncoderSorterTlg&sync=false").end()
-                ;
+

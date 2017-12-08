@@ -22,9 +22,11 @@ public class Req11And1CAgregate implements AggregationStrategy{
         GetDataPushExitResponse resourceResponse = (GetDataPushExitResponse) resource.getIn().getBody(GetDataPushExitResponse.class);
         Request11 mergeResult = originalBody;
         String bsrcode = (String) resourceResponse.getSendBarcode();
-        short exitNumber = (short) resourceResponse.getSendExitNumber();
+
+
+        String exitNumber = resourceResponse.getSendExitNumber();
         originalBody.setBarcode1С(bsrcode);
-        originalBody.setExitNumber(exitNumber);
+        originalBody.setExitNumber(Short.valueOf(exitNumber));
         if (original.getPattern().isOutCapable()) {
             original.getOut().setBody(mergeResult);
         } else {

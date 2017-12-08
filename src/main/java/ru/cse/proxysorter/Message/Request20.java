@@ -10,7 +10,7 @@ public class Request20 extends Request4All {
     public byte msgSTX      = 0x02;
     public byte msgETX      = 0x03;
     public byte Command     = MESSAGE_CODE;
-    public byte[] Reserve     = new byte[4];
+    public byte[] Reserve    = new byte[4];
     public byte ExitNumber  = 0x32;
 
     public void setExitNumber(byte ExitNumber) {
