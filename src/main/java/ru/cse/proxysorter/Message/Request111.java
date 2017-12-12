@@ -42,7 +42,7 @@ public class Request111 extends Request4All {
         Command         = msg.readUnsignedByte();
         ExitNumber      = msg.readByte();
         msg.readBytes(Array);
-        BagBarCode      = new String(Array);
+        BagBarCode      = new String(Array).trim();
         Reserv          = msg.readByte();
         smlETX          = msg.readUnsignedByte();
     }

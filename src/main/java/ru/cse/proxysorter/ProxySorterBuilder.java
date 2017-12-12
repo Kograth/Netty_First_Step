@@ -14,6 +14,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
 import ru.cse.proxysorter.Message.Request11;
 import ru.cse.proxysorter.Message.Request13;
+import ru.cse.proxysorter.Message.Response12;
 import ru.cse.proxysorter.Processors.*;
 
 
@@ -31,25 +32,25 @@ public class ProxySorterBuilder extends RouteBuilder {
         // Секция команды 11
         //INFO SERVER NAME te1; 185.65.22.28; 10.0.0.137
 
-        from("netty4:tcp://10.0.0.137:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
+        from("netty4:tcp://localhost:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
                 .to("direct:Request11")
                 ;
 
         //********************************************************
         // Секция команды 13
 
-        from("netty4:tcp://10.0.0.137:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
+        from("netty4:tcp://localhost:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
                 .to("direct:Request13");
 
         // Секция открытия\закрытия\снятия выхода\мешка (Принцип ActiveMQ)
         //***********************************************************
 
 
-        from("netty4:tcp://10.0.0.137:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
+        from("netty4:tcp://localhost:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
                 .pollEnrich("activemq:queue:Sorter.enrichMsg",-1,new UpdateOpenGate());
 
         //Сообщения от ТСД
-        from("netty4:tcp://10.0.0.137:4999?decoders=#length-DecoderSorterTlg&sync=false")
+        from("netty4:tcp://localhost:4999?decoders=#length-DecoderSorterTlg&sync=false")
                 .choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise().to("activemq:queue:Sorter.enrichMsg"); //?timeToLive=500000
 
@@ -59,13 +60,13 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("direct:Request11")
                 .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
-                .choice()
-                .when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
+                //.choice()
+                //.when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
                 //.to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")
                 .to("log:Request11")
                 .process(new Req11toResp12())
                 .to("log:Request11")
-                ;
+                 ;
 
 //Получили исходные данные, надо отправить запрос в 1с, предварительно сконвертировав PLU в Штрихкод
         from("direct:Request13")
@@ -78,7 +79,8 @@ public class ProxySorterBuilder extends RouteBuilder {
 
 //111 код снятия мешка с ТСД отправляемый в 1C
         from("direct:Request111")
-           .process(new Req111To1C()).end();
+           .process(new Req111To1C())
+           .to("cxf:bean:reportIncident");
 
 //Все остальные операции, смена мешка и т.д.
         from("direct:RequestANY")
