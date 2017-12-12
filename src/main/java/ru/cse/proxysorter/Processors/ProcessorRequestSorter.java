@@ -40,7 +40,8 @@ public class ProcessorRequestSorter implements Processor {
             CommandCode = Req11.getCommand();
 
             //Установим параметр 1С
-            ParametersOUT.setInParametrs(Req11.getBarcode());
+            String BarCodeFrom = Req11.getBarcode();
+            ParametersOUT.setInParametrs(BarCodeFrom);
 
             //Отправляем ответ в 1с
             Message Out = exchange.getOut();
@@ -56,8 +57,7 @@ public class ProcessorRequestSorter implements Processor {
             CommandCode = Req13.getCommand();
             
             String ExitNumber = String.valueOf(Req13.getExitNumber());
-            //Barcode = 
-                    
+
             ProductDelivery ParametersOUT14 = new ProductDelivery();
             ParametersOUT14.setInParametrs(ExitNumber);
             ParametersOUT14.setProductCode(String.valueOf(ProductCode));

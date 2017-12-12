@@ -13,6 +13,7 @@ import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
 import ru.cse.proxysorter.Message.Request11;
+import ru.cse.proxysorter.Message.Request13;
 import ru.cse.proxysorter.Processors.*;
 
 
@@ -48,9 +49,9 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .pollEnrich("activemq:queue:Sorter.enrichMsg",-1,new UpdateOpenGate());
 
         //Сообщения от ТСД
-        from("netty4:tcp://10.0.0.137:5999?decoders=#length-DecoderSorterTlg&sync=false")
+        from("netty4:tcp://10.0.0.137:4999?decoders=#length-DecoderSorterTlg&sync=false")
                 .choice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise().to("activemq:queue:Sorter.enrichMsg");
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise().to("activemq:queue:Sorter.enrichMsg"); //?timeToLive=500000
 
 
         //***********************************************************
@@ -60,6 +61,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
                 .choice()
                 .when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
+                //.to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")
                 .to("log:Request11")
                 .process(new Req11toResp12())
                 .to("log:Request11")
@@ -87,8 +89,8 @@ public class ProxySorterBuilder extends RouteBuilder {
         
 //Прочитаем сопоставление PLU Штрих код
         from("seda:ReadToRepoSorter")
-                    .setHeader(CacheConstants.CACHE_KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
                     .setHeader(CacheConstants.CACHE_OPERATION, constant(CacheConstants.CACHE_OPERATION_GET))
+                    .setHeader(CacheConstants.CACHE_KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
                     .enrich ( "cache://SorterPluBarcodeCache" , new Req13Agregate());
 
 
@@ -101,17 +103,21 @@ public class ProxySorterBuilder extends RouteBuilder {
                         Message in = exchng.getIn();
                         Request11 resourceResponse =  in.getBody(Request11.class);
 
-                        in.setHeader(CacheConstants.CACHE_KEY, resourceResponse.getCodePLK());
-                        in.setHeader(CacheConstants.CACHE_OPERATION, CacheConstants.CACHE_OPERATION_ADD);
-                        //Если передали габариты то запишим данные в 1С
+                        exchng.setProperty(String.valueOf(resourceResponse.getCodePLK()),resourceResponse.getBarcode1С());
+
                         in.setHeader("ReceivedCSP",resourceResponse.getStateSize());
+                        in.setHeader(CacheConstants.CACHE_OPERATION, CacheConstants.CACHE_OPERATION_ADD);
+                        in.setHeader(CacheConstants.CACHE_KEY, constant(resourceResponse.getCodePLK()));
+
+                        //Если передали габариты то запишим данные в 1С
+
                     };})
                 .to("cache://SorterPluBarcodeCache"
                         + "?maxElementsInMemory=1000"
                         +"&memoryStoreEvictionPolicy=MemoryStoreEvictionPolicy.FIFO" 
                         +"&overflowToDisk=true" 
                         +"&eternal=true" 
-                        +"&timeToLiveSeconds=300" 
+                        +"&timeToLiveSeconds=300"
 //                        +"&timeToIdleSeconds=true" 
                         +"&diskPersistent=true" 
                         +"&diskExpiryThreadIntervalSeconds=300"
