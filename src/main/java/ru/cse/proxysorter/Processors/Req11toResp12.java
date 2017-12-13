@@ -19,12 +19,14 @@ public class Req11toResp12 implements Processor {
 
     @Override
     public void process(Exchange exchng) throws Exception {
-        Message In = exchng.getIn();        
+        Message In = exchng.getIn();
+        Message Out = exchng.getOut();
         Response12 returnAnswer = new Response12();
         Request11 Req11 = In.getBody(Request11.class);
         returnAnswer.setCodeProduct(Req11.getCodePLK());
         returnAnswer.setExitNumber(Req11.getExitNumber());
         In.setBody(returnAnswer);
+        Out.setBody(returnAnswer);
     }
     
 }

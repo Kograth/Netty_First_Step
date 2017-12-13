@@ -12,6 +12,7 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.cache.CacheConstants;
+import org.apache.camel.processor.aggregate.AggregationStrategy;
 import ru.cse.proxysorter.Message.Request11;
 import ru.cse.proxysorter.Message.Request13;
 import ru.cse.proxysorter.Message.Response12;
@@ -33,9 +34,13 @@ public class ProxySorterBuilder extends RouteBuilder {
         //INFO SERVER NAME te1; 185.65.22.28; 10.0.0.137
 
         from("netty4:tcp://localhost:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
-                .to("direct:Request11")
+                .to(ExchangePattern.InOnly,"seda:Request11")
+                .pollEnrich("activemq:queue:Sorter.GetAnswerToRes11",-1, new Protetype_EnrichRequest11())
+                .to("log:-----> Send response 12")
                 ;
 
+        from("seda:CreateMQ")
+                .pollEnrich("activemq:queue:Sorter.enrichMsg",-1, new Protetype_EnrichRequest11());
         //********************************************************
         // Секция команды 13
 
@@ -57,15 +62,14 @@ public class ProxySorterBuilder extends RouteBuilder {
 
         //***********************************************************
         //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод
-        from("direct:Request11")
+        from("seda:Request11")
                 .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
-                //.choice()
-                //.when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
-                //.to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")
-                .to("log:Request11")
+                .choice()
+                .when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
                 .process(new Req11toResp12())
-                .to("log:Request11")
+                .to(ExchangePattern.InOnly,"activemq:queue:Sorter.GetAnswerToRes11")
+                .to("log:-----> Finish request 11")
                  ;
 
 //Получили исходные данные, надо отправить запрос в 1с, предварительно сконвертировав PLU в Штрихкод
