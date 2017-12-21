@@ -60,7 +60,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
                 .choice()
-                .when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
+                .when(header("ReceivedCSP").isGreaterThan("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
                 //.to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")
                 .to("log:Request11")
                 .process(new Req11toResp12())
@@ -105,7 +105,15 @@ public class ProxySorterBuilder extends RouteBuilder {
 
                         exchng.setProperty(String.valueOf(resourceResponse.getCodePLK()),resourceResponse.getBarcode1С());
 
-                        in.setHeader("ReceivedCSP",resourceResponse.getStateSize());
+                        Short StatusSize    = resourceResponse.getStateSize();
+                        Short StatuzWeight  = resourceResponse.getStateWeight();
+                        if (StatusSize==0|StatuzWeight==0) {
+                            in.setHeader("ReceivedCSP","0");
+                        }
+                        else {
+                            in.setHeader("ReceivedCSP","1");
+                        }
+
                         in.setHeader(CacheConstants.CACHE_OPERATION, CacheConstants.CACHE_OPERATION_ADD);
                         in.setHeader(CacheConstants.CACHE_KEY, constant(resourceResponse.getCodePLK()));
 
@@ -125,8 +133,10 @@ public class ProxySorterBuilder extends RouteBuilder {
         
 // своего рода подзапрос в 1с для получения правильного штрих кода и номера выхода
        from("direct:RequestFrom1c")
-                .process(new ProcessorRequestSorter())               
-                .to("cxf:bean:reportIncident")
+               .process(new ProcessorRequestSorter())
+               .choice()
+               .when(header("BarCodeEmpty").isGreaterThan("0")).to("cxf:bean:reportIncident")
+               .otherwise().to("log:--> Empty Barcode").end()
                .process(new Processor(){
             @Override
             public void process(Exchange exchng) throws Exception {
