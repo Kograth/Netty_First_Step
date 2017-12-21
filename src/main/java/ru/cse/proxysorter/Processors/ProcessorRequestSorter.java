@@ -48,12 +48,13 @@ public class ProcessorRequestSorter implements Processor {
             Out.setBody(ParametersOUT);
             Out.setHeader(CxfConstants.OPERATION_NAME, "GetDataPushExit");
             Out.setHeader(CxfConstants.OPERATION_NAMESPACE, "http://www.cse-cargo.ru/client");
-            if (BarCodeFrom=="") {
-                Out.setHeader("BarCodeEmpty","0");
-            }
-            else {
-                Out.setHeader("BarCodeEmpty","1");
-            }
+            //Out.setHeader("I_get_Barcode",BarCodeFrom+" lenght "+BarCodeFrom.length());
+//            if (BarCodeFrom.length()==0) {
+//                Out.setHeader("BarCodeEmpty","0");
+//            }
+//            else {
+//                Out.setHeader("BarCodeEmpty","1");
+//            }
             exchange.setProperty(ConstantsSorter.PROPERTY_COMANDCODE, CommandCode);
             exchange.setProperty(ConstantsSorter.PROPERTY_PLK, ProductCode);
         }
