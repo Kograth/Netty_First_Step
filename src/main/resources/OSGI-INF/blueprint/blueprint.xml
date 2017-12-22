@@ -25,6 +25,13 @@
     <bean id="myRepoCache" class="org.apache.camel.component.cache.CacheComponent">
       <property name="configurationFile" value="classpath:ehcache-repo.xml"/>
     </bean>-->
+
+    <!--http://web.cse.ru/cse82_reg/ws/MeasurerCargo - живая база-->
+    <!--http://lk-test.cse.ru/cargo3_test/ws/MeasurerCargo - общая тестовая-->
+
+    <!--http://lk-test.cse.ru/cargo3_test/ws/SorterExchange - общая тестовая-->
+    <!--http://web.cse.ru/cse82_reg/ws/SorterExchange       - живая база-->
+
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
                           address="http://lk-test.cse.ru/cargo3_test/ws/SorterExchange"

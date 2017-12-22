@@ -60,7 +60,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
                 .choice()
-                .when(header("ReceivedCSP").isGreaterThan("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
+                .when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
                 //.to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")
                 .to("log:Request11")
                 .process(new Req11toResp12())
@@ -78,7 +78,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 
 //111 код снятия мешка с ТСД отправляемый в 1C
         from("direct:Request111")
-           .process(new Req111To1C()).end();
+           .process(new Req111To1C()).to("cxf:bean:reportIncident");
 
 //Все остальные операции, смена мешка и т.д.
         from("direct:RequestANY")
@@ -107,15 +107,17 @@ public class ProxySorterBuilder extends RouteBuilder {
 
                         Short StatusSize    = resourceResponse.getStateSize();
                         Short StatuzWeight  = resourceResponse.getStateWeight();
-//                        if (StatusSize==0|StatuzWeight==0) {
-//                            in.setHeader("ReceivedCSP","0");
-//                        }
-//                        else {
-//                            in.setHeader("ReceivedCSP","1");
-//                        }
+
+                        if (StatusSize==0|StatuzWeight==0) {
+                            in.setHeader("ReceivedCSP","0");
+                        }
+                        else {
+                            in.setHeader("ReceivedCSP","1");
+                        }
+
                         in.setHeader("StatusSize",StatusSize);
                         in.setHeader("StatuzWeight",StatuzWeight);
-                        in.setHeader("ReceivedCSP","1");
+                        //in.setHeader("ReceivedCSP","1");
                         in.setHeader(CacheConstants.CACHE_OPERATION, CacheConstants.CACHE_OPERATION_ADD);
                         in.setHeader(CacheConstants.CACHE_KEY, constant(resourceResponse.getCodePLK()));
 

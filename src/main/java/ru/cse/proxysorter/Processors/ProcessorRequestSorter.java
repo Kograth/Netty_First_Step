@@ -39,8 +39,16 @@ public class ProcessorRequestSorter implements Processor {
             ProductCode = Req11.getCodePLK();
             CommandCode = Req11.getCommand();
 
+
             //Установим параметр 1С
             String BarCodeFrom = Req11.getBarcode();
+            //Short Weight = Req11.getWeight();
+//            if (Weight>0) {
+//                System.out.println("Null weight");
+//            }
+//            else {
+//                BarCodeFrom = "";
+//            }
             ParametersOUT.setInParametrs(BarCodeFrom);
 
             //Отправляем ответ в 1с
