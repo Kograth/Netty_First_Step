@@ -209,11 +209,11 @@ public class Request11 extends Request4All {
         codePLK     = msg.readInt();     // код продукта ПЛК
         wellspring  = msg.readByte();
         reserve     = msg.readByte();
-        weight      = msg.readShort();   // вес
+        weight      = (short) (msg.readShort()/1000);   // вес
         StateWeight = msg.readShort();   // статус веса
-        length      = msg.readShort();   // длина
-        width       = msg.readShort();   // ширина
-        height      = msg.readShort();   // высота
+        length      = (short) (msg.readShort()/10);   // длина
+        width       = (short) (msg.readShort()/10);   // ширина
+        height      = (short) (msg.readShort()/10);   // высота
         stateSize   = msg.readShort();   // статус размера
         byte[] Array = new byte[160];
         msg.readBytes(Array);

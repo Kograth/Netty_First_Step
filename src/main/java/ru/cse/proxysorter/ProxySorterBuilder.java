@@ -61,7 +61,6 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
                 .choice()
                 .when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
-                //.to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure")
                 .to("log:Request11")
                 .process(new Req11toResp12())
                 .to("log:Request11")
@@ -107,7 +106,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 
                         Short StatusSize    = resourceResponse.getStateSize();
                         Short StatuzWeight  = resourceResponse.getStateWeight();
-
+//Получили значения статусов равные 0 то будем отправлять данные в 1С
                         if (StatusSize==0|StatuzWeight==0) {
                             in.setHeader("ReceivedCSP","0");
                         }
@@ -121,7 +120,6 @@ public class ProxySorterBuilder extends RouteBuilder {
                         in.setHeader(CacheConstants.CACHE_OPERATION, CacheConstants.CACHE_OPERATION_ADD);
                         in.setHeader(CacheConstants.CACHE_KEY, constant(resourceResponse.getCodePLK()));
 
-                        //Если передали габариты то запишим данные в 1С
 
                     };})
                 .to("cache://SorterPluBarcodeCache"

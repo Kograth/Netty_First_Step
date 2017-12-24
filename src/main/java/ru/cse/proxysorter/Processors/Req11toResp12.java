@@ -22,8 +22,15 @@ public class Req11toResp12 implements Processor {
         Message In = exchng.getIn();        
         Response12 returnAnswer = new Response12();
         Request11 Req11 = In.getBody(Request11.class);
+
+        //При получение нулевого веса номер выхода будет 148
+        short ExitNumber = 148;
+
+        if (Req11.getWeight()>0) {
+            ExitNumber = Req11.getExitNumber();
+        }
         returnAnswer.setCodeProduct(Req11.getCodePLK());
-        returnAnswer.setExitNumber(Req11.getExitNumber());
+        returnAnswer.setExitNumber(ExitNumber);
         In.setBody(returnAnswer);
     }
     
