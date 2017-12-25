@@ -22,7 +22,7 @@ public class Request11 extends Request4All {
     private short smlSTX        = 0x02;
     private short COMMAND       = 0x11;
     private int codePLK         = 0;
-    private short weight        = 0;
+    private float weight        = 0;
     private short StateWeight   = 0;
     private short length        = 0;
     private short width         = 0;
@@ -70,14 +70,14 @@ public class Request11 extends Request4All {
     /**
      * @return the weight
      */
-    public short getWeight() {
+    public float getWeight() {
         return weight;
     }
 
     /**
      * @param weight the weight to set
      */
-    public void setWeight(short weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 
@@ -209,7 +209,7 @@ public class Request11 extends Request4All {
         codePLK     = msg.readInt();     // код продукта ПЛК
         wellspring  = msg.readByte();
         reserve     = msg.readByte();
-        weight      = (short) (msg.readShort()/1000);   // вес
+        weight      = (float) msg.readShort()/1000;   // вес
         StateWeight = msg.readShort();   // статус веса
         length      = (short) (msg.readShort()/10);   // длина
         width       = (short) (msg.readShort()/10);   // ширина
@@ -222,5 +222,9 @@ public class Request11 extends Request4All {
         //<ETX>
     }
 
-
+    @Override
+    public String toString() {
+        String NewString = " BC->"+barcode+" Weight->"+weight+" Length->"+length+" Width->"+width+" Height->"+height+" StateSize->"+stateSize+" StateWeight->"+StateWeight;
+        return super.toString()+NewString;
+    }
 }

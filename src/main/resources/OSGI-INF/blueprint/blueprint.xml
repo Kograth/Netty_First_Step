@@ -34,7 +34,7 @@
 
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://lk-test.cse.ru/cargo3_test/ws/SorterExchange"
+                          address="http://web.cse.ru/cse82_reg/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client"
@@ -48,7 +48,7 @@
     
     <camelcxf:cxfEndpoint id="MeashurementIncident"
                               serviceClass="ru.cse.Meashuring.Service1c.MeasurerCargoPortType"
-                              address="http://lk-test.cse.ru/cargo3_test/ws/MeasurerCargo"
+                              address="http://web.cse.ru/cse82_reg/ws/MeasurerCargo"
                               serviceName="ws:MeasurerCargo"
                               endpointName="ws:MeasurerCargoSoap12"
                               xmlns:ws="http://www.cse-cargo.ru/MeasurerCargo" 

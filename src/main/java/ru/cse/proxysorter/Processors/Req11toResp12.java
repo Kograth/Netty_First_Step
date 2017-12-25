@@ -26,7 +26,8 @@ public class Req11toResp12 implements Processor {
         //При получение нулевого веса номер выхода будет 148
         short ExitNumber = 148;
 
-        if (Req11.getWeight()>0) {
+        if (Req11.getWeight()>0|Req11.getStateWeight()!=0) {
+
             ExitNumber = Req11.getExitNumber();
         }
         returnAnswer.setCodeProduct(Req11.getCodePLK());

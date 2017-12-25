@@ -107,7 +107,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                         Short StatusSize    = resourceResponse.getStateSize();
                         Short StatuzWeight  = resourceResponse.getStateWeight();
 //Получили значения статусов равные 0 то будем отправлять данные в 1С
-                        if (StatusSize==0|StatuzWeight==0) {
+                        if (StatusSize==0&StatuzWeight==0) {
                             in.setHeader("ReceivedCSP","0");
                         }
                         else {
