@@ -34,7 +34,7 @@
 
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://web.cse.ru/cse82_reg/ws/SorterExchange"
+                          address="http://lk-test.cse.ru/cargo3_test/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client"
@@ -48,7 +48,7 @@
     
     <camelcxf:cxfEndpoint id="MeashurementIncident"
                               serviceClass="ru.cse.Meashuring.Service1c.MeasurerCargoPortType"
-                              address="http://web.cse.ru/cse82_reg/ws/MeasurerCargo"
+                              address="http://lk-test.cse.ru/cargo3_test/ws/MeasurerCargo"
                               serviceName="ws:MeasurerCargo"
                               endpointName="ws:MeasurerCargoSoap12"
                               xmlns:ws="http://www.cse-cargo.ru/MeasurerCargo" 
@@ -73,7 +73,7 @@
 
     <cm:property-placeholder persistent-id="org.apache.servicemix.property.cfg">
         <cm:default-properties>
-            <cm:property name="prefix" value="4001"/>
+            <cm:property name="portNumber" value ="localhost"/>
         </cm:default-properties>
     </cm:property-placeholder>
 

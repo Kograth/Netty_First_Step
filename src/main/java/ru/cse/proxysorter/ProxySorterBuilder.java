@@ -31,25 +31,25 @@ public class ProxySorterBuilder extends RouteBuilder {
         // Секция команды 11
         //INFO SERVER NAME te1; 185.65.22.28; 10.0.0.137
 
-        from("netty4:tcp://10.0.0.137:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
+        from("netty4:tcp://{{portNumber}}:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
                 .to("direct:Request11")
                 ;
 
         //********************************************************
         // Секция команды 13
 
-        from("netty4:tcp://10.0.0.137:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
+        from("netty4:tcp://{{portNumber}}:4992?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
                 .to("direct:Request13");
 
         // Секция открытия\закрытия\снятия выхода\мешка (Принцип ActiveMQ)
         //***********************************************************
 
 
-        from("netty4:tcp://10.0.0.137:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
+        from("netty4:tcp://{{portNumber}}:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true")
                 .pollEnrich("activemq:queue:Sorter.enrichMsg",-1,new UpdateOpenGate());
 
         //Сообщения от ТСД
-        from("netty4:tcp://10.0.0.137:4999?decoders=#length-DecoderSorterTlg&sync=false")
+        from("netty4:tcp://{{portNumber}}:4999?decoders=#length-DecoderSorterTlg&sync=false")
                 .choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise().to("activemq:queue:Sorter.enrichMsg"); //?timeToLive=500000
 
@@ -77,7 +77,10 @@ public class ProxySorterBuilder extends RouteBuilder {
 
 //111 код снятия мешка с ТСД отправляемый в 1C
         from("direct:Request111")
-           .process(new Req111To1C()).to("cxf:bean:reportIncident");
+           .process(new Req111To1C()).to("activemq:queue:Sorter.1CReplacingTheBag");
+
+        from("activemq:queue:Sorter.1CReplacingTheBag").to("cxf:bean:reportIncident");
+            //    to("cxf:bean:reportIncident");
 
 //Все остальные операции, смена мешка и т.д.
         from("direct:RequestANY")
