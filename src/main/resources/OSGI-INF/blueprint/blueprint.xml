@@ -12,6 +12,7 @@
              http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
   
     <bean id="ProxySorterBuilder" class="ru.cse.proxysorter.ProxySorterBuilder"/>
+    <bean id="ProxySorterBuilderActiveMQ" class="ru.cse.proxysorter.ProxySorterBuilderActiveMQ"/>
     <bean id="length-DecoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createDecoderSorterTlg"/>
     <bean id="length-EncoderSorterTlg" class="ru.cse.proxysorter.NettyCodecs.SorterCodecFactory" factory-method="createEncoderSorterTlg"/>
     <!--<bean id="nettyHttpBootstrapOptions" claa = "org.apache.camel.component.netty4.NettyServerBootstrapConfiguration">-->
@@ -34,7 +35,7 @@
 
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
-                          address="http://lk-test.cse.ru/cargo3_test/ws/SorterExchange"
+                          address="http://sp1/cse82_reg/ws/SorterExchange"
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client"
@@ -48,7 +49,7 @@
     
     <camelcxf:cxfEndpoint id="MeashurementIncident"
                               serviceClass="ru.cse.Meashuring.Service1c.MeasurerCargoPortType"
-                              address="http://lk-test.cse.ru/cargo3_test/ws/MeasurerCargo"
+                              address="http://sp1/cse82_reg/ws/MeasurerCargo"
                               serviceName="ws:MeasurerCargo"
                               endpointName="ws:MeasurerCargoSoap12"
                               xmlns:ws="http://www.cse-cargo.ru/MeasurerCargo" 
@@ -71,9 +72,15 @@
 
     </camelContext>
 
+    <camelContext id="CommunicationWith1C" xmlns="http://camel.apache.org/schema/blueprint">
+
+        <routeBuilder ref="ProxySorterBuilderActiveMQ"/>
+
+    </camelContext>
+
     <cm:property-placeholder persistent-id="org.apache.servicemix.property.cfg">
         <cm:default-properties>
-            <cm:property name="portNumber" value ="localhost"/>
+            <cm:property name="portNumber" value ="10.0.0.137"/>
         </cm:default-properties>
     </cm:property-placeholder>
 

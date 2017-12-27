@@ -70,7 +70,7 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("direct:Request13")
                 .process(new ProcessorRequestSorter())
                 .to("seda:ReadToRepoSorter")
-                .to("cxf:bean:reportIncident")
+                .to(ExchangePattern.InOnly,"activemq:queue:Sorter.1CReplacingTheBag") //.to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
                 ;
 
@@ -79,7 +79,7 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("direct:Request111")
            .process(new Req111To1C()).to("activemq:queue:Sorter.1CReplacingTheBag");
 
-        from("activemq:queue:Sorter.1CReplacingTheBag").to("cxf:bean:reportIncident");
+//        from("activemq:queue:Sorter.1CReplacingTheBag").to("cxf:bean:reportIncident");
             //    to("cxf:bean:reportIncident");
 
 //Все остальные операции, смена мешка и т.д.
