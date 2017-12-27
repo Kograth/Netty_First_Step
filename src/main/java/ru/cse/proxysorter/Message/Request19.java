@@ -56,4 +56,9 @@ public class Request19 extends Request4All {
         msgETX          = msg.readUnsignedByte();
 
     }
+    @Override
+    public String toString() {
+        String NewString = " ExitNumber->"+ExitNumber;
+        return super.toString()+NewString;
+    }         
 }

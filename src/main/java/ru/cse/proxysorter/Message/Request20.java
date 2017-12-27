@@ -34,4 +34,9 @@ public class Request20 extends Request4All {
         msgETX     = msg.readByte();
 
     }
+    @Override
+    public String toString() {
+        String NewString = " ExitNumber->"+ExitNumber;
+        return super.toString()+NewString;
+    }       
 }

@@ -49,4 +49,9 @@ public class Response18 extends Request4All {
         msgETX     = msg.readByte();
 
     }
+    @Override
+    public String toString() {
+        String NewString = " ExitNumber->"+ExitNumber;
+        return super.toString()+NewString;
+    }      
 }

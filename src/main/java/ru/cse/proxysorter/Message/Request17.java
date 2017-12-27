@@ -78,4 +78,10 @@ public class Request17 extends Request4All {
         msg.readBytes(Reserv);
         smlETX          = msg.readUnsignedByte();
     }
+    @Override
+    public String toString() {
+        String NewString = " ExitNumber->"+ExitNumber;
+        return super.toString()+NewString;
+    }     
+    
 }

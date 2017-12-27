@@ -35,4 +35,9 @@ public class Request15 extends Request4All {
         smlETX          = msg.readUnsignedByte();
 
     }
+    @Override
+    public String toString() {
+        String NewString = " ExitNumber->"+ExitNumber+" NumberManualPack->"+NumberManualPack;
+        return super.toString()+NewString;
+    }     
 }

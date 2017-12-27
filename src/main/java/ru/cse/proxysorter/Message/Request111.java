@@ -46,4 +46,9 @@ public class Request111 extends Request4All {
         Reserv          = msg.readByte();
         smlETX          = msg.readUnsignedByte();
     }
+    @Override
+    public String toString() {
+        String NewString = " ExitNumber->"+ExitNumber+" BagBarCode->"+BagBarCode;
+        return super.toString()+NewString;
+    }    
 }

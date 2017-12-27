@@ -89,4 +89,10 @@ public class Response12 extends Request4All {
     public void FromByte(ByteBuf msg) {
 
     }
+    
+    @Override
+    public String toString() {
+        String NewString = " codeProduct->"+codeProduct+" ExitNumber->"+ExitNumber;
+        return super.toString()+NewString;
+    }      
 }

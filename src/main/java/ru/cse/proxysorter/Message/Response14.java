@@ -43,4 +43,9 @@ public class Response14 extends Request4All {
 
 
     }
+    @Override
+    public String toString() {
+        String NewString = " codeProduct->"+codeProduct+" Source->"+Source;
+        return super.toString()+NewString;
+    }     
 }
