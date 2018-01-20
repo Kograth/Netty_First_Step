@@ -61,17 +61,17 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
                 .choice()
                 .when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
-                .to("log:Request11")
                 .process(new Req11toResp12())
-                .to("log:Request11")
+                .log("log:Request11 answer OK")
                 ;
 
 //Получили исходные данные, надо отправить запрос в 1с, предварительно сконвертировав PLU в Штрихкод
         from("direct:Request13")
                 .process(new ProcessorRequestSorter())
                 .to("seda:ReadToRepoSorter")
-                .to(ExchangePattern.InOnly,"activemq:queue:Sorter.1CReplacingTheBag") //.to("cxf:bean:reportIncident")
+                .to(ExchangePattern.InOnly,"activemq:queue:Sorter.CreateDocumentIn1C") //.to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
+                .log("log:Response14")
                 ;
 
 
@@ -116,7 +116,6 @@ public class ProxySorterBuilder extends RouteBuilder {
                         else {
                             in.setHeader("ReceivedCSP","1");
                         }
-
                         in.setHeader("StatusSize",StatusSize);
                         in.setHeader("StatuzWeight",StatuzWeight);
                         //in.setHeader("ReceivedCSP","1");

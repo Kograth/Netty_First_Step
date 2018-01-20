@@ -10,13 +10,15 @@ public class ProxySorterBuilderActiveMQ  extends RouteBuilder{
 
         errorHandler(defaultErrorHandler()
                 .maximumRedeliveries(-1)
-                .backOffMultiplier(2)
-                .delayPattern("5:10000;10:60000;20:1800000")
-                .useExponentialBackOff()
+                //.backOffMultiplier(5)
+                .delayPattern("5:10000;10:60000")
+                //.useExponentialBackOff()
                 .retryAttemptedLogLevel(LoggingLevel.WARN));
 
 
         from("activemq:queue:Sorter.1CReplacingTheBag").to("cxf:bean:reportIncident");
+
+        from ("activemq:queue:Sorter.CreateDocumentIn1C").to("cxf:bean:reportIncident");
 
 
 

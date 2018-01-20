@@ -27,11 +27,11 @@
       <property name="configurationFile" value="classpath:ehcache-repo.xml"/>
     </bean>-->
 
-    <!--http://web.cse.ru/cse82_reg/ws/MeasurerCargo - живая база-->
+    <!--http://sp1/cse82_reg/ws/MeasurerCargo - живая база-->
     <!--http://lk-test.cse.ru/cargo3_test/ws/MeasurerCargo - общая тестовая-->
 
     <!--http://lk-test.cse.ru/cargo3_test/ws/SorterExchange - общая тестовая-->
-    <!--http://web.cse.ru/cse82_reg/ws/SorterExchange       - живая база-->
+    <!--http://sp1/cse82_reg/ws/SorterExchange       - живая база-->
 
     <camelcxf:cxfEndpoint id="reportIncident"
                           serviceClass="ru.cse.APILk.Service1c.SorterExchangePortType"
@@ -39,7 +39,7 @@
                           serviceName="ws:SorterExchange"
                           endpointName="ws:SorterExchangeSoap12"
                           xmlns:ws="http://www.cse-cargo.ru/client"
-                          loggingFeatureEnabled="false">
+                          loggingFeatureEnabled="true">
         <camelcxf:properties>
             <entry key="dataFormat" value="PAYLOAD"/>
             <entry key="username" value="Web"/>
