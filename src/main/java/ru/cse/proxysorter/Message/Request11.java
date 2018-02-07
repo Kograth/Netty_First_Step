@@ -224,7 +224,7 @@ public class Request11 extends Request4All {
 
     @Override
     public String toString() {
-        String NewString = " PLK->"+codePLK+" BC->"+barcode+" Weight->"+weight+" Length->"+length+" Width->"+width+" Height->"+height+" StateSize->"+stateSize+" StateWeight->"+StateWeight;
+        String NewString = " PLK->"+codePLK+" BC->"+barcode+" Weight->"+weight+" Length->"+length+" Width->"+width+" Height->"+height+" StateSize->"+stateSize+" StateWeight->"+StateWeight+" wellspring->"+wellspring;
         return super.toString()+NewString;
     }
 }
