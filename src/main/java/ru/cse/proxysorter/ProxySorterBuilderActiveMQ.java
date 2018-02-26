@@ -1,7 +1,6 @@
 package ru.cse.proxysorter;
 
 import org.apache.camel.LoggingLevel;
-import org.apache.camel.builder.DefaultErrorHandlerBuilder;
 import org.apache.camel.builder.RouteBuilder;
 
 public class ProxySorterBuilderActiveMQ  extends RouteBuilder{
