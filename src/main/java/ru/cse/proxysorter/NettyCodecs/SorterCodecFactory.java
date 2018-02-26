@@ -5,11 +5,7 @@
  */
 package ru.cse.proxysorter.NettyCodecs;
 
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import org.apache.camel.component.netty4.NettyConfiguration;
 
 /**
  *
@@ -30,15 +26,5 @@ public final class SorterCodecFactory  {
         return new EncoderSorterTlg();
     }
 
-//    // GOOD
-//    @Override
-//    public void channelRead(ChannelHandlerContext ctx,Object msg) {
-//        ChannelFuture future = ctx.channel().close();
-//        future.addListener(new ChannelFutureListener() {
-//            public void operationComplete(ChannelFuture future) {
-//                // Perform post-closure operation
-//                // ...
-//            }
-//        });
 }
 
