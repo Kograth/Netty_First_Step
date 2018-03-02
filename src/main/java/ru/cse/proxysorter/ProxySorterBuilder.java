@@ -45,13 +45,13 @@ public class ProxySorterBuilder extends RouteBuilder {
 
 
         from("netty4:tcp://{{portNumber}}:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true&keepAlive=true")
+                .delay(300)
                 .pollEnrich("activemq:queue:Sorter.enrichMsg",-1,new UpdateOpenGate());
 
         //Сообщения от ТСД
         from("netty4:tcp://{{portNumber}}:4999?decoders=#length-DecoderSorterTlg&sync=false")
                 .choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise()
-                .to("timer://foo?fixedRate=true&period=450")
                 .to("activemq:queue:Sorter.enrichMsg");
 
 

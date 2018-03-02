@@ -1,7 +1,6 @@
 package ru.cse.proxysorter.Processors;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.Message;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import ru.cse.proxysorter.Message.*;
 
