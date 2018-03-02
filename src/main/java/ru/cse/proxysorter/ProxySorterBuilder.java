@@ -50,7 +50,9 @@ public class ProxySorterBuilder extends RouteBuilder {
         //Сообщения от ТСД
         from("netty4:tcp://{{portNumber}}:4999?decoders=#length-DecoderSorterTlg&sync=false")
                 .choice()
-                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise().to("activemq:queue:Sorter.enrichMsg"); //?timeToLive=500000
+                .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise()
+                .to("timer://foo?fixedRate=true&period=450")
+                .to("activemq:queue:Sorter.enrichMsg");
 
 
         //***********************************************************
@@ -68,7 +70,7 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("direct:Request13")
                 .process(new ProcessorRequestSorter())
                 .to("seda:ReadToRepoSorter")
-                .to(ExchangePattern.InOnly,"activemq:queue:Sorter.CreateDocumentIn1C") //.to("cxf:bean:reportIncident")
+                .to(ExchangePattern.InOnly,"activemq:queue:Sorter.FullBagAndCreateDocumentIn1C") //.to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
                 .log("log:Response14")
                 ;
@@ -76,7 +78,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 
 //111 код снятия мешка с ТСД отправляемый в 1C
         from("direct:Request111")
-           .process(new Req111To1C()).to("activemq:queue:Sorter.1CReplacingTheBag");
+           .process(new Req111To1C()).to("activemq:queue:Sorter.FullBagAndCreateDocumentIn1C");
 
 //        from("activemq:queue:Sorter.1CReplacingTheBag").to("cxf:bean:reportIncident");
             //    to("cxf:bean:reportIncident");

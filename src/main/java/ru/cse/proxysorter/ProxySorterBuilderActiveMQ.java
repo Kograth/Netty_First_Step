@@ -15,9 +15,9 @@ public class ProxySorterBuilderActiveMQ  extends RouteBuilder{
                 .retryAttemptedLogLevel(LoggingLevel.WARN));
 
 
-        from("activemq:queue:Sorter.1CReplacingTheBag").to("cxf:bean:reportIncident");
+       // from("activemq:queue:Sorter.1CReplacingTheBag").to("cxf:bean:reportIncident");
 
-        from ("activemq:queue:Sorter.CreateDocumentIn1C").to("cxf:bean:reportIncident");
+        from ("activemq:queue:Sorter.FullBagAndCreateDocumentIn1C").to("cxf:bean:reportIncident");
 
 
 
