@@ -51,7 +51,8 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("netty4:tcp://{{portNumber}}:4999?decoders=#length-DecoderSorterTlg&sync=false")
                 .choice()
                 .when(simple("${body} is 'ru.cse.proxysorter.Message.Request111'")).to("direct:Request111").otherwise()
-                .to("timer://foo?fixedRate=true&period=450")
+                .delay(450)
+                .log("Wait between message from TRD")
                 .to("activemq:queue:Sorter.enrichMsg");
 
 
