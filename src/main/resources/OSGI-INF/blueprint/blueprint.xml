@@ -80,7 +80,7 @@
 
     <cm:property-placeholder persistent-id="org.apache.servicemix.property.cfg">
         <cm:default-properties>
-            <cm:property name="portNumber" value ="10.0.0.137"/>
+            <cm:property name="portNumber" value ="10.0.1.39"/>
         </cm:default-properties>
     </cm:property-placeholder>
 

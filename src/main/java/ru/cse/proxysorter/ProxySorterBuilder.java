@@ -110,13 +110,13 @@ public class ProxySorterBuilder extends RouteBuilder {
                         Short StatuzWeight  = resourceResponse.getStateWeight();
 //Получили значения статусов равные 0 то будем отправлять данные в 1С
                         if (StatusSize==0&StatuzWeight==0) {
-                            in.setHeader("ReceivedCSP","0");
+                            in.setHeader(ConstantsSorter.PROPERTY_RSCEIVEDCSP,"0");
                         }
                         else {
-                            in.setHeader("ReceivedCSP","1");
+                            in.setHeader(ConstantsSorter.PROPERTY_RSCEIVEDCSP,"1");
                         }
-                        in.setHeader("StatusSize",StatusSize);
-                        in.setHeader("StatuzWeight",StatuzWeight);
+                        in.setHeader(ConstantsSorter.PROPERTY_STATUS_SIZE ,StatusSize);
+                        in.setHeader(ConstantsSorter.PROPERTY_STATUS_WEIGHT ,StatuzWeight);
                         //in.setHeader("ReceivedCSP","1");
                         in.setHeader(CacheConstants.CACHE_OPERATION, CacheConstants.CACHE_OPERATION_ADD);
                         in.setHeader(CacheConstants.CACHE_KEY, constant(resourceResponse.getCodePLK()));

@@ -33,8 +33,8 @@ public class Req13Agregate implements AggregationStrategy{
         }
         else
         {
-            original.setProperty(ConstantsSorter.PROPERTY_BARCODE,"0000000000000");
-            pd.setProductCode("0000000000000");
+            original.setProperty(ConstantsSorter.PROPERTY_BARCODE,ConstantsSorter.EMPTY_BARCODE);
+            pd.setProductCode(ConstantsSorter.EMPTY_BARCODE);
         }
         return original;
     }
