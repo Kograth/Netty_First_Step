@@ -66,7 +66,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 //Получили исходные данные, надо отправить запрос в 1с, предварительно сконвертировав PLU в Штрихкод
         from("direct:Request13")
                 .process(new ProcessorRequestSorter())
-                .to("seda:ReadToRepoSorter")
+                .to("direct:ReadToRepoSorter")
                 .to(ExchangePattern.InOnly,"activemq:queue:Sorter.FullBagAndCreateDocumentIn1C") //.to("cxf:bean:reportIncident")
                 .process(new ProcessorRequest1C())
                 ;
@@ -87,7 +87,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                 ;
         
 //Прочитаем сопоставление PLU Штрих код
-        from("seda:ReadToRepoSorter")
+        from("direct:ReadToRepoSorter")
                     .setHeader(CacheConstants.CACHE_OPERATION, constant(CacheConstants.CACHE_OPERATION_GET))
                     .setHeader(CacheConstants.CACHE_KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
                     .enrich ( "cache://SorterPluBarcodeCache" , new Req13Agregate());
