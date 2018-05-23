@@ -135,16 +135,17 @@ public class ProxySorterBuilder extends RouteBuilder {
 // своего рода подзапрос в 1с для получения правильного штрих кода и номера выхода
        from("direct:RequestFrom1c")
                .process(new ProcessorRequestSorter())
-               .to("cxf:bean:reportIncident")
+               .to(ExchangePattern.InOut,"activemq:queue:Sorter.Request11To1C")
+               //.to("cxf:bean:reportIncident")
 //               .choice()
 //               .when(header("BarCodeEmpty").isGreaterThan("0")).to("cxf:bean:reportIncident")
 //               .otherwise().to("log:--> Empty Barcode").end()
-               .process(new Processor(){
-            @Override
-            public void process(Exchange exchng) throws Exception {
-                Message in = exchng.getIn();
-            }
-        })
+//               .process(new Processor(){
+//            @Override
+//            public void process(Exchange exchng) throws Exception {
+//                Message in = exchng.getIn();
+//            }
+        //})
               ;
         
  //Отправим весогабариты в 1с
