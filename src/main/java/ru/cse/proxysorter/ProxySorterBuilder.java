@@ -39,7 +39,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .to("direct:Request13");
 
         // Секция открытия\закрытия\снятия выхода\мешка (Принцип ActiveMQ)
-        //***********************************************************
+        //***********************************************************//
 
 
         from("netty4:tcp://{{portNumber}}:4993?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true&keepAlive=true")
