@@ -216,7 +216,12 @@ public class Request11 extends Request4All {
         height      = (short) (msg.readShort()/10);   // высота
         stateSize   = msg.readShort();   // статус размера
         byte[] Array = new byte[160];
-        msg.readBytes(Array);
+        try {
+            msg.readBytes(Array);
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+
+        }
         barcode     = new String(Array).trim(); //new String(msg.readBytes(160).array()); //Штрих коды разделенные знаком TAB
         smlETX      = msg.readUnsignedByte();
         //<ETX>
