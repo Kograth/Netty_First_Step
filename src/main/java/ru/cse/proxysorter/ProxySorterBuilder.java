@@ -29,7 +29,7 @@ public class ProxySorterBuilder extends RouteBuilder {
         //INFO SERVER NAME te1; 185.65.22.28; 10.0.0.137
 
         from("netty4:tcp://{{portNumber}}:4991?decoders=#length-DecoderSorterTlg&encoders=#length-EncoderSorterTlg&sync=true&keepAlive=true")
-                .to("seda:Request11")
+                .to("direct:Request11")
                 ;
 
         //********************************************************
@@ -55,7 +55,7 @@ public class ProxySorterBuilder extends RouteBuilder {
 
         //***********************************************************
         //Получили исходные данные, надо отправить запрос в 1с и сохранить соспоставление PLU - Штрихкод
-        from("seda:Request11")
+        from("direct:Request11")
                 .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
                 .choice()
