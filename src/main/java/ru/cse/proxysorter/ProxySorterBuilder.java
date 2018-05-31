@@ -59,7 +59,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                 .enrich("direct:RequestFrom1c",new Req11And1CAgregate())
                 .to(ExchangePattern.InOnly,"direct:SaveToRepoSorter")
                 .choice()
-                .when(header("ReceivedCSP").isEqualTo("0")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
+                .when(header(ConstantsSorter.PROPERTY_RSCEIVEDCSP).isEqualTo("1")).to(ExchangePattern.InOnly,"activemq:queue:Sorter.Meashure").end()
                 .process(new Req11toResp12())
                 ;
 
