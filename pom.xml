@@ -13,9 +13,9 @@
 
 
     <properties>
-        <camel.version>2.16.5</camel.version>
+        <camel.version>2.21.1</camel.version>
         <activemq.version>5.14.5</activemq.version>
-        <cxf-rt-frontend-jaxws.version>3.1.6</cxf-rt-frontend-jaxws.version>
+        <cxf-rt-frontend-jaxws.version>3.2.4</cxf-rt-frontend-jaxws.version>
     </properties>
 
     <dependencies>
@@ -55,7 +55,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-cache</artifactId>
+            <artifactId>camel-ehcache</artifactId>
             <version>${camel.version}</version>
         </dependency>        
         <dependency>
@@ -63,11 +63,11 @@
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <version>${cxf-rt-frontend-jaxws.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-            <version>4.3.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.osgi</groupId>-->
+            <!--<artifactId>org.osgi.core</artifactId>-->
+            <!--<version>6.0.0</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-soap</artifactId>
@@ -93,11 +93,11 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.0.17.Final</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>io.netty</groupId>-->
+            <!--<artifactId>netty-all</artifactId>-->
+            <!--<version>4.0.17.Final</version>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>

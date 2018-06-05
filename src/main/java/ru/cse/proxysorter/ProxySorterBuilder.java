@@ -90,7 +90,7 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("direct:ReadToRepoSorter")
                     .setHeader(CacheConstants.CACHE_OPERATION, constant(CacheConstants.CACHE_OPERATION_GET))
                     .setHeader(CacheConstants.CACHE_KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
-                    .enrich ( "cache://SorterPluBarcodeCache" , new Req13Agregate());
+                    .enrich ( "ehcache://SorterPluBarcodeCache" , new Req13Agregate());
 
 
 //Сохраним значение сопоставления PLU - штрих код        
