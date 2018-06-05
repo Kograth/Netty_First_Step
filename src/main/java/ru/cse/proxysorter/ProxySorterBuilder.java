@@ -11,7 +11,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
-import org.apache.camel.component.cache.CacheConstants;
+import org.apache.camel.component.ehcache.EhcacheConstants;
 import ru.cse.proxysorter.Message.Request11;
 import ru.cse.proxysorter.Processors.*;
 
@@ -88,8 +88,8 @@ public class ProxySorterBuilder extends RouteBuilder {
         
 //Прочитаем сопоставление PLU Штрих код
         from("direct:ReadToRepoSorter")
-                    .setHeader(CacheConstants.CACHE_OPERATION, constant(CacheConstants.CACHE_OPERATION_GET))
-                    .setHeader(CacheConstants.CACHE_KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
+                    .setHeader(EhcacheConstants.ACTION, constant(EhcacheConstants.ACTION_GET))
+                    .setHeader(EhcacheConstants.KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
                     .enrich ( "ehcache://SorterPluBarcodeCache" , new Req13Agregate());
 
 
@@ -116,21 +116,23 @@ public class ProxySorterBuilder extends RouteBuilder {
                         in.setHeader(ConstantsSorter.PROPERTY_STATUS_SIZE ,StatusSize);
                         in.setHeader(ConstantsSorter.PROPERTY_STATUS_WEIGHT ,StatuzWeight);
                         //in.setHeader("ReceivedCSP","1");
-                        in.setHeader(CacheConstants.CACHE_OPERATION, CacheConstants.CACHE_OPERATION_ADD);
-                        in.setHeader(CacheConstants.CACHE_KEY, constant(resourceResponse.getCodePLK()));
+                        in.setHeader(EhcacheConstants.ACTION, EhcacheConstants.ACTION_PUT);
+                        in.setHeader(EhcacheConstants.KEY, constant(resourceResponse.getCodePLK()));
 
 
                     };})
-                .to("cache://SorterPluBarcodeCache"
-                        + "?maxElementsInMemory=1000"
-                        +"&memoryStoreEvictionPolicy=MemoryStoreEvictionPolicy.FIFO" 
-                        +"&overflowToDisk=true" 
-                        +"&eternal=true" 
-                        +"&timeToLiveSeconds=300"
-//                        +"&timeToIdleSeconds=true" 
-                        +"&diskPersistent=true" 
-                        +"&diskExpiryThreadIntervalSeconds=300"
-                );
+                .to("ehcache://SorterPluBarcodeCache" 
+                +"&keyType=java.lang.String");
+//                .to("cache://SorterPluBarcodeCache"
+//                        + "?maxElementsInMemory=1000"
+//                        +"&memoryStoreEvictionPolicy=MemoryStoreEvictionPolicy.FIFO" 
+//                        +"&overflowToDisk=true" 
+//                        +"&eternal=true" 
+//                        +"&timeToLiveSeconds=300"
+////                        +"&timeToIdleSeconds=true" 
+//                        +"&diskPersistent=true" 
+//                        +"&diskExpiryThreadIntervalSeconds=300"
+//                );
         
 // своего рода подзапрос в 1с для получения правильного штрих кода и номера выхода
        from("direct:RequestFrom1c")

@@ -66,13 +66,13 @@
     <!-- Общая тестовая база = http://lk-test.cse.ru/cargo3_test/ws/SorterExchange -->
     <!--tcp://localhost:61616 -->
 
-    <camelContext id="Sorter" xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="Sorter" xmlns="http://camel.apache.org/schema/blueprint" streamCache="true">
 
         <routeBuilder ref="ProxySorterBuilder"/>
 
     </camelContext>
 
-    <camelContext id="CommunicationWith1C" xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="CommunicationWith1C" xmlns="http://camel.apache.org/schema/blueprint" streamCache="true">
 
         <routeBuilder ref="ProxySorterBuilderActiveMQ"/>
 
