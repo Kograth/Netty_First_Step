@@ -88,9 +88,10 @@ public class ProxySorterBuilder extends RouteBuilder {
         
 //Прочитаем сопоставление PLU Штрих код
         from("direct:ReadToRepoSorter")
-                    .setHeader(EhcacheConstants.ACTION, constant(EhcacheConstants.ACTION_GET))
-                    .setHeader(EhcacheConstants.KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
-                    .enrich ( "ehcache://SorterPluBarcodeCache" , new Req13Agregate());
+                .process(new testProcessor())
+                .setHeader(EhcacheConstants.ACTION, constant(EhcacheConstants.ACTION_GET_ALL))
+                .setHeader(EhcacheConstants.KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
+                .enrich ("ehcache://SorterPluBarcodeCache", new Req13Agregate());
 
 
 //Сохраним значение сопоставления PLU - штрих код        
@@ -118,11 +119,16 @@ public class ProxySorterBuilder extends RouteBuilder {
                         //in.setHeader("ReceivedCSP","1");
                         in.setHeader(EhcacheConstants.ACTION, EhcacheConstants.ACTION_PUT);
                         in.setHeader(EhcacheConstants.KEY, constant(resourceResponse.getCodePLK()));
+                        in.setHeader(EhcacheConstants.VALUE,resourceResponse);
 
 
                     };})
-                .to("ehcache://SorterPluBarcodeCache" 
-                +"&keyType=java.lang.String");
+                .to(ExchangePattern.InOut,"ehcache://SorterPluBarcodeCache"
+                +"&keyType=java.lang.Object&valueType=java.lang.Object"
+                +"&overflowToDisk=true"
+                +"&diskPersistent=true")
+                .to("log:Save data to disk");
+
 //                .to("cache://SorterPluBarcodeCache"
 //                        + "?maxElementsInMemory=1000"
 //                        +"&memoryStoreEvictionPolicy=MemoryStoreEvictionPolicy.FIFO" 
