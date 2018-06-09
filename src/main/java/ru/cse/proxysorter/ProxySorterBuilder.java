@@ -12,6 +12,9 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.ehcache.EhcacheConstants;
+import org.ehcache.CacheManager;
+import org.ehcache.config.builders.CacheManagerBuilder;
+import org.ehcache.xml.XmlConfiguration;
 import ru.cse.proxysorter.Message.Request11;
 import ru.cse.proxysorter.Processors.*;
 
@@ -24,6 +27,7 @@ public class ProxySorterBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
+        CacheManager manager = CacheManagerBuilder.newCacheManager(new XmlConfiguration();
         //********************************************************
         // Секция команды 11
         //INFO SERVER NAME te1; 185.65.22.28; 10.0.0.137
