@@ -90,7 +90,7 @@ public class ProxySorterBuilder extends RouteBuilder {
         from("direct:ReadToRepoSorter")
                     .setHeader(EhcacheConstants.ACTION, constant(EhcacheConstants.ACTION_GET))
                     .setHeader(EhcacheConstants.KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
-                    .enrich ( "ehcache://SorterPluBarcodeCache" , new Req13Agregate());
+                    .enrich ("ehcache://SorterPluBarcodeCache?keyType=java.lang.Integer" , new Req13Agregate());
 
 
 //Сохраним значение сопоставления PLU - штрих код        
@@ -117,12 +117,11 @@ public class ProxySorterBuilder extends RouteBuilder {
                         in.setHeader(ConstantsSorter.PROPERTY_STATUS_WEIGHT ,StatuzWeight);
                         //in.setHeader("ReceivedCSP","1");
                         in.setHeader(EhcacheConstants.ACTION, EhcacheConstants.ACTION_PUT);
-                        in.setHeader(EhcacheConstants.KEY, constant(resourceResponse.getCodePLK()));
+                        in.setHeader(EhcacheConstants.KEY, resourceResponse.getCodePLK())                        
 
 
                     };})
-                .to("ehcache://SorterPluBarcodeCache" 
-                +"&keyType=java.lang.String");
+                .to("ehcache://SorterPluBarcodeCache?keyType=java.lang.Integer");
 //                .to("cache://SorterPluBarcodeCache"
 //                        + "?maxElementsInMemory=1000"
 //                        +"&memoryStoreEvictionPolicy=MemoryStoreEvictionPolicy.FIFO" 
