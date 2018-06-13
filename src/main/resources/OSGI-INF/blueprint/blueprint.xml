@@ -80,7 +80,7 @@
 
     <cm:property-placeholder persistent-id="org.apache.servicemix.property.cfg">
         <cm:default-properties>
-            <cm:property name="portNumber" value ="10.0.1.39"/>
+            <cm:property name="portNumber" value ="localhost"/>
         </cm:default-properties>
     </cm:property-placeholder>
 
@@ -88,8 +88,8 @@
         <property name="connectionFactory">
             <bean class="org.apache.activemq.ActiveMQConnectionFactory">
                <property name="brokerURL" value="vm://amq-broker?broker.persistent=true"/>
-               <property name="userName" value="smx" />
-                <property name="password" value="smx" />
+               <property name="userName" value="karaf" />
+                <property name="password" value="karaf" />
                 <property name="trustedPackages">
                     <list>
                         <value>ru.cse.proxysorter.Message</value>
@@ -102,5 +102,6 @@
     <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer">
         <property name="logName" value="camelTracer"/>
     </bean>
+
 
 </blueprint>
