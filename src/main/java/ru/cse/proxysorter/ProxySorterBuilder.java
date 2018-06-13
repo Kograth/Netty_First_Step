@@ -117,21 +117,12 @@ public class ProxySorterBuilder extends RouteBuilder {
                         in.setHeader(ConstantsSorter.PROPERTY_STATUS_WEIGHT ,StatuzWeight);
                         //in.setHeader("ReceivedCSP","1");
                         in.setHeader(EhcacheConstants.ACTION, EhcacheConstants.ACTION_PUT);
-                        in.setHeader(EhcacheConstants.KEY, resourceResponse.getCodePLK())                        
+                        in.setHeader(EhcacheConstants.KEY, resourceResponse.getCodePLK()) ;                       
 
 
                     };})
                 .to("ehcache://SorterPluBarcodeCache?keyType=java.lang.Integer");
-//                .to("cache://SorterPluBarcodeCache"
-//                        + "?maxElementsInMemory=1000"
-//                        +"&memoryStoreEvictionPolicy=MemoryStoreEvictionPolicy.FIFO" 
-//                        +"&overflowToDisk=true" 
-//                        +"&eternal=true" 
-//                        +"&timeToLiveSeconds=300"
-////                        +"&timeToIdleSeconds=true" 
-//                        +"&diskPersistent=true" 
-//                        +"&diskExpiryThreadIntervalSeconds=300"
-//                );
+
         
 // своего рода подзапрос в 1с для получения правильного штрих кода и номера выхода
        from("direct:RequestFrom1c")
