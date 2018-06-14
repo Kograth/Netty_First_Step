@@ -27,7 +27,7 @@ public class ProxySorterBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        CacheManager manager = CacheManagerBuilder.newCacheManager(new XmlConfiguration();
+
         //********************************************************
         // Секция команды 11
         //INFO SERVER NAME te1; 185.65.22.28; 10.0.0.137
@@ -92,10 +92,9 @@ public class ProxySorterBuilder extends RouteBuilder {
         
 //Прочитаем сопоставление PLU Штрих код
         from("direct:ReadToRepoSorter")
-                .process(new testProcessor())
-                .setHeader(EhcacheConstants.ACTION, constant(EhcacheConstants.ACTION_GET_ALL))
+                .setHeader(EhcacheConstants.ACTION, constant(EhcacheConstants.ACTION_GET))
                 .setHeader(EhcacheConstants.KEY, exchangeProperty(ConstantsSorter.PROPERTY_PLK))
-                .enrich ("ehcache://SorterPluBarcodeCache", new Req13Agregate());
+                .enrich ("ehcache://SorterPluBarcodeCache?keyType=java.lang.Integer" , new Req13Agregate());
 
 
 //Сохраним значение сопоставления PLU - штрих код        
@@ -127,22 +126,8 @@ public class ProxySorterBuilder extends RouteBuilder {
 
 
                     };})
-                .to(ExchangePattern.InOut,"ehcache://SorterPluBarcodeCache"
-                +"&keyType=java.lang.Object&valueType=java.lang.Object"
-                +"&overflowToDisk=true"
-                +"&diskPersistent=true")
-                .to("log:Save data to disk");
+                .to("ehcache://SorterPluBarcodeCache?keyType=java.lang.Integer");
 
-//                .to("cache://SorterPluBarcodeCache"
-//                        + "?maxElementsInMemory=1000"
-//                        +"&memoryStoreEvictionPolicy=MemoryStoreEvictionPolicy.FIFO" 
-//                        +"&overflowToDisk=true" 
-//                        +"&eternal=true" 
-//                        +"&timeToLiveSeconds=300"
-////                        +"&timeToIdleSeconds=true" 
-//                        +"&diskPersistent=true" 
-//                        +"&diskExpiryThreadIntervalSeconds=300"
-//                );
         
 // своего рода подзапрос в 1с для получения правильного штрих кода и номера выхода
        from("direct:RequestFrom1c")
