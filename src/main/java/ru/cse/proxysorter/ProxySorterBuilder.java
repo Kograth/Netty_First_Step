@@ -12,9 +12,6 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.component.ehcache.EhcacheConstants;
-import org.ehcache.CacheManager;
-import org.ehcache.config.builders.CacheManagerBuilder;
-import org.ehcache.xml.XmlConfiguration;
 import ru.cse.proxysorter.Message.Request11;
 import ru.cse.proxysorter.Processors.*;
 
@@ -120,8 +117,7 @@ public class ProxySorterBuilder extends RouteBuilder {
                         in.setHeader(ConstantsSorter.PROPERTY_STATUS_WEIGHT ,StatuzWeight);
                         //in.setHeader("ReceivedCSP","1");
                         in.setHeader(EhcacheConstants.ACTION, EhcacheConstants.ACTION_PUT);
-                        in.setHeader(EhcacheConstants.KEY, constant(resourceResponse.getCodePLK()));
-                        in.setHeader(EhcacheConstants.VALUE,resourceResponse);
+                        in.setHeader(EhcacheConstants.KEY, resourceResponse.getCodePLK()) ;                       
 
 
                     };})

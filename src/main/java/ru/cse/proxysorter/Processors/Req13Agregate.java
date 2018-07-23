@@ -27,8 +27,6 @@ public class Req13Agregate implements AggregationStrategy{
 
         if (resourceResponse!= null) {
             original.setProperty(ConstantsSorter.PROPERTY_BARCODE,resourceResponse.getBarcode1С());
-
-            original.setProperty(ConstantsSorter.PROPERTY_BARCODE,resourceResponse.getBarcode1С());
             pd.setProductCode(resourceResponse.getBarcode1С());
         }
         else
