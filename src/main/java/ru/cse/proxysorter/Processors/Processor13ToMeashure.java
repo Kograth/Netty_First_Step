@@ -29,7 +29,10 @@ public class Processor13ToMeashure implements Processor{
             Reqto1C.setWidth(Float.valueOf(Req11.getWidth()));
             Reqto1C.setWeight(Float.valueOf(Req11.getWeight()));
             Reqto1C.setNumber(Req11.getBarcode1С());
-            
+            //Гуид для 1с чтобы получить пользователя
+            //Ждем обновления webservice Measurer
+            //Reqto1C.setMeasurementSource("754208e4-6e15-489a-af0d-f589e6569895");
+
             Message Out = exchange.getOut();
             Out.setBody(Reqto1C);
             Out.setHeader(CxfConstants.OPERATION_NAME, "Measurement");
