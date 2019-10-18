@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:soap12bind="http://schemas.xmlsoap.org/wsdl/soap12/"
+		xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:tns="http://www.cse-cargo.ru/MeasurerCargo"
+		xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+		xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:xsd1="http://www.cse-cargo.ru/MeasurerCargo"
+		name="MeasurerCargo"
+		targetNamespace="http://www.cse-cargo.ru/MeasurerCargo">
+	<types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				xmlns:xs1="http://www.cse-cargo.ru/MeasurerCargo"
+				targetNamespace="http://www.cse-cargo.ru/MeasurerCargo"
+				attributeFormDefault="unqualified"
+				elementFormDefault="qualified">
+			<xs:complexType name="ResultString">
+				<xs:sequence>
+					<xs:element name="Value"
+							type="xs:string"
+							nillable="true"
+							minOccurs="0"/>
+					<xs:element name="Error"
+							type="xs:boolean"/>
+					<xs:element name="ErrorInfo"
+							type="xs:string"
+							nillable="true"
+							minOccurs="0"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="Measurement">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Number"
+								type="xs:string"/>
+						<xs:element name="Length"
+								type="xs:float"
+								nillable="true"/>
+						<xs:element name="Height"
+								type="xs:float"
+								nillable="true"/>
+						<xs:element name="Width"
+								type="xs:float"
+								nillable="true"/>
+						<xs:element name="Weight"
+								type="xs:float"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MeasurementResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="tns:ResultString"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FotoCargo">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Number"
+								type="xs:string"/>
+						<xs:element name="Foto"
+								type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FotoCargoResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="tns:ResultString"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</types>
+	<message name="MeasurementRequestMessage">
+		<part name="parameters"
+				element="tns:Measurement"/>
+	</message>
+	<message name="MeasurementResponseMessage">
+		<part name="parameters"
+				element="tns:MeasurementResponse"/>
+	</message>
+	<message name="FotoCargoRequestMessage">
+		<part name="parameters"
+				element="tns:FotoCargo"/>
+	</message>
+	<message name="FotoCargoResponseMessage">
+		<part name="parameters"
+				element="tns:FotoCargoResponse"/>
+	</message>
+	<portType name="MeasurerCargoPortType">
+		<operation name="Measurement">
+			<input message="tns:MeasurementRequestMessage"/>
+			<output message="tns:MeasurementResponseMessage"/>
+		</operation>
+		<operation name="FotoCargo">
+			<input message="tns:FotoCargoRequestMessage"/>
+			<output message="tns:FotoCargoResponseMessage"/>
+		</operation>
+	</portType>
+	<binding name="MeasurerCargoSoapBinding"
+			type="tns:MeasurerCargoPortType">
+		<soapbind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Measurement">
+			<soapbind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/MeasurerCargo#MeasurerCargo:Measurement"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="FotoCargo">
+			<soapbind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/MeasurerCargo#MeasurerCargo:FotoCargo"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<binding name="MeasurerCargoSoap12Binding"
+			type="tns:MeasurerCargoPortType">
+		<soap12bind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Measurement">
+			<soap12bind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/MeasurerCargo#MeasurerCargo:Measurement"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="FotoCargo">
+			<soap12bind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/MeasurerCargo#MeasurerCargo:FotoCargo"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="MeasurerCargo">
+		<port name="MeasurerCargoSoap"
+				binding="tns:MeasurerCargoSoapBinding">
+			<documentation> 
+				<wsi:Claim xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/"
+						conformsTo="http://ws-i.org/profiles/basic/1.1"/>
+			</documentation>
+			<soapbind:address location="http://web.cse.ru/cse82_reg/ws/MeasurerCargo"/>
+		</port>
+		<port name="MeasurerCargoSoap12"
+				binding="tns:MeasurerCargoSoap12Binding">
+			<soap12bind:address location="http://web.cse.ru/cse82_reg/ws/MeasurerCargo"/>
+		</port>
+	</service>
+</definitions>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:soap12bind="http://schemas.xmlsoap.org/wsdl/soap12/"
+		xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:tns="http://www.cse-cargo.ru/client"
+		xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+		xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:xsd1="http://www.cse-cargo.ru/client"
+		name="SorterExchange"
+		targetNamespace="http://www.cse-cargo.ru/client">
+	<types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				xmlns:xs1="http://www.cse-cargo.ru/client"
+				targetNamespace="http://www.cse-cargo.ru/client"
+				elementFormDefault="qualified">
+			<xs:element name="GetDataPushExit">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InParametrs"
+								type="xs:string"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetDataPushExitResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:string"/>
+						<xs:element name="SendExitNumber"
+								type="xs:string"
+								nillable="true"/>
+						<xs:element name="SendBarcode"
+								type="xs:string"
+								nillable="true"/>
+						<xs:element name="SendProductCode"
+								type="xs:string"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ProductDelivery">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InParametrs"
+								type="xs:string"
+								nillable="true"/>
+						<xs:element name="ProductCode"
+								type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ProductDeliveryResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ProductPurposeManualLoading">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InParametrs"
+								type="xs:string"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ProductPurposeManualLoadingResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReplacingTheBag">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InParametrs"
+								type="xs:string"
+								nillable="true"/>
+						<xs:element name="BagCode"
+								type="xs:string"
+								nillable="true"/>
+						<xs:element name="ExitNumber"
+								type="xs:string"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReplacingTheBagResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:string"/>
+						<xs:element name="Result"
+								type="xs:string"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</types>
+	<message name="GetDataPushExitRequestMessage">
+		<part name="parameters"
+				element="tns:GetDataPushExit"/>
+	</message>
+	<message name="GetDataPushExitResponseMessage">
+		<part name="parameters"
+				element="tns:GetDataPushExitResponse"/>
+	</message>
+	<message name="ProductDeliveryRequestMessage">
+		<part name="parameters"
+				element="tns:ProductDelivery"/>
+	</message>
+	<message name="ProductDeliveryResponseMessage">
+		<part name="parameters"
+				element="tns:ProductDeliveryResponse"/>
+	</message>
+	<message name="ProductPurposeManualLoadingRequestMessage">
+		<part name="parameters"
+				element="tns:ProductPurposeManualLoading"/>
+	</message>
+	<message name="ProductPurposeManualLoadingResponseMessage">
+		<part name="parameters"
+				element="tns:ProductPurposeManualLoadingResponse"/>
+	</message>
+	<message name="ReplacingTheBagRequestMessage">
+		<part name="parameters"
+				element="tns:ReplacingTheBag"/>
+	</message>
+	<message name="ReplacingTheBagResponseMessage">
+		<part name="parameters"
+				element="tns:ReplacingTheBagResponse"/>
+	</message>
+	<portType name="SorterExchangePortType">
+		<operation name="GetDataPushExit">
+			<input message="tns:GetDataPushExitRequestMessage"/>
+			<output message="tns:GetDataPushExitResponseMessage"/>
+		</operation>
+		<operation name="ProductDelivery">
+			<input message="tns:ProductDeliveryRequestMessage"/>
+			<output message="tns:ProductDeliveryResponseMessage"/>
+		</operation>
+		<operation name="ProductPurposeManualLoading">
+			<input message="tns:ProductPurposeManualLoadingRequestMessage"/>
+			<output message="tns:ProductPurposeManualLoadingResponseMessage"/>
+		</operation>
+		<operation name="ReplacingTheBag">
+			<input message="tns:ReplacingTheBagRequestMessage"/>
+			<output message="tns:ReplacingTheBagResponseMessage"/>
+		</operation>
+	</portType>
+	<binding name="SorterExchangeSoapBinding"
+			type="tns:SorterExchangePortType">
+		<soapbind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="GetDataPushExit">
+			<soapbind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/client#SorterExchange:GetDataPushExit"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ProductDelivery">
+			<soapbind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/client#SorterExchange:ProductDelivery"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ProductPurposeManualLoading">
+			<soapbind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/client#SorterExchange:ProductPurposeManualLoading"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ReplacingTheBag">
+			<soapbind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/client#SorterExchange:ReplacingTheBag"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<binding name="SorterExchangeSoap12Binding"
+			type="tns:SorterExchangePortType">
+		<soap12bind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="GetDataPushExit">
+			<soap12bind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/client#SorterExchange:GetDataPushExit"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ProductDelivery">
+			<soap12bind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/client#SorterExchange:ProductDelivery"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ProductPurposeManualLoading">
+			<soap12bind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/client#SorterExchange:ProductPurposeManualLoading"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ReplacingTheBag">
+			<soap12bind:operation style="document"
+					soapAction="http://www.cse-cargo.ru/client#SorterExchange:ReplacingTheBag"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="SorterExchange">
+		<port name="SorterExchangeSoap"
+				binding="tns:SorterExchangeSoapBinding">
+			<documentation> 
+				<wsi:Claim xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/"
+						conformsTo="http://ws-i.org/profiles/basic/1.1"/>
+			</documentation>
+			<soapbind:address location="http://web.cse.ru/cse82_reg/ws/SorterExchange"/>
+		</port>
+		<port name="SorterExchangeSoap12"
+				binding="tns:SorterExchangeSoap12Binding">
+			<soap12bind:address location="http://web.cse.ru/cse82_reg/ws/SorterExchange"/>
+		</port>
+	</service>
+</definitions>
