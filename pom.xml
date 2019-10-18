@@ -109,8 +109,8 @@
                             </defaultOptions>
                             <wsdlOptions>
                                 <wsdlOption>
-                                    <!--<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> -->
-                                    <wsdl>http://web.cse.ru/cse82_reg/ws/SorterExchange?wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl>
+                                    <!--<wsdl>http://web.cse.ru/cse82_reg/ws/SorterExchange?wsdl</wsdl> -->
                                     <!-- <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>-->
                                     <extraargs>
                                         <extraarg>-impl</extraarg>
@@ -134,8 +134,8 @@
                             <sourceRoot>${basedir}/src/main/java</sourceRoot>
                             <wsdlOptions>
                                 <wsdlOption>
-                                    <!--<wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl> -->
-                                    <wsdl>http://web.cse.ru/cse82_reg/ws/MeasurerCargo?wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/wsdl/MeasurerCargo.wsdl</wsdl>
+                                    <!--<wsdl>http://web.cse.ru/cse82_reg/ws/MeasurerCargo?wsdl</wsdl> -->
                                     <!-- <wsdl>${basedir}/src/main/resources/wsdl/WebServicesNewCSE.wsdl</wsdl>-->
                                     <extraargs>
                                         <extraarg>-impl</extraarg>

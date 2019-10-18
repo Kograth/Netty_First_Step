@@ -38,11 +38,11 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class ResultString {
 
-    @XmlElementRef(name = "Value", namespace = "http://www.cse-cargo.ru/client", type = JAXBElement.class, required = false)
+    @XmlElementRef(name = "Value", namespace = "http://www.cse-cargo.ru/MeasurerCargo", type = JAXBElement.class, required = false)
     protected JAXBElement<String> value;
     @XmlElement(name = "Error")
     protected boolean error;
-    @XmlElementRef(name = "ErrorInfo", namespace = "http://www.cse-cargo.ru/client", type = JAXBElement.class, required = false)
+    @XmlElementRef(name = "ErrorInfo", namespace = "http://www.cse-cargo.ru/MeasurerCargo", type = JAXBElement.class, required = false)
     protected JAXBElement<String> errorInfo;
 
     /**
